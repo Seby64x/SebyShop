@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+    <meta name="description" content="Restaurant">
+    <meta name="author" content="Rosior">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red's Pizza</title>
+    <link rel="icon" type="image/png" href="poza1.png">
+  <title>Meniul de Mâncăruri</title>
+  <style>
+    body {
+      font-family: Arial;
+      background-color: #282525;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #dcb61c;
+      font-family: Arial;
+      background-color: #181616;
+      margin: 0;
+      padding: 20px;
+    }
+    .meniu {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #181616;
+      padding: 10px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .card p {
+      color: #dcb61c;
+      font-family: Arial;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .card h2 {
+      color: #dcb61c;
+      font-family: Arial;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    
+    .hover-t:hover {
+      color: white;
+      background-color: #dcb61c;
+      box-shadow: 0 0 15px #dcb61c;
+      cursor: pointer;
+    }
+    nav a:hover {
+      color: white;
+      cursor: pointer;
+    }
+    nav {
+      background-color: #181616;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      margin: 15px;
+      color:#dcb61c;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    p {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 20px;
+      margin: 10px;
+      color: #dcb61c;
+      font-family: Arial;
+      background-color: #181616;
+      padding: 10px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    .cccc {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Meniul de Mâncăruri</h1>
+  <h1>la Restaurantul Red's pizza</h1>
+  <nav>
+    <a href="#pizza">Pizza</a>
+    <a href="#cartofi">Cartofi</a>
+    <a href="#salata">Salata</a>
+    <a href="#icecream">Îngheţată</a>
+  </nav>
+
+  
+  <section id="pizza">
+  <div class="cccc"><p>Pizza</p></div>
+  <div class="meniu">
+    <div class="card">
+      <img src="D:\proiect-la-info\pizza1.webp">
+      <p class="hover-t">Pizza vegetables</p>
+      <h2 class="hover-t">Cost: 115 lei</h2>
+    </div>
+    <div class="card">
+        <img src="D:\proiect-la-info\pizza2.webp">
+        <p class="hover-t">Focaccia verdeluna</p>
+        <h2 class="hover-t">Cost: 130 lei</h2>
+    </div>
+    <div class="card">
+        <img src="D:\proiect-la-info\pizza3.webp">
+        <p class="hover-t">Pizza 5 Cheeses</p>
+        <h2 class="hover-t">Cost: 125 lei</h2>
+    </div>
+    <div class="card">
+        <img src="D:\proiect-la-info\pizza4.webp">
+        <p class="hover-t">Pizza Tonno</p>
+        <h2 class="hover-t">Cost: 130 lei</h2>
+    </div>
+    <div class="card">
+        <img src="D:\proiect-la-info\pizza5.webp">
+        <p class="hover-t">Pizza Bianco</p>
+        <h2 class="hover-t">Cost: 130 lei</h2>
+    </div>
+    <div class="card">
+        <img src="D:\proiect-la-info\pizza6.webp">
+        <p class="hover-t">Pizza Capricioasa</p>
+        <h2 class="hover-t">Cost: 125 lei</h2>
+    </div>
+    <div class="card">
+        <img src="D:\proiect-la-info\pizza7.webp">
+        <p class="hover-t">Pizza Mario</p>
+        <h2 class="hover-t">Cost: 125 lei</h2>
+    </div>
+    <div class="card">
+        <img src="D:\proiect-la-info\pizza8.webp">
+        <p class="hover-t">Pizza Diablo</p>
+        <h2 class="hover-t">Cost: 125 lei</h2>
+    </div>
+    <div class="card">
+        <img src="D:\proiect-la-info\pizza9.webp">
+        <p class="hover-t">Pizza Neapolitana</p>
+        <h2 class="hover-t">Cost: 125 lei</h2>
+    </div>
+    <div class="card">
+        <img src="D:\proiect-la-info\pizza10.webp">
+        <p class="hover-t">Pizza BARBEQUE</p>
+        <h2 class="hover-t">Cost: 130 lei</h2>
+    </div><div class="card">
+        <img src="D:\proiect-la-info\pizza11.webp">
+        <p class="hover-t">Pizza Rancho</p>
+        <h2 class="hover-t">Cost: 125 lei</h2>
+    </div><div class="card">
+        <img src="D:\proiect-la-info\pizza12.webp">
+        <p class="hover-t">Pizza Margherita</p>
+        <h2 class="hover-t">Cost: 95 lei</h2>
+    </div><div class="card">
+        <img src="D:\proiect-la-info\pizza13.webp">
+        <p class="hover-t">Pizza Pepperoni</p>
+        <h2 class="hover-t">Cost: 130 lei</h2>
+    </div><div class="card">
+        <img src="D:\proiect-la-info\pizza14.webp">
+        <p class="hover-t">Pizza Scampi</p>
+        <h2 class="hover-t">Cost: 135 lei</h2>
+    </div>
+  </div>
+  </section>
+  
+  <section id="cartofi">
+    <div class="cccc"><p>Cartofi</p></div>
+    <div class="meniu">
+      <div class="card">
+        <img src="D:\proiect-la-info\cartofi1.webp">
+        <p class="hover-t">Cartofi pai</p>
+        <h2 class="hover-t">Cost: 45 lei</h2>
+      </div>
+      <div class="card">
+        <img src="D:\proiect-la-info\cartofi2.webp">
+        <p class="hover-t">Nuggets de pui</p>
+        <h2 class="hover-t">Cost: 105 lei</h2>
+      </div>
+      <div class="card">
+        <img src="D:\proiect-la-info\cartofi3.webp">
+        <p class="hover-t">Bile de cartofi</p>
+        <h2 class="hover-t">Cost: 55 lei</h2>
+      </div>
+      <div class="card">
+        <img src="D:\proiect-la-info\cartofi4.webp">
+        <p class="hover-t">Asorti de cartofi</p>
+        <h2 class="hover-t">Cost: 70 lei</h2>
+      </div>
+    </div>
+  </section>
+  
+  <section id="salata">
+    <div class="cccc"><p>Salata</p></div>
+    <div class="meniu">
+      <div class="card">
+        <img src="D:\proiect-la-info\salata1.webp">
+        <p class="hover-t">Salată veggy</p>
+        <h2 class="hover-t">Cost: 75 lei</h2>
+      </div>
+      <div class="card">
+        <img src="D:\proiect-la-info\salata2.webp">
+        <p class="hover-t">Salată panzo</p>
+        <h2 class="hover-t">Cost: 85 lei</h2>
+      </div>
+      <div class="card">
+        <img src="D:\proiect-la-info\salata3.webp">
+        <p class="hover-t">Salată aubergine</p>
+        <h2 class="hover-t">Cost: 90 lei</h2>
+      </div>
+      <div class="card">
+        <img src="D:\proiect-la-info\salata4.webp">
+        <p class="hover-t">Salată grecească</p>
+        <h2 class="hover-t">Cost: 90 lei</h2>
+      </div>
+    </div>
+  </section>
+  
+  <section id="icecream">
+    <div class="cccc"><p>Îngheţată</p></div>
+    <div class="meniu">
+      <div class="card">
+        <img src="D:\proiect-la-info\icecream1.webp">
+        <p class="hover-t">Îngheţată fructe de pădure</p>
+        <h2 class="hover-t">Cost: 65 lei</h2>
+      </div>
+      <div class="card">
+        <img src="D:\proiect-la-info\icecream2.webp">
+        <p class="hover-t">Îngheţată alune de pădure</p>
+        <h2 class="hover-t">Cost: 70 lei</h2>
+      </div>
+      <div class="card">
+        <img src="D:\proiect-la-info\icecream3.webp">
+        <p class="hover-t">Îngheţată Popcorn şi caramelă</p>
+        <h2 class="hover-t">Cost: 65 lei</h2>
+      </div>
+      <div class="card">
+        <img src="D:\proiect-la-info\icecream4.webp">
+        <p class="hover-t">Îngheţată Ciocolată cu vişină</p>
+        <h2 class="hover-t">Cost: 65 lei</h2>
+      </div>
+    </div>
+  </section>
+
+
+</body>
+</html>
+section {
+  flex: 1;
+  background-color: #e6fcff;
+  padding: 20px;
+  border-radius: 5px;
+}

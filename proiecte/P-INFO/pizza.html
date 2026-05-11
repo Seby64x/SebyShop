@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Restaurant">
+    <meta name="author" content="Rosior">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red's Pizza</title>
+    <link rel="icon" type="image/png" href="poza1.png">
+<style>
+    body {
+      font-family: Verdana, sans-serif;
+      margin: 0;
+      
+      font-family: Arial;
+      background-color: #282525;
+    }
+    header {
+      background-color: #181616;
+      color: #dcb61c;
+      padding: 20px;
+      text-align: center;
+    }
+  
+    section {
+      padding: 20px;
+    }
+    footer {
+      background-color: #d35400;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+    p {
+      color: #dcb61c;
+      font-family: Arial;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 15px;
+    }
+    
+    .hover-t:hover {
+      color: white;
+      background-color: #dcb61c;
+      box-shadow: 0 0 15px #dcb61c;
+      cursor: pointer;
+    }
+    h5 {
+      background-color: #181616;
+      color: #dcb61c;
+      font-family: Arial;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 15px;
+      margin: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+    h2 {
+      color: #dcb61c;
+      font-family: Arial;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    a {
+      
+      color: #dcb61c;
+      font-family: Arial;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 15px;
+      margin: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+    nav {
+      background-color: #1c1919;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      margin: 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+</style>
+<style>
+    .meniu {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 50px;
+      margin-bottom: 40px;
+      margin-left: 40px;
+      margin-right: 40px;
+    }
+    .card {
+      background-color: #181616;
+      padding: 10px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    .card img {
+      width: 40%;
+      height: 60%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .card p {
+      color: #dcb61c;
+      font-family: Arial;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .card h2 {
+      color: #dcb61c;
+      font-family: Arial;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+</style>
+</head>
+<body>
+
+  <header>
+    <h1>Restaurantul Red's pizza</h1>
+    <p>Gusturi și tradiți Moldovenești</p>
+  </header>
+
+  <nav>
+    <a href="#despre">Despre noi</a>
+    <a href="#meniul">Meniul</a>
+    <a href="#contact">Contactele noastre</a>
+    <a href="#proprietar">Proprietarii</a>
+  </nav>
+
+  <section id="despre">
+    <h5>Despre noi</h5>
+    <p>Restaurantul Red's pizza este locul unde mâncarea bună și tradițională este gătită cu multă pasiune și iubire.</p>
+  </section>
+
+  <section id="meniul">
+    <a href="meniu.html">
+      <h5 class="hover-t">Vezi Meniul Nostru</h5>
+    </a>
+  </section>
+
+  <section id="contact">
+    <h5>Contactele Noastre</h5>
+    <p>🍕 Adresă: Str. Gustului nr. 10, Anenii noi</p>
+    <p>📞 Telefon: 022 210-210</p>
+    <p>📧 Email: <a href="email">Redspizza@gmail.com</a></p>
+  </section>
+
+  <section id="proprietar">
+    <h5>Contactele noastre de socializare</h5>
+    <div class="meniu">
+      <div class="card">
+        <img src="images\profil1.png">
+        <p class="hover-t">Roșior Silviu</p>
+        <a href="https://www.instagram.com/real.silviu/?hl=en"><h2 class="hover-t">Contul de instagram</h2></a>
+      </div>
+      <div class="card">
+        <img src="images\profil2.png">
+        <p class="hover-t">Roșior Daniella</p>
+        <a href="https://www.instagram.com/daniella_799/?hl=en"><h2 class="hover-t">Contul de instagram</h2></a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <h3>&copy; 2025 Restaurantul Redspizza. Toate drepturile sunt ale mele</h3>
+  </footer>
+
+</body>
+</html>
