@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Website personal">
+    <meta name="author" content="Seby">
+    <link rel="icon" type="image/png" href="images/Seby.png">
+    <title>Seby Dev</title>
+<style>
+    p {
+        color: #12f9d2;
+        margin-top: 10px;
+    }
+    p:hover {
+        text-decoration: underline;
+        color: #12f9d2;
+        margin-top: 20px;
+    }
+    h1 {
+        background-color: rgba(24, 22, 22, 1);
+        width: 15%;
+        height: 40%;
+        padding: 20px;
+        object-fit: cover;
+        margin: 50px auto;
+        border-radius: 10px;
+        max-width: 800px;
+        text-align: center;
+        color: #12f9d2;
+        margin-top: 20px;
+        font-size: 2.5em;
+    }
+    h1:hover {
+        text-shadow: 0 0 15px #12f9d2;
+        box-shadow: 0 0 60px #000000;
+        margin-top: 20px;
+    }
+    h2 {
+        color: #12f9d2;
+        margin-top: 20px;
+    }
+    h2:hover {
+        text-shadow: 0 0 15px #12f9d2;
+    }
+    section {
+    padding: 20px;
+    background-color: #181616;
+    color: #12f9d2;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 800px;
+    width: 60%;
+    height: 50%;
+    object-fit: cover;
+    margin: 20px auto;
+    border-radius: 8px;
+    }
+    section:hover {
+        box-shadow: 0 0 60px #000000;
+        margin-top: 20px;
+    }
+    #reveal {
+      display: none;
+      margin-top: 20px;
+    }
+
+    #clickText {
+      cursor: pointer;
+      color: #12f9d2;
+      font-size: 24px;
+    }
+
+    #clickText:hover {
+      text-decoration: underline;
+    }
+    body {
+      padding: 20px 40px;
+      background: linear-gradient(90deg, rgb(0, 216, 205), rgb(0, 97, 208), rgb(0, 213, 255));
+      background-size: 400% 100%;
+      animation: miscaFundalul 5s linear infinite;
+      border-radius: 10px;
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+
+    @keyframes miscaFundalul {
+      0% {
+        background-position: 0% 0%;
+      }
+      100% {
+        background-position: 100% 0%;
+      }
+    }
+</style>
+
+<style>
+    /* Fundalul scrollului */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+  
+    /* Fundalul pistei (track) */
+    ::-webkit-scrollbar-track {
+      background: #181616;
+    }
+  
+    /* Bara propriu-zisă */
+    ::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+    }
+  
+    /* Hover pe bară */
+    ::-webkit-scrollbar-thumb:hover {
+    background: rgb(0, 216, 205);
+    }
+</style>
+
+<style>
+header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #181616;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+      z-index: 1000;
+    }
+.center {
+    text-align: center;
+}
+h5 {
+    background-color: none;
+    width: 15%;
+    height: 40%;
+    padding: 20px;
+    object-fit: cover;
+    margin: 50px auto;
+    border-radius: 10px;
+    max-width: 800px;
+    text-align: center;
+    color: #12f9d2;
+    margin-top: 20px;
+    font-size: 2.5em;
+}
+header h4 {
+    background-color: none;
+    width: 15%;
+    height: 40%;
+    padding: 20px;
+    object-fit: cover;
+    margin: 50px auto;
+    max-width: 800px;
+    text-align: center;
+    color: #12f9d2;
+    margin-top: 20px;
+    font-size: 40px;
+    }
+header h4:hover {
+    text-shadow: 0 0 15px #12f9d2;
+    margin-top: 20px;
+}
+header img {
+      height: 50px;
+      width: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+    .profil {
+    background-color: #181616;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    left: 35%;
+    transform: scaleX(1);
+    }
+    .discord {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+    .github {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+    .linie {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      background-color: #181616;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .linie img {
+      margin-right: 15px;
+      border-radius: 10px;
+    }
+
+    .linie .text {
+      font-size: 20px;
+    }
+.e1 {
+    width: 60px;
+    height: 60px;
+}
+.e2 {
+    width: 70px;
+    height: 70px;
+}
+.e3 {
+    width: 110px;
+    height: 60px;
+}
+.e4 {
+    width: 90px;
+    height: 50px;
+}
+.linii {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      padding: 20px;
+      background-color: #181616;
+      font-family: Arial, sans-serif;
+      flex-shrink: 0;
+    }
+
+.linii img {
+    flex-shrink: 0;
+      margin-right: 15px;
+      border-radius: 10px;
+    }
+</style>
+
+<style>
+.container {
+      background: #222;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      width: 350px;
+      text-align: center;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      resize: none;
+    }
+    button {
+      padding: 10px;
+      width: 100%;
+      background-color: #28a796;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2acdb7;
+    }
+</style>
+
+</head>
+<body>
+<header class="linii">
+    <img src="images/Seby.png" class="profil">
+    <h4 style="text-decoration: solid;">Seby Dev</h4>
+</header>
+    <h5></h5>
+<section>
+<h2>Hi! I'm Silviu 👋</h2>
+<div id="clickText" onclick="toggleContent(this)">About me</div>
+<div id="reveal">
+    <p>I'm 17 years old and just getting started on Github. 
+    <br>I may not have experience yet, but I'm a fast learner, motivated, 
+    <br>and ready to work hard to help you with your projects. I'm here to grow, 
+    <br>learn, and give my best in every task I take.</p>
+    <p>If you give me a chance, I’ll focus 100% on delivering quality work, 
+    <br>exactly how you need it. I’m serious about building trust and making sure you're happy with the results. 
+    <br>Let’s start small and build something awesome together!</p>
+</div>
+</section>
+
+<section>
+<div id="clickText" onclick="toggleContent(this)"> My Socials</div>
+<div id="reveal">
+    <div class="linie">
+        <img src="images/discord-logo.png" class="discord" >
+        <div class="text"><h4><a href="https://discord.com/users/760145353319383060" target="_blank">Discord</a></h4></div>
+    </div>
+    <div class="linie">
+        <img src="images/github-logo.png" class="github" >
+        <div class="text"><h4><a href="https://github.com/S1LV1U" target="_blank">Github</a></h4></div>
+    </div>
+    
+</div>
+</section>
+
+<section>
+<div id="clickText" onclick="toggleContent(this)">My Skills</div>
+<div id="reveal">
+    <div class="linie">
+            <img src="images/html.png" class="e1">
+            <h4 class="text">HTML - Basic Knowledge</h4>
+    </div>
+    <div class="linie">
+            <img src="images/css.png" class="e2">
+            <h4 class="text">CSS - Basic Knowledge</h4>
+    </div>
+    <div class="linie">
+            <img src="images/javascript.png" class="e3" >
+            <h4 class="text">JavaScript - Learning</h4>
+    </div>
+    <div class="linie">
+            <img src="images/php.png" class="e4" >
+            <h4 class="text">PHP - Learning</h4>
+    </div>
+</div>
+</section>
+
+<section>
+<div id="clickText" onclick="toggleContent(this)">My Projects</div>
+<div id="reveal">
+    <p><a href="index.html">View Projects</a></p>
+</div>
+</section>
+
+<section>
+  <div id="clickText" onclick="toggleContent(this)">Write me a message</div>
+  <div id="reveal">
+    <div class="container">
+      <h2>Send a message to the creator</h2>
+      <input type="text" id="userName" placeholder="Your name">
+      <input type="email" id="userEmail" placeholder="Your Gmail">
+      <textarea id="userMessage" rows="5" placeholder="Write your message here..."></textarea>
+      <button onclick="sendMessage()">Send message</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  function sendMessage() {
+    const name = document.getElementById("userName").value.trim();
+    const email = document.getElementById("userEmail").value.trim();
+    const message = document.getElementById("userMessage").value.trim();
+    const date = new Date().toLocaleString();
+
+    if (!name || !email || !message) {
+      alert("Complete all fields!");
+      return;
+    }
+
+    const params = {
+      name: name,
+      email: email,
+      message: message,
+      date: date
+    };
+
+    emailjs.send("service_78yz53k", "template_7kde8d6", params)  // YOUR_SERVICE_ID    ,     YOUR_TEMPLATE_ID
+      .then(() => {
+        alert("Message sent successfully!");
+        document.getElementById("userName").value = "";
+        document.getElementById("userEmail").value = "";
+        document.getElementById("userMessage").value = "";
+      })
+      .catch((error) => {
+        console.error("Eroare:", error);
+        alert("Message could not be sent. Please try again!");
+      });
+  }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    emailjs.init("7-s2hTwnFBA6ka-bo"); // Înlocuiește cu cheia ta publică EmailJS YOUR_PUBLIC_KEY
+  </script>
+
+<script>
+function toggleContent(clickedElement) {
+    const revealDiv = clickedElement.nextElementSibling;
+    if (revealDiv.style.display === "block") {
+      revealDiv.style.display = "none";
+    } else {
+      revealDiv.style.display = "block";
+    }
+  }
+</script>
+</body>
+</html>

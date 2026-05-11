@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SebyShop</title>
+</head>
+<!--  -->
+<style>
+      ::-webkit-scrollbar {
+        width: 10px;
+        scrollbar-width: smooth;
+      }
+    
+    
+      ::-webkit-scrollbar-track {
+        background: #181616;
+      }
+    
+    
+      ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 10px;
+      }
+
+    
+      ::-webkit-scrollbar-thumb:hover {
+      background: #0400ffda;
+      }
+body {
+  background-color: white;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><text x='5' y='20' font-size='20' fill='black'>✦</text></svg>");
+  background-repeat: repeat;
+  background-size: 30px 30px;
+  background-attachment: fixed;
+  animation: starsMove 60s linear infinite;
+}
+body:hover {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><text x='5' y='20' font-size='20' fill='blue'>✦</text></svg>");
+}
+
+@keyframes starsMove {
+  from { background-position: 0 0; }
+  to { background-position: 1000px 1000px; }
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+</style>
+<!--  -->
+
+<!--  -->
+
+<!--  -->
+<style>
+header {
+  background-color: #1c1c1c;
+  color: none;
+  padding: 20px;
+  text-align: center;
+  position: sticky;
+  top: 0px;
+  border-radius: 0px 0px 0px 0px;
+  margin-bottom: 5px;
+}
+footer {
+  background-color: #1c1c1c; 
+  border: 1px solid #ccc; 
+  border-radius: 8px 8px 0px 0px; 
+  color: white; text-align: center; 
+  padding: 10px 0; margin-top: 20px;
+}
+.t1 {
+    color: white; 
+    counter-reset: none;  
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    text-decoration: none;
+    font-size: 18px;
+}
+.t1:hover {
+    color: #0400ffda;
+}
+</style>
+<!--  -->
+<style>
+.d1 {
+  background-color: white;
+  border: 1px solid #ccc; 
+  border-radius: 8px; 
+  padding: 16px; width: 200px; 
+  text-align: center;
+}
+.b1 {
+  padding: 10px 20px; 
+  background-color: #007BFF; 
+  color: white; border: none; 
+  border-radius: 4px;
+}
+</style>
+<body>
+ <header>
+    <h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: white;">SebyShop</h1>
+    <nav>
+      <ul style="display: flex; justify-content: center; gap: 20px; list-style: none; padding: 0;">
+        <li><a href="index.html" class="t1">Home</a></li>
+        <li><a href="SebyShop.html" class="t1">Shop</a></li>
+        <li><a href="info.html" class="t1">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main style="padding: 20px; font-family: Arial, sans-serif;">
+    <h2 class="t1" style="text-align: center; margin-bottom: 20px; ">Welcome to SebyShop!</h2>
+    <p class="t1" style="text-align: center; margin-bottom: 40px; ">Your one-stop shop for all your needs.</p>
+
+    <section style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+      <div class="d1">
+        <h3>Product 1</h3>
+        <p>$19.99</p>
+        <button class="b1">Add to Cart</button>
+      </div>
+      <div class="d1">
+        <h3>Product 2</h3>
+        <p>$29.99</p>
+        <button class="b1">Add to Cart</button>
+      </div>
+      <div class="d1">
+        <h3>Product 3</h3>
+        <p>$39.99</p>
+        <button class="b1">Add to Cart</button>
+      </div>
+      <div class="d1">
+        <h3>Product 4</h3>
+        <p>$49.99</p>
+        <button class="b1">Add to Cart</button>
+      </div>
+      <div class="d1">
+        <h3>Product 5</h3>
+        <p>$59.99</p>
+        <button class="b1">Add to Cart</button>
+      </div>
+      </section>
+
+      <section style="color: rgba(0, 0, 255, 0); text-align-last: center;">★★★★★</section>
+
+      <section style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+      <div class="d1">
+        <h3>Product 1</h3>
+        <p>$19.99</p>
+        <button class="b1">Add to Cart</button>
+      </div>
+      <div class="d1">
+        <h3>Product 2</h3>
+        <p>$29.99</p>
+        <button class="b1">Add to Cart</button>
+      </div>
+      <div class="d1">
+        <h3>Product 3</h3>
+        <p>$39.99</p>
+        <button class="b1">Add to Cart</button>
+      </div>
+      <div class="d1">
+        <h3>Product 4</h3>
+        <p>$49.99</p>
+        <button class="b1">Add to Cart</button>
+      </div>
+      <div class="d1">
+        <h3>Product 5</h3>
+        <p>$59.99</p>
+        <button class="b1">Add to Cart</button>
+      </div>
+      </section>
+
+    <footer>
+        <p>&copy; 2024 SebyShop. All rights reserved.</p>
+    </footer>
+</body>
+</html>

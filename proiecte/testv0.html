@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevShop</title>
+</head>
+<style>
+    h2 {
+        width: 30ch; 
+        font-family: monospace; 
+        margin: 160px 250px; 
+        text-wrap: nowrap; 
+        overflow: hidden; 
+        animation: typing 2s steps(30) infinite
+        alternate-reverse;
+    }
+    @keyframes typing {
+        from {
+            width: 0ch;
+        }
+    }
+    .div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate( -50%, -50%);
+    }
+    .link {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 60px;
+        height: 50px;
+        border-radius: 16px;
+        color: #6b7280;
+        text-decoration: none;
+        font-weight: 500;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+</style>
+<style>
+    /* Fundalul scrollului */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+  
+    /* Fundalul pistei (track) */
+    ::-webkit-scrollbar-track {
+      background: #181616;
+    }
+  
+    /* Bara propriu-zisă */
+    ::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+    }
+  
+    /* Hover pe bară */
+    ::-webkit-scrollbar-thumb:hover {
+    background: rgb(25, 0, 216);
+    }
+</style>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #2d2f35;
+      color: #333;
+      padding: 20px;
+    }
+
+    .layout {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .top-content {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    aside {
+      width: 300px;
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    section {
+      flex: 1;
+      background-color: #e6f1ff;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .menu-group {
+      margin-bottom: 25px;
+    }
+
+    .menu-group h4 {
+      font-size: 12px;
+      font-weight: bold;
+      color: #888;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .menu-group ul {
+      list-style: none;
+    }
+
+    .menu-group li {
+      margin-bottom: 5px;
+    }
+
+    .menu-group a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    .menu-group a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      width: 100%;
+      background-color: #f5f5f5;
+      padding: 30px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    main h1 {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #1e1e1e;
+    }
+
+    main a {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: #007bff;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    main a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      width: 100%;
+      background-color: #1e1e1e;
+      color: #ccc;
+      text-align: center;
+      padding: 15px;
+      border-radius: 5px;
+    }
+  </style>
+<body>
+  <div class="layout">
+
+    <div class="top-content">
+      <aside>
+        <nav>
+          <div class="menu-group">
+            <h4>Title 1</h4>
+            <ul>
+              <li><a href="#">Sube Menu Link</a></li>
+              <li><a href="#">Sube Menu Link</a></li>
+              <li><a href="#">Sube Menu Link</a></li>
+            </ul>
+          </div>
+          <div class="menu-group">
+            <h4>Title 2</h4>
+            <ul>
+              <li><a href="#">Sube Menu Link</a></li>
+              <li><a href="#">Sube Menu Link</a></li>
+            </ul>
+          </div>
+          <div class="menu-group">
+            <h4>Title 3</h4>
+            <ul>
+              <li><a href="#">Sube Menu Link</a></li>
+              <li><a href="#">Sube Menu Link</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Right Section next to menu -->
+      <section>
+        <h2>Secțiune nouă</h2>
+        <p>Aici poți adăuga orice conținut: texte, grafice, imagini etc.</p>
+      </section>
+    </div>
+
+    <!-- Main content under section -->
+    <main>
+      <h1>Web Module - Index</h1>
+      <a href="#">Orders</a><br>
+      <a href="#">Customers</a>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      &copy; 2025 Web Module. All rights reserved.
+    </footer>
+
+  </div>
+    
+</body>
+</html>

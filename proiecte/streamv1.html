@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mini Steam Profile — Conturi, Prieteni, Profil</title>
+<style>
+  :root{
+    --bg:#1b2838;
+    --panel:#171a21;
+    --accent:#66c0f4;
+    --text:#c7d5e0;
+    --muted:#2a3a4b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:#fff;font-family:Inter,system-ui,Arial,sans-serif}
+  header{
+    position:sticky;top:0;z-index:20;
+    background:var(--panel);border-bottom:1px solid #0e141b;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:8px 20px;
+  }
+  .brand{font-weight:700;letter-spacing:.5px;color:#fff;opacity:.9}
+  .container{max-width:1000px;margin:0 auto;padding:24px}
+  /* Margini diferite mobil vs PC */
+  @media (max-width:768px){ .container{padding:12px} }
+
+  nav .tab{
+    background:transparent;border:none;color:#fff;opacity:.85;margin-right:8px;
+    padding:8px 10px;border-radius:8px;cursor:pointer
+  }
+  nav .tab.active, nav .tab:hover{background:#0f1924;opacity:1}
+
+  /* User menu top-right */
+  .usermenu{
+    display:flex;align-items:center;gap:10px;cursor:pointer;position:relative
+  }
+  .usermenu .avatar{width:32px;height:32px;border-radius:6px;border:2px solid var(--accent);object-fit:cover}
+  .usermenu-name{font-size:.95rem}
+  .dropdown{
+    position:absolute;right:0;top:44px;background:var(--panel);border:1px solid #0e141b;border-radius:10px;
+    min-width:200px;overflow:hidden;display:none
+  }
+  .dropdown.open{display:block}
+  .dropdown a, .dropdown button{
+    display:block;width:100%;text-align:left;background:none;border:none;color:#fff;
+    padding:10px 12px;cursor:pointer
+  }
+  .dropdown a:hover, .dropdown button:hover{background:#0f1924}
+
+  /* Panels */
+  .panel{
+    background:var(--panel);border:1px solid #0e141b;border-radius:12px;padding:16px;margin-bottom:16px
+  }
+  h2,h3{margin:0 0 10px}
+  .muted{color:var(--text)}
+
+  /* Profile visuals */
+  .bg-preview{
+    width:100%;height:180px;border-radius:12px;background:#0f1924 url('') center/cover no-repeat;margin-bottom:12px
+  }
+  .pf-line{display:flex;align-items:center;gap:16px}
+  .pf-avatar{width:110px;height:110px;border-radius:8px;border:3px solid var(--accent);object-fit:cover;background:#0f1924}
+  .grid{display:grid;gap:12px}
+  @media (min-width:768px){ .grid.two{grid-template-columns:1fr 1fr} }
+
+  input[type="text"],input[type="password"],input[type="search"],textarea{
+    width:100%;padding:10px 12px;border-radius:10px;border:1px solid #0e141b;background:#0f1924;color:#fff
+  }
+  textarea{min-height:80px;resize:vertical}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{
+    background:var(--accent);border:none;color:#001521;font-weight:700;
+    padding:10px 14px;border-radius:10px;cursor:pointer
+  }
+  .btn.ghost{background:#0f1924;color:#fff;border:1px solid #0e141b}
+  .btn.danger{background:#cf6679;color:#160e12}
+  .list{margin:0;padding:0;list-style:none}
+  .list li{padding:10px;border-bottom:1px solid #0e141b;display:flex;justify-content:space-between;gap:8px;align-items:center}
+  .chip{display:inline-block;padding:4px 8px;border-radius:999px;background:#0f1924;color:#fff;border:1px solid #0e141b;font-size:.85rem}
+
+  /* Auth modal */
+  .modal{
+    position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:50
+  }
+  .modal.open{display:flex}
+  .card{background:var(--panel);border:1px solid #0e141b;border-radius:14px;padding:16px;max-width:420px;width:92%}
+  .tabsw{display:flex;border:1px solid #0e141b;border-radius:10px;overflow:hidden;margin-bottom:12px}
+  .tabsw button{flex:1;padding:10px;background:#0f1924;border:none;color:#fff;cursor:pointer}
+  .tabsw button.active{background:var(--accent);color:#062033;font-weight:700}
+  small.help{display:block;color:var(--text);margin-top:6px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Steam-like</div>
+  <nav id="mainNav" style="visibility:hidden;">
+    <button class="tab active" data-route="home">Acasă</button>
+    <button class="tab" data-route="profile">Profil</button>
+    <button class="tab" data-route="friends">Prieteni</button>
+    <button class="tab" data-route="settings">Setări</button>
+  </nav>
+
+  <div id="userBox" class="usermenu" style="visibility:hidden;">
+    <img id="navAvatar" class="avatar" alt="avatar">
+    <span id="navName" class="usermenu-name"></span>
+    <div class="dropdown" id="userDropdown">
+      <button data-route="profile">Vezi profilul</button>
+      <button data-route="settings">Setări cont</button>
+      <button id="logoutBtn">Deconectare</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div id="view"></div>
+</div>
+
+<!-- AUTH MODAL (apare la intrare dacă nu ești logat) -->
+<div id="authModal" class="modal">
+  <div class="card">
+    <div class="tabsw">
+      <button id="tabLogin" class="active">Conectare</button>
+      <button id="tabRegister">Creare cont</button>
+    </div>
+    <div id="authContent"></div>
+  </div>
+</div>
+
+<script>
+/* ====== Persistență (localStorage) ====== */
+const LS = {
+  get(k, def){ try{ return JSON.parse(localStorage.getItem(k)) ?? def }catch{ return def } },
+  set(k, v){ localStorage.setItem(k, JSON.stringify(v)) }
+};
+let accounts = LS.get('accounts', []); // [{id,name,pass,avatar,background,textBonus,friends:[ids]}]
+let currentUserId = LS.get('currentUserId', null);
+
+/* ====== Helpers ====== */
+const $ = sel => document.querySelector(sel);
+const byId = id => accounts.find(u => u.id === id);
+const byName = name => accounts.find(u => u.name.toLowerCase() === name.toLowerCase());
+const uid = () => 'u_' + Math.random().toString(36).slice(2,10);
+const nameUnique = (name, exceptId=null) =>
+  !accounts.some(u => u.name.toLowerCase() === name.toLowerCase() && u.id !== exceptId);
+
+const passRegex = /^[A-Za-z0-9]{8,16}$/; // numai litere sau cifre, 8-16
+
+function readFileAsDataURL(file){
+  return new Promise((resolve,reject)=>{
+    const r = new FileReader();
+    r.onload = e => resolve(e.target.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+function saveAll(){ LS.set('accounts', accounts); LS.set('currentUserId', currentUserId); updateNav(); }
+
+/* ====== Navigație ====== */
+const routes = {
+  home(){ renderHome(); },
+  profile(){ requireAuth(); renderProfile(); },
+  friends(){ requireAuth(); renderFriends(); },
+  settings(){ requireAuth(); renderSettings(); }
+};
+function go(route){
+  document.querySelectorAll('nav .tab').forEach(b=>b.classList.toggle('active', b.dataset.route===route));
+  routes[route](); 
+}
+document.querySelectorAll('nav .tab').forEach(b=>b.addEventListener('click',()=>go(b.dataset.route)));
+
+$('#userBox').addEventListener('click', (e)=>{
+  const dd = $('#userDropdown');
+  if(e.target.dataset.route){ go(e.target.dataset.route); dd.classList.remove('open'); return; }
+  dd.classList.toggle('open');
+});
+document.addEventListener('click', (e)=>{
+  if(!$('#userBox').contains(e.target)) $('#userDropdown').classList.remove('open');
+});
+$('#logoutBtn').addEventListener('click', ()=>{
+  currentUserId = null; saveAll(); showAuthModal();
+});
+
+/* ====== Autentificare ====== */
+function renderLogin(){
+  $('#authContent').innerHTML = `
+    <div class="panel">
+      <h3>Conectare</h3>
+      <input id="loginName" type="text" placeholder="Nume cont" autocomplete="username">
+      <input id="loginPass" type="password" placeholder="Parolă" autocomplete="current-password">
+      <div class="row">
+        <button class="btn" id="loginBtn">Conectează-te</button>
+      </div>
+      <small class="help">Ai nevoie de nume + parolă exactă.</small>
+    </div>`;
+  $('#loginBtn').onclick = ()=>{
+    const name = $('#loginName').value.trim();
+    const pass = $('#loginPass').value;
+    const acc = byName(name);
+    if(!acc || acc.pass !== pass){ alert('Nume sau parolă greșită!'); return; }
+    currentUserId = acc.id; saveAll(); hideAuthModal(); initApp();
+  };
+}
+
+function renderRegister(){
+  $('#authContent').innerHTML = `
+    <div class="panel">
+      <h3>Creare cont</h3>
+      <input id="regName" type="text" placeholder="Nume cont (unic)" autocomplete="username">
+      <input id="regPass" type="password" placeholder="Parolă (8–16, litere/cifre)" autocomplete="new-password">
+      <div class="row">
+        <button class="btn" id="regBtn">Creează cont</button>
+      </div>
+      <small class="help">Parola trebuie să aibă 8–16 caractere și să conțină doar litere sau cifre.</small>
+    </div>`;
+  $('#regBtn').onclick = ()=>{
+    const name = $('#regName').value.trim();
+    const pass = $('#regPass').value;
+    if(!name) return alert('Scrie un nume de cont.');
+    if(!passRegex.test(pass)) return alert('Parola trebuie 8–16 și doar litere/cifre.');
+    if(!nameUnique(name)) return alert('Numele de cont este deja folosit.');
+    const user = { id: uid(), name, pass, avatar:'', background:'', textBonus:'', friends:[] };
+    accounts.push(user); saveAll();
+    alert('Cont creat! Te poți conecta acum.');
+    // comută pe tab de login
+    $('#tabLogin').click();
+  };
+}
+
+function showAuthModal(){
+  $('#authModal').classList.add('open');
+  $('#mainNav').style.visibility='hidden';
+  $('#userBox').style.visibility='hidden';
+  renderLogin();
+}
+function hideAuthModal(){ $('#authModal').classList.remove('open'); }
+function requireAuth(){ if(!currentUserId) showAuthModal(); }
+
+$('#tabLogin').onclick = ()=>{
+  $('#tabLogin').classList.add('active'); $('#tabRegister').classList.remove('active'); renderLogin();
+};
+$('#tabRegister').onclick = ()=>{
+  $('#tabRegister').classList.add('active'); $('#tabLogin').classList.remove('active'); renderRegister();
+};
+
+/* ====== UI Nav ====== */
+function updateNav(){
+  const logged = !!currentUserId;
+  $('#mainNav').style.visibility = logged ? 'visible' : 'hidden';
+  $('#userBox').style.visibility = logged ? 'visible' : 'hidden';
+  if(logged){
+    const u = byId(currentUserId);
+    $('#navName').textContent = u?.name ?? '';
+    $('#navAvatar').src = u?.avatar || 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="100%" height="100%" fill="%230f1924"/><text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="%2366c0f4" font-family="Arial" font-size="14">avatar</text></svg>';
+  }
+}
+
+/* ====== VIEWS ====== */
+function renderHome(){
+  $('#view').innerHTML = `
+    <div class="panel">
+      <h2>Bine ai venit!</h2>
+      <p class="muted">Folosește tab-urile de sus pentru a-ți vedea <b>Profilul</b>, a gestiona <b>Prieteni</b> sau a schimba setările de <b>cont</b>.</p>
+    </div>`;
+}
+
+function renderProfile(){
+  const u = byId(currentUserId);
+  $('#view').innerHTML = `
+    <div class="panel">
+      <div class="bg-preview" style="background-image:url('${u.background||''}')"></div>
+      <div class="pf-line">
+        <img class="pf-avatar" src="${u.avatar||''}" alt="avatar" onerror="this.src='';this.style.background='#0f1924'">
+        <div>
+          <h2 style="margin-bottom:4px">${u.name}</h2>
+          <div class="chip">Prieteni: ${u.friends.length}</div>
+        </div>
+      </div>
+      <div style="margin-top:12px" class="muted">${u.textBonus ? u.textBonus : 'Adaugă un text bonus din Editare profil.'}</div>
+    </div>
+
+    <div class="panel">
+      <h3>Editare profil</h3>
+      <div class="grid two">
+        <div>
+          <label>Nume afișat</label>
+          <input id="pfName" type="text" value="${u.name}">
+          <label>Text bonus</label>
+          <textarea id="pfText">${u.textBonus||''}</textarea>
+        </div>
+        <div>
+          <label>Poza de profil (din galerie)</label>
+          <input id="pfAvatar" type="file" accept="image/*">
+          <label>Background (din galerie)</label>
+          <input id="pfBg" type="file" accept="image/*">
+        </div>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" id="saveProfileBtn">Salvează</button>
+        <button class="btn ghost" id="cancelProfileBtn">Renunță</button>
+      </div>
+    </div>
+  `;
+  $('#cancelProfileBtn').onclick = ()=>renderProfile();
+  $('#saveProfileBtn').onclick = async ()=>{
+    const name = $('#pfName').value.trim();
+    if(!name) return alert('Numele nu poate fi gol.');
+    if(!nameUnique(name, u.id)) return alert('Numele de cont este deja folosit.');
+    const textBonus = $('#pfText').value.trim();
+    const avatarFile = $('#pfAvatar').files[0];
+    const bgFile = $('#pfBg').files[0];
+
+    u.name = name;
+    u.textBonus = textBonus;
+
+    // încărcări din galerie
+    if(avatarFile) u.avatar = await readFileAsDataURL(avatarFile);
+    if(bgFile) u.background = await readFileAsDataURL(bgFile);
+
+    saveAll();
+    renderProfile();
+  };
+}
+
+function renderFriends(){
+  const me = byId(currentUserId);
+  const friends = me.friends.map(id => byId(id)).filter(Boolean);
+
+  $('#view').innerHTML = `
+    <div class="panel">
+      <h3>Prieteni <span class="chip">${friends.length}</span></h3>
+      <div class="row" style="margin-bottom:8px">
+        <input id="friendSearch" type="search" placeholder="Caută utilizatori după nume…">
+        <button class="btn" id="searchBtn">Caută</button>
+      </div>
+      <ul class="list" id="searchResults"></ul>
+    </div>
+
+    <div class="panel">
+      <h3>Lista ta</h3>
+      <ul class="list" id="friendList">
+        ${friends.length ? friends.map(f=>`
+          <li>
+            <div class="row" style="align-items:center;gap:10px">
+              <img src="${f.avatar||''}" alt="" style="width:28px;height:28px;border-radius:6px;object-fit:cover;background:#0f1924">
+              <span>${f.name}</span>
+            </div>
+            <button class="btn ghost" data-remove="${f.id}">Elimină</button>
+          </li>`).join('') : `<li class="muted">Nu ai prieteni încă.</li>`}
+      </ul>
+    </div>
+  `;
+
+  $('#searchBtn').onclick = ()=>doSearch();
+  $('#friendSearch').addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
+
+  function doSearch(){
+    const q = $('#friendSearch').value.trim().toLowerCase();
+    const out = $('#searchResults');
+    if(!q){ out.innerHTML = `<li class="muted">Scrie un nume pentru a căuta.</li>`; return; }
+    const results = accounts
+      .filter(u => u.id !== me.id && u.name.toLowerCase().includes(q))
+      .slice(0,20);
+    if(!results.length){ out.innerHTML = `<li class="muted">Nimic găsit.</li>`; return; }
+    out.innerHTML = results.map(u=>`
+      <li>
+        <div class="row" style="align-items:center;gap:10px">
+          <img src="${u.avatar||''}" alt="" style="width:28px;height:28px;border-radius:6px;object-fit:cover;background:#0f1924">
+          <span>${u.name}</span>
+        </div>
+        ${me.friends.includes(u.id)
+          ? '<span class="chip">Deja prieten</span>'
+          : `<button class="btn" data-add="${u.id}">Adaugă</button>`
+        }
+      </li>`).join('');
+    out.querySelectorAll('button[data-add]').forEach(b=> b.onclick = ()=>{
+      const id = b.getAttribute('data-add');
+      if(!me.friends.includes(id)) me.friends.push(id);
+      saveAll(); renderFriends();
+    });
+  }
+
+  // eliminare prieten
+  $('#friendList').querySelectorAll('button[data-remove]').forEach(b=> b.onclick=()=>{
+    const id = b.getAttribute('data-remove');
+    const idx = me.friends.indexOf(id);
+    if(idx>=0) me.friends.splice(idx,1);
+    saveAll(); renderFriends();
+  });
+}
+
+function renderSettings(){
+  const u = byId(currentUserId);
+  $('#view').innerHTML = `
+    <div class="panel">
+      <h3>Setări cont</h3>
+      <div class="grid two">
+        <div>
+          <h4>Schimbă numele de cont</h4>
+          <input id="newName" type="text" value="${u.name}">
+          <button class="btn" id="saveNameBtn">Salvează numele</button>
+          <small class="help">Numele trebuie să fie unic.</small>
+        </div>
+        <div>
+          <h4>Schimbă parola</h4>
+          <input id="oldPass" type="password" placeholder="Parola veche">
+          <input id="newPass" type="password" placeholder="Parola nouă (8–16 litere/cifre)">
+          <button class="btn" id="savePassBtn">Actualizează parola</button>
+        </div>
+      </div>
+    </div>
+  `;
+  $('#saveNameBtn').onclick = ()=>{
+    const n = $('#newName').value.trim();
+    if(!n) return alert('Numele nu poate fi gol.');
+    if(!nameUnique(n, u.id)) return alert('Acest nume este deja folosit.');
+    u.name = n; saveAll(); updateNav(); alert('Numele a fost actualizat.');
+  };
+  $('#savePassBtn').onclick = ()=>{
+    const op = $('#oldPass').value;
+    const np = $('#newPass').value;
+    if(op !== u.pass) return alert('Parola veche este greșită.');
+    if(!passRegex.test(np)) return alert('Parola nouă trebuie 8–16 și doar litere/cifre.');
+    u.pass = np; saveAll(); alert('Parola a fost schimbată.');
+  };
+}
+
+/* ====== Init (autologin la intrare) ====== */
+function initApp(){
+  updateNav();
+  if(currentUserId){ go('home'); }
+  else { showAuthModal(); }
+}
+initApp();
+</script>
+</body>
+</html>
