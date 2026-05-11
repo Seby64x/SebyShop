@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <title>Pizza</title>
+    <link rel="icon" type="image/png" href="images/m3.png">
+<style>
+      ::-webkit-scrollbar {
+        width: 10px;
+        scrollbar-width: smooth;
+      }
+    
+    
+      ::-webkit-scrollbar-track {
+        background: #181616;
+      }
+    
+    
+      ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 10px;
+      }
+
+    
+      ::-webkit-scrollbar-thumb:hover {
+      background: #ffcc00;
+      }
+* {
+  margin: 0;
+  padding: 0;
+}
+</style>
+
+<style>
+header {
+  background-color: #1c1c1c;
+  color: none;
+  padding: 20px;
+  text-align: center;
+  position: sticky;
+  top: 0px;
+  border-radius: 0px 0px 0px 0px;
+  margin-bottom: 5px;
+}
+* li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+  footer {
+    position: relative;
+    bottom: 0px;
+    width: 100%;
+    background-color: #0c0c0c;
+    color: #ccc;
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+  .footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+    color: #8a8e97;
+    text-decoration: none;
+  }
+  footer div h1 {
+    text-decoration: none;
+    margin: 0;
+    font-size: 12px;
+  }
+  
+  .footer1 {
+        display: inline-block;
+  
+        color: #8a8e97;
+        text-decoration: none;
+        font-size: 16px;
+      }
+  .footer1:hover {
+        text-decoration: none;
+        color: yellow;
+      }
+      body {
+  font-family: Verdana, sans-serif;
+  margin: 0;
+  background-color: #0e0e0e;
+}
+</style>
+
+<style>
+.sidebar ul {
+    display: flex;
+    flex-direction: row; 
+    padding: 0;
+    margin: 0;
+    gap: 20px;
+}
+
+.sidebar li {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+.imgdesus {
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1c1c1c;
+  color: none;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  top: 0px;
+  border-radius: 0px 0px 0px 0px;
+  margin-bottom: 5px;
+  
+}
+.logo {
+  width: 50%;
+  height: 50%;
+    margin: 0;
+    padding: 0;
+}
+.sidebar1 a:hover {
+    color: yellow;
+}
+.sidebar1 a:hover img {
+    filter: brightness(0) saturate(100%) invert(140%) sepia(100%) saturate(10000%);
+}
+</style>
+<!--   .sidebar a:hover img { content: url("icons/search_30dp_000000_FILL0_wght400_GRAD0_opsz24.png"); }    -->
+<style>
+.h-text {
+  position: static;
+  top: 50%;
+  left: 50%;
+  color: white;
+  text-shadow: 1px 1px 3px black;
+  text-align: center;
+  padding: 20px;
+}
+
+.h-text h1 {
+  font-size: 48px;
+  margin: 0;
+}
+
+.h-text p {
+  font-size: 20px;
+  margin: 0px;
+}
+.imgdesus1 {
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1c1c1c;
+  color: none;
+  padding: 0px;
+  text-align: center;
+  position: static;
+
+  top: 0px;
+  border-radius: 0px 0px 0px 0px;
+  margin-bottom: 0px; 
+}
+.logo1 {
+  width: 100%;
+  height: 50%;
+    margin: 0;
+    padding: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+</style>
+
+<style>
+.sb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 60px;
+    margin-right: 60px;
+    border-radius: 10px 10px 10px 10px;
+    border: 5px solid #1c1c1c;
+    background: url("images/NP303-Tallowwood.jpg");
+}
+.csb {
+  margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+main {
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    color: white;
+  text-shadow: 1px 1px 3px black;
+}
+.m1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+</style>
+
+<style>
+.f1 {
+        display: inline-block;
+        color: #8a8e97;
+        text-decoration: none;
+        font-size: 16px;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+      }
+.sidebar1 a {
+    color: rgb(255, 255, 255);
+}
+.sidebar1 a img {
+    filter: brightness(0) saturate(10%) invert(100%) sepia(100%) saturate(10%);
+}
+</style>
+ 
+<style>
+.meniu {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #181616;
+      padding: 10px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    .card:hover {
+      transform: scale(1.2);
+      transition: transform 0.4s;
+    }
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+     .card p {
+      color: #cfdc1c;
+      font-family: Arial;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .card h2 {
+      color: #cfdc1c;
+      font-family: Arial;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    
+    .hover-t:hover {
+      color: white;
+      background-color: #cfdc1c;
+      box-shadow: 0 0 15px #cfdc1c;
+      cursor: pointer;
+    }
+       p {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 20px;
+      margin: 10px;
+      color: #cfdc1c;
+      font-family: Arial;
+      background-color: #181616;
+      padding: 10px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    .cccc {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+.d:hover {
+      transform: scale(1.3);
+      transition: transform 0.4s;
+    }
+.logo:hover {
+      transform: scale(1.4);
+      transition: transform 0.4s;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="imgdesus">
+  <img src="icons/Screenshot 2025-05-10 161458.png" width="100px" height="100px" class="logo" loading="lazy">
+</div>
+
+<header>
+<nav class="sidebar"> 
+    <ul class="sidebar1">
+        <li>
+            <a href="index.html" class="d">
+                <img src="icons/home_30dp_000000_FILL0_wght400_GRAD0_opsz24.png" width="24px" height="24px" class="logo">
+                <span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="#pizza" class="d">
+                <img src="icons/596024.png" width="24px" height="24px" class="logo2">
+                <span>Pizza</span>
+            </a>
+        </li>
+        <li>
+            <a href="#cartofi" class="d">
+                <img src="icons/4627148.png" width="24px" height="24px" class="logo2">
+                <span>Cartofi</span>
+            </a>
+        </li>
+        <li>
+            <a href="#salata" class="d">
+                <img src="icons/723731.png" width="24px" height="24px" class="logo2">
+                <span>Salata</span>
+            </a>
+        </li>
+        <li>
+            <a href="#icecream" class="d">
+                <img src="icons/7087853.png" width="24px" height="24px" class="logo2">
+                <span>Ice Cream</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+</header>
+
+<section id="pizza"></section>
+<section>
+  <div class="cccc"><p>Pizza</p></div>
+  <div class="meniu">
+    <div class="card">
+      <img src="images/pizza1.webp" loading="lazy">
+      <p class="hover-t">Pizza vegetables</p>
+      <h2>Cost: 115 lei</h2>
+    </div>
+    <div class="card">
+        <img src="images/pizza2.webp" loading="lazy">
+        <p class="hover-t">Focaccia verdeluna</p>
+        <h2>Cost: 130 lei</h2>
+    </div>
+    <div class="card">
+        <img src="images/pizza3.webp" loading="lazy">
+        <p class="hover-t">Pizza 5 Cheeses</p>
+        <h2>Cost: 125 lei</h2>
+    </div>
+    <div class="card">
+        <img src="images/pizza4.webp" loading="lazy">
+        <p class="hover-t">Pizza Tonno</p>
+        <h2>Cost: 130 lei</h2>
+    </div>
+    <div class="card">
+        <img src="images/pizza5.webp" loading="lazy">
+        <p class="hover-t">Pizza Bianco</p>
+        <h2>Cost: 130 lei</h2>
+    </div>
+    <div class="card">
+        <img src="images/pizza6.webp" loading="lazy">
+        <p class="hover-t">Pizza Capricioasa</p>
+        <h2>Cost: 125 lei</h2>
+    </div>
+    <div class="card">
+        <img src="images/pizza7.webp" loading="lazy">
+        <p class="hover-t">Pizza Mario</p>
+        <h2>Cost: 125 lei</h2>
+    </div>
+    <div class="card">
+        <img src="images/pizza8.webp" loading="lazy">
+        <p class="hover-t">Pizza Diablo</p>
+        <h2>Cost: 125 lei</h2>
+    </div>
+    <div class="card">
+        <img src="images/pizza9.webp" loading="lazy">
+        <p class="hover-t">Pizza Neapolitana</p>
+        <h2>Cost: 125 lei</h2>
+    </div>
+    <div class="card">
+        <img src="images/pizza10.webp" loading="lazy">
+        <p class="hover-t">Pizza BARBEQUE</p>
+        <h2>Cost: 130 lei</h2>
+    </div><div class="card">
+        <img src="images/pizza11.webp" loading="lazy">
+        <p class="hover-t">Pizza Rancho</p>
+        <h2>Cost: 125 lei</h2>
+    </div><div class="card">
+        <img src="images/pizza12.webp" loading="lazy">
+        <p class="hover-t">Pizza Margherita</p>
+        <h2>Cost: 95 lei</h2>
+    </div><div class="card">
+        <img src="images/pizza13.webp" loading="lazy">
+        <p class="hover-t">Pizza Pepperoni</p>
+        <h2>Cost: 130 lei</h2>
+    </div><div class="card">
+        <img src="images/pizza14.webp" loading="lazy">
+        <p class="hover-t">Pizza Scampi</p>
+        <h2>Cost: 135 lei</h2>
+    </div>
+  </div>
+  </section>
+  
+  <section id="cartofi"></section>
+  <section>
+    <div class="cccc"><p>Cartofi</p></div>
+    <div class="meniu">
+      <div class="card">
+        <img src="images/cartofi1.webp" loading="lazy"> 
+        <p class="hover-t">Cartofi pai</p>
+        <h2>Cost: 45 lei</h2>
+      </div>
+      <div class="card">
+        <img src="images/cartofi2.webp" loading="lazy">
+        <p class="hover-t">Nuggets de pui</p>
+        <h2>Cost: 105 lei</h2>
+      </div>
+      <div class="card">
+        <img src="images/cartofi3.webp" loading="lazy">
+        <p class="hover-t">Bile de cartofi</p>
+        <h2>Cost: 55 lei</h2>
+      </div>
+      <div class="card">
+        <img src="images/cartofi4.webp" loading="lazy">
+        <p class="hover-t">Asorti de cartofi</p>
+        <h2>Cost: 70 lei</h2>
+      </div>
+    </div>
+  </section>
+  
+  <section id="salata"></section>
+  <section>
+    <div class="cccc"><p>Salata</p></div>
+    <div class="meniu">
+      <div class="card">
+        <img src="images/salata1.webp" loading="lazy">
+        <p class="hover-t">Salată veggy</p>
+        <h2>Cost: 75 lei</h2>
+      </div>
+      <div class="card">
+        <img src="images/salata2.webp" loading="lazy">
+        <p class="hover-t">Salată panzo</p>
+        <h2>Cost: 85 lei</h2>
+      </div>
+      <div class="card">
+        <img src="images/salata3.webp" loading="lazy">
+        <p class="hover-t">Salată aubergine</p>
+        <h2>Cost: 90 lei</h2>
+      </div>
+      <div class="card">
+        <img src="images/salata4.webp" loading="lazy">
+        <p class="hover-t">Salată grecească</p>
+        <h2 >Cost: 90 lei</h2>
+      </div>
+    </div>
+  </section>
+  <section id="icecream"></section>
+  <section>
+    <div class="cccc"><p>Îngheţată</p></div>
+    <div class="meniu">
+      <div class="card">
+        <img src="images/icecream1.webp" loading="lazy">
+        <p class="hover-t">Îngheţată fructe de pădure</p>
+        <h2>Cost: 65 lei</h2>
+      </div>
+      <div class="card">
+        <img src="images/icecream2.webp" loading="lazy">
+        <p class="hover-t">Îngheţată alune de pădure</p>
+        <h2>Cost: 70 lei</h2>
+      </div>
+      <div class="card">
+        <img src="images/icecream3.webp" loading="lazy">
+        <p class="hover-t">Îngheţată Popcorn şi caramelă</p>
+        <h2>Cost: 65 lei</h2>
+      </div>
+      <div class="card">
+        <img src="images/icecream4.webp" loading="lazy">
+        <p class="hover-t">Îngheţată Ciocolată cu vişină</p>
+        <h2>Cost: 65 lei</h2>
+      </div>
+    </div>
+  </section>
+    </main>
+</div>
+
+<footer>
+  <div class="footer">
+        <h1>&copy; 2025 Toate drepturile sunt rezervate</h1>
+        <h1>Website creat de
+        <br><strong>Roșior Silviu</strong>
+        <br><strong>Roșior Daniela</strong></h1>
+        <h1>Design făcut de
+        <br><strong>Roșior Silviu</strong>
+        <br><strong>Roșior Daniela</strong></h1>
+        <h1>Urmăriține pe 
+        <br>Instagram:
+        <br><a href="https://www.instagram.com/real.silviu/?hl=en" class="footer1">Roșior Silviu</a>
+        <br><a href="https://www.instagram.com/daniella_799/?hl=en" class="footer1">Roșior Daniela</a></h1>
+      </div>
+</footer>
+</body>
+</html>
