@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghid Teză Română</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1008;
+    --cream: #f5f0e8;
+    --parchment: #ede6d6;
+    --gold: #b8860b;
+    --red: #8b1a1a;
+    --blue: #1a3a5c;
+    --green: #1a4a2e;
+    --muted: #6b5e4e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Serif 4', serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  header {
+    background: var(--ink);
+    color: var(--cream);
+    text-align: center;
+    padding: 40px 20px 30px;
+    border-bottom: 4px solid var(--gold);
+    position: relative;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  header p { color: #c9b99a; font-style: italic; font-size: 1rem; }
+
+  nav {
+    background: var(--parchment);
+    border-bottom: 2px solid var(--gold);
+    padding: 0 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  nav a {
+    display: inline-block;
+    padding: 10px 14px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--red); border-color: var(--red); }
+
+  main { max-width: 900px; margin: 0 auto; padding: 30px 16px 60px; }
+
+  section {
+    margin-bottom: 50px;
+    scroll-margin-top: 70px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--gold);
+  }
+  .section-num {
+    background: var(--ink);
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--red);
+  }
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--blue);
+    margin: 22px 0 8px;
+  }
+  h4 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin: 14px 0 6px;
+    font-weight: 600;
+  }
+  p { margin-bottom: 10px; }
+
+  .card {
+    background: white;
+    border: 1px solid #d9cfc0;
+    border-left: 4px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    padding: 16px 20px;
+    margin: 12px 0;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
+  }
+  .card.red { border-left-color: var(--red); }
+  .card.blue { border-left-color: var(--blue); }
+  .card.green { border-left-color: var(--green); }
+
+  .figura {
+    background: white;
+    border: 1px solid #d9cfc0;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 14px 0;
+    box-shadow: 2px 3px 8px rgba(0,0,0,0.06);
+  }
+  .figura-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--red);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .def {
+    background: var(--parchment);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-style: italic;
+    font-size: 0.92rem;
+    margin: 8px 0;
+    color: var(--ink);
+  }
+  .cerinta {
+    background: #f0ece2;
+    border: 1px dashed var(--gold);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 0.88rem;
+    color: #5a4a32;
+    margin: 6px 0;
+  }
+  .ex-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 2px;
+  }
+  .ex-text {
+    font-style: italic;
+    color: var(--blue);
+    padding-left: 12px;
+    border-left: 2px solid var(--blue);
+    margin: 4px 0 6px;
+  }
+  .comentariu {
+    background: #eef4ea;
+    border-left: 3px solid var(--green);
+    padding: 8px 12px;
+    font-size: 0.88rem;
+    color: #1a3a1a;
+    border-radius: 0 4px 4px 0;
+    margin-top: 6px;
+  }
+  .comentariu strong { color: var(--green); }
+
+  .punct-box {
+    background: white;
+    border: 1px solid #d9cfc0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    box-shadow: 2px 3px 8px rgba(0,0,0,0.06);
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+  .punct-simbol {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    text-align: center;
+    line-height: 1;
+    padding-top: 4px;
+  }
+  .punct-name { font-weight: 700; color: var(--red); font-size: 1rem; margin-bottom: 4px; }
+
+  .tip-text {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #d9cfc0;
+    padding: 16px 20px;
+    margin: 12px 0;
+    box-shadow: 2px 3px 8px rgba(0,0,0,0.06);
+  }
+  .tip-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--blue);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .doc-template {
+    background: white;
+    border: 1px solid #c0b090;
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.9;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.08);
+    white-space: pre-wrap;
+  }
+  .doc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--red);
+    margin-bottom: 8px;
+    font-style: normal;
+  }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width:600px) { .grid2 { grid-template-columns: 1fr; } }
+
+  .tag {
+    display: inline-block;
+    background: var(--parchment);
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.78rem;
+    color: var(--gold);
+    font-weight: 600;
+    margin: 2px;
+    letter-spacing: 0.5px;
+  }
+
+  .highlight { color: var(--red); font-weight: 600; }
+  .nota {
+    background: #fff8e8;
+    border: 1px solid #e8d090;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.86rem;
+    color: #6b4f00;
+    margin: 10px 0;
+  }
+  .nota::before { content: "📌 "; }
+
+  ul.lista { padding-left: 22px; margin: 8px 0; }
+  ul.lista li { margin-bottom: 5px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.88rem; }
+  th { background: var(--ink); color: var(--cream); padding: 8px 12px; text-align: left; font-weight: 600; }
+  td { padding: 8px 12px; border: 1px solid #d9cfc0; background: white; vertical-align: top; }
+  tr:nth-child(even) td { background: #faf7f2; }
+
+  footer {
+    text-align: center;
+    padding: 24px;
+    background: var(--ink);
+    color: var(--muted);
+    font-size: 0.82rem;
+    border-top: 3px solid var(--gold);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Ghid Complet — Teza la Română</h1>
+  <p>Figuri de stil · Eu liric · Motive · Simboluri · Tipuri de text · Punctuație · Documente oficiale</p>
+</header>
+
+<nav>
+  <a href="#figuri">Figuri de stil</a>
+  <a href="#eu-liric">Eu liric</a>
+  <a href="#motiv">Motiv literar</a>
+  <a href="#simbol">Simbol literar</a>
+  <a href="#argumentativ">Text argumentativ</a>
+  <a href="#documente">Documente oficiale</a>
+  <a href="#punctuatie">Punctuație</a>
+  <a href="#cratima">Cratima</a>
+  <a href="#tipuri">Tipuri de text</a>
+</nav>
+
+<main>
+
+<!-- ===== 1. FIGURI DE STIL ===== -->
+<section id="figuri">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>Figuri de Stil</h2>
+  </div>
+  <p>Figurile de stil sunt <strong>procedee artistice</strong> prin care autorul îmbogățește limbajul, îi dă expresivitate și creează imagini artistice. La comentariu trebuie: <span class="highlight">identifici figura → explici ce face → arăți efectul artistic</span>.</p>
+
+  <!-- EPITET -->
+  <div class="figura">
+    <div class="figura-name">1. Epitetul</div>
+    <div class="def">Atribut sau circumstanță care exprimă o însușire neobișnuită, sugestivă a unui obiect sau ființă, adăugând expresivitate.</div>
+    <div class="cerinta">📋 Cerință tipică: „Identificați și comentați un epitet din textul dat."</div>
+    <div class="cerinta">📋 Sau: „Ce rol are epitetul în poezia studiată?"</div>
+    <div class="ex-label">Exemplul 1:</div>
+    <div class="ex-text">„codrii de aramă" (Eminescu – <em>Revedere</em>)</div>
+    <div class="comentariu"><strong>Comentariu:</strong> „Aramă" este un epitet metaforic care atribuie codrilor o culoare caldă, toamnă aurie, sugerând trecerea timpului și frumusețea melancolică a naturii. Efectul: creează o imagine vizuală intensă și transmite nostalgie.</div>
+    <div class="ex-label">Exemplul 2:</div>
+    <div class="ex-text">„izvoare plângătoare" (Eminescu)</div>
+    <div class="comentariu"><strong>Comentariu:</strong> „Plângătoare" este un epitet personificator care conferă izvoarelor o stare sufletească umană (tristețea), amplificând atmosfera elegiacă a textului.</div>
+  </div>
+
+  <!-- COMPARATIA -->
+  <div class="figura">
+    <div class="figura-name">2. Comparația</div>
+    <div class="def">Figura prin care se aseamănă două noțiuni prin intermediul unor cuvinte de legătură: <em>ca, precum, asemenea, ca și, parcă</em> etc.</div>
+    <div class="cerinta">📋 Cerință: „Identificați o comparație și explicați rolul ei."</div>
+    <div class="ex-label">Exemplul 1:</div>
+    <div class="ex-text">„Și ca-n povești cu zmei și feți / Lăsase iarba-n urmă-i." (Eminescu – <em>Luceafărul</em>)</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Comparația cu lumea basmelor creează un cadru magic, sugerând că fata de împărat trăiește într-o lume a visului, departe de realitatea obișnuită.</div>
+    <div class="ex-label">Exemplul 2:</div>
+    <div class="ex-text">„Ca un stâlp de foc în noapte" (imagine din poezie)</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Comparația creează o imagine vizuală puternică, sugerând strălucire, forță și izolare în întuneric. Efectul: subliniază unicitatea și măreția elementului descris.</div>
+  </div>
+
+  <!-- METAFORA -->
+  <div class="figura">
+    <div class="figura-name">3. Metafora</div>
+    <div class="def">Transferul de sens de la un cuvânt la altul pe baza unei asemănări, fără cuvinte de legătură (comparație prescurtată). Poate fi: simplă („ochii-stele") sau dezvoltată (extinsă pe mai mulți verși).</div>
+    <div class="cerinta">📋 Cerință: „Comentați metafora din versul..."</div>
+    <div class="ex-label">Exemplul 1:</div>
+    <div class="ex-text">„Ochii tăi sunt două stele" (Eminescu)</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Metafora „ochii = stele" atribuie ochilor strălucire, infinitate și o frumusețe celestă. Efectul: ridică iubita la rang de ființă divină, subliniind intensitatea sentimentului de admirație.</div>
+    <div class="ex-label">Exemplul 2:</div>
+    <div class="ex-text">„Floare de gheață" (metaforă despre sufletul rece)</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Metafora sugerează un paradox: ceva aparent frumos (floare), dar rece și distant (gheață). Efectul: creează tensiune poetică și exprimă ambiguitatea sentimentelor.</div>
+  </div>
+
+  <!-- PERSONIFICAREA -->
+  <div class="figura">
+    <div class="figura-name">4. Personificarea</div>
+    <div class="def">Atribuirea de însușiri, acțiuni sau sentimente omenești unor obiecte, animale sau fenomene ale naturii.</div>
+    <div class="cerinta">📋 Cerință: „Identificați personificarea și arătați ce efect produce."</div>
+    <div class="ex-label">Exemplul 1:</div>
+    <div class="ex-text">„Codrul clocotește" (Eminescu – <em>Revedere</em>)</div>
+    <div class="comentariu"><strong>Comentariu:</strong> „Clocotește" este o personificare care atribuie codrului o stare de agitație interioară umană. Efectul: natura devine un martor viu și participativ la stările eului liric, creând complicitate între om și univers.</div>
+    <div class="ex-label">Exemplul 2:</div>
+    <div class="ex-text">„Luna plânge printre nori"</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Personificarea „luna plânge" proiectează tristețea umană în cosmos, sugerând că întregul univers împărtășește durerea eului liric. Efectul: amplifică sentimentul de melancolie.</div>
+  </div>
+
+  <!-- HIPERBOLA -->
+  <div class="figura">
+    <div class="figura-name">5. Hiperbola</div>
+    <div class="def">Exagerare voit artistică a unor însușiri sau acțiuni pentru a sublinia intensitatea lor.</div>
+    <div class="cerinta">📋 Cerință: „Identificați hiperbola și explicați rolul ei expresiv."</div>
+    <div class="ex-label">Exemplul 1:</div>
+    <div class="ex-text">„Și dacă ramuri bat în geam / Și se cutremur plopii..." (sentiment atât de puternic încât cutremură natura)</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Hiperbola sugerează că iubirea eului liric este atât de intensă, încât reverberează în întreaga natură, care reacționează la gândurile și sentimentele sale.</div>
+    <div class="ex-label">Exemplul 2:</div>
+    <div class="ex-text">„Eram doi la capătul lumii"</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Hiperbola „capătul lumii" exagerează singurătatea și izolarea, sugerând că cei doi formau un univers aparte, departe de orice altceva. Efectul: intensifică sentimentul de unicitate al relației.</div>
+  </div>
+
+  <!-- ENUMERATIA -->
+  <div class="figura">
+    <div class="figura-name">6. Enumerația</div>
+    <div class="def">Înșiruirea mai multor elemente (cuvinte, imagini, idei) fără a le comenta, pentru a crea un efect de abundență, varietate sau completitudine.</div>
+    <div class="cerinta">📋 Cerință: „Ce efect artistic creează enumerația din textul dat?"</div>
+    <div class="ex-label">Exemplul 1:</div>
+    <div class="ex-text">„Câmpuri, dealuri, văi și munți, / Ape, flori și rouă..." (enumerație a elementelor naturii)</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Enumerația creează imaginea unui univers complet, bogat și divers. Efectul: exprimă dragostea pentru patrie prin acumularea de imagini reprezentative, transmițând o senzație de plenitudine.</div>
+    <div class="ex-label">Exemplul 2:</div>
+    <div class="ex-text">„Trist, singur, obosit, uitat..."</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Enumerația stărilor negative amplifică suferința eului liric prin acumulare progresivă, fiecare termen adăugând o nuanță nouă a tristeții. Efectul: creează o atmosferă apăsătoare, de disperare totală.</div>
+  </div>
+
+  <!-- REPETITIA -->
+  <div class="figura">
+    <div class="figura-name">7. Repetiția</div>
+    <div class="def">Reluarea unui cuvânt, expresii sau structuri sintactice pentru a sublinia o idee sau a crea un ritm special.</div>
+    <div class="cerinta">📋 Cerință: „Identificați repetiția și comentați efectul ei."</div>
+    <div class="ex-label">Exemplul 1:</div>
+    <div class="ex-text">„Mai am un singur dor: / În liniștea serii / Să mă lăsați să mor..." (repetiția ideii de liniște și moarte)</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Repetiția structurii de dorință subliniază unicitatea și intensitatea dorului testamentar. Efectul: creează o muzicalitate solemnă și conferă textului tonul unui legământ de nestrămutat.</div>
+    <div class="ex-label">Exemplul 2:</div>
+    <div class="ex-text">„Vine, vine primăvara, / Vine cu a ei lumina..."</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Repetiția verbului „vine" mimează apropierea gradată a anotimpului, creând un efect de anticipare și bucurie crescândă. Ritmul repetiției sugerează dinamismul naturii.</div>
+  </div>
+
+  <!-- ANTITEZA -->
+  <div class="figura">
+    <div class="figura-name">8. Antiteza</div>
+    <div class="def">Figura prin care se opun doi termeni, două idei sau imagini pentru a scoate în evidență contrastul dintre ele.</div>
+    <div class="cerinta">📋 Cerință: „Comentați antiteza din versurile..."</div>
+    <div class="ex-label">Exemplul 1:</div>
+    <div class="ex-text">„Tu ești pământ / Eu sunt cer" (Eminescu – <em>Luceafărul</em> – antiteza muritor/nemuritor)</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Antiteza dintre pământ și cer simbolizează incompatibilitatea fundamentală dintre Luceafăr (nemuritor, absolut) și fata de împărat (muritoare, limitată). Efectul: dramatizează imposibilitatea iubirii dintre două lumi opuse.</div>
+    <div class="ex-label">Exemplul 2:</div>
+    <div class="ex-text">„În trecut — durere, / În viitor — speranță"</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Antiteza trecut/viitor și durere/speranță marchează un moment de răscruce existențială. Efectul: subliniază capacitatea eului liric de a depăși suferința și de a privi spre lumină.</div>
+  </div>
+
+  <!-- INVERSIUNEA -->
+  <div class="figura">
+    <div class="figura-name">9. Inversiunea</div>
+    <div class="def">Schimbarea ordinii normale (gramaticale) a cuvintelor în propoziție, pentru efecte ritmice, eufonice sau de evidențiere a unui termen.</div>
+    <div class="cerinta">📋 Cerință: „Identificați inversiunea și explicați efectul stilistic."</div>
+    <div class="ex-label">Exemplul 1:</div>
+    <div class="ex-text">„Lacul codrilor albastru" (Eminescu) — normal: „Lacul albastru al codrilor"</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Inversiunea plasează epitetul „albastru" la finalul sintagmei, dând mai multă greutate culorii și creând un efect muzical. Astfel, albastrul devine elementul-cheie ce definește întregul tablou lacustru.</div>
+    <div class="ex-label">Exemplul 2:</div>
+    <div class="ex-text">„Lumina blândă a lunii reci" — normal: „Lumina blândă a lunii reci"</div>
+    <div class="comentariu"><strong>Comentariu:</strong> Inversiunea postpozitivă a adjectivului creează un accent poetic și încetinește ritmul lecturii, determinând cititorul să savureze imaginea luminii lunare.</div>
+  </div>
+</section>
+
+<!-- ===== 2. EUL LIRIC ===== -->
+<section id="eu-liric">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>Cum se comentează Eul Liric</h2>
+  </div>
+  <div class="card blue">
+    <strong>Ce este eul liric?</strong> Este vocea interioară a poetului (sau o voce lirică asumată), care exprimă direct stări, sentimente și trăiri în textul poetic. Nu se confundă cu autorul real!
+  </div>
+
+  <h3>Structura unui comentariu despre eul liric</h3>
+  <div class="card">
+    <strong>Pasul 1 — Identificare:</strong> Eul liric se manifestă prin pronume la persoana I (eu, meu, mie), verbe la persoana I singular/plural, și prin mărcile lingvistice ale subiectivității.
+  </div>
+  <div class="card">
+    <strong>Pasul 2 — Stare/Atitudine:</strong> Descrie ce stare trăiește eul liric (melancolie, iubire, revoltă, contemplare, nostalgie, singurătate etc.)
+  </div>
+  <div class="card">
+    <strong>Pasul 3 — Relație cu tema:</strong> Arată cum eul liric se raportează la tema textului (natura, iubirea, moartea, patria etc.)
+  </div>
+  <div class="card">
+    <strong>Pasul 4 — Persoana gramaticală:</strong> Precizează dacă eul liric este la persoana I (direct, confesiv), a II-a (adresare), sau a III-a (detașat, contemplativ).
+  </div>
+
+  <h3>Model de comentariu complet</h3>
+  <div class="ex-text">Versuri: „Mai am un singur dor: / În liniștea serii / Să mă lăsați să mor / La marginea mării..." (Eminescu – <em>Mai am un singur dor</em>)</div>
+  <div class="comentariu">
+    <strong>Comentariu model:</strong> Eul liric se exprimă la persoana I, formulând un testament poetic. Verbele „am" și construcția „să mă lăsați" marchează direct prezența vocii lirice. Starea dominantă este resemnarea melancolică — eul liric nu se revoltă împotriva morții, ci o acceptă cu seninătate, dorind să se reunească cu natura (marea). Eul liric se situează între două lumi: lumea oamenilor (de la care cere o ultimă favoare) și lumea naturii (unde aspiră să se dizolve). Această poziționare trădează un sentiment de singurătate profundă, dar și de împăcare cu destinul.
+  </div>
+
+  <div class="nota">Evită să scrii „Eminescu simte..." — scrie în schimb „eul liric trăiește...", „vocea lirică exprimă...", „instanța lirică sugerează..."</div>
+
+  <h3>Tipuri de eu liric</h3>
+  <div class="grid2">
+    <div class="tip-text">
+      <div class="tip-name">Eu liric confesiv</div>
+      Persoana I, exprimă direct trăirile. Exemplu: „Eu nu strivesc corola de minuni a lumii" (Blaga)
+    </div>
+    <div class="tip-text">
+      <div class="tip-name">Eu liric contemplativ</div>
+      Observă și meditează. Persoana I sau a III-a. Exemplu: poetul care privește natura și reflectează asupra timpului.
+    </div>
+    <div class="tip-text">
+      <div class="tip-name">Eu liric revoltat</div>
+      Exprimă protest, indignare. Ton puternic, exclamativ. Exemplu: poezia patriotică, romantică.
+    </div>
+    <div class="tip-text">
+      <div class="tip-name">Eu liric elegiac</div>
+      Dominat de tristețe, nostalgie, regret. Ton discret, meditativ.
+    </div>
+  </div>
+</section>
+
+<!-- ===== 3. MOTIVUL LITERAR ===== -->
+<section id="motiv">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>Motivul Literar</h2>
+  </div>
+  <div class="card red">
+    <strong>Definiție:</strong> Motivul literar este o unitate tematică minimă, o imagine, situație sau idee care se repetă în cadrul unui text sau în literatura universală, contribuind la dezvoltarea temei.
+  </div>
+  <p><strong>Diferența față de temă:</strong> Tema = ideea centrală generală; Motivul = elementul concret care ilustrează tema.</p>
+  <p>Exemplu: Tema = iubirea → Motive: luna, lacul, noaptea, floarea, privirea, oglinda etc.</p>
+
+  <h3>Motive frecvente în literatura română</h3>
+  <table>
+    <tr><th>Motivul</th><th>Ce simbolizează / ce rol are</th><th>Unde apare</th></tr>
+    <tr><td>Luna</td><td>Romantism, mister, iubire, melancolie</td><td>Eminescu – <em>Lacul</em>, <em>Sara pe deal</em></td></tr>
+    <tr><td>Codrul / Pădurea</td><td>Refugiu, eternitate, prietenie, patrie</td><td>Eminescu – <em>Revedere</em>, <em>Ce te legeni</em></td></tr>
+    <tr><td>Marea</td><td>Infinit, moarte, libertate</td><td>Eminescu – <em>Mai am un singur dor</em></td></tr>
+    <tr><td>Lacul</td><td>Iubire neîmplinită, visare, introspecție</td><td>Eminescu – <em>Lacul</em></td></tr>
+    <tr><td>Timpul</td><td>Trecere, nostalgie, efemer vs. etern</td><td>Eminescu – <em>Odă (în metru antic)</em></td></tr>
+    <tr><td>Steaua / Luceafărul</td><td>Ideal, geniu izolat, iubire imposibilă</td><td>Eminescu – <em>Luceafărul</em></td></tr>
+    <tr><td>Floarea</td><td>Fragilitate, frumusețe trecătoare, iubire</td><td>Numeroase poezii</td></tr>
+  </table>
+
+  <h3>Cum comentezi un motiv la teză</h3>
+  <div class="card green">
+    <strong>Structura comentariului:</strong><br>
+    1. Numești motivul; 2. Identifici unde apare în text (citat); 3. Explici ce semnifică în context; 4. Arăți cum contribuie la tema textului.
+  </div>
+  <div class="ex-text">Exemplu: „Motivul codrului apare în versul «Codrule, codruțule» și reprezintă confesorul etern al eului liric, receptacul al tainelor și al sentimentelor umane. Codrul simbolizează permanența față de efemerul uman, contribuind la tema timpului și a naturii ca martor al existenței."</div>
+</section>
+
+<!-- ===== 4. SIMBOLUL LITERAR ===== -->
+<section id="simbol">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>Simbolul Literar</h2>
+  </div>
+  <div class="card red">
+    <strong>Definiție:</strong> Simbolul este un cuvânt, obiect sau imagine care, pe lângă sensul propriu, dobândește un sens figurat convențional sau creat de autor, cu o semnificație mai profundă, uneori universală.
+  </div>
+  <p><strong>Diferența simbol vs. motiv:</strong> Motivul se repetă și structurează narațiunea; simbolul condensează o semnificație multiplă într-o singură imagine.</p>
+
+  <h3>Simboluri frecvente</h3>
+  <div class="grid2">
+    <div class="tip-text"><div class="tip-name">Luceafărul</div>Simbolul geniului izolat, al omului superior condamnat la singurătate prin diferența față de ceilalți.</div>
+    <div class="tip-text"><div class="tip-name">Floarea albastră</div>Simbolul romantismului german (Novalis), al idealului inaccesibil, al visului de iubire perfectă.</div>
+    <div class="tip-text"><div class="tip-name">Lacul</div>Simbol al adâncimilor sufletești, al iubirii contemplative și al introspecției.</div>
+    <div class="tip-text"><div class="tip-name">Crucea</div>Simbol creștin al suferinței, mântuirii și sacrificiului.</div>
+    <div class="tip-text"><div class="tip-name">Noaptea</div>Simbol al misterului, morții, dar și al visului și iubirii romantice.</div>
+    <div class="tip-text"><div class="tip-name">Izvorul / Apa</div>Simbol al vieții, purității, originii, dar și al timpului curgător.</div>
+  </div>
+
+  <h3>Cum comentezi un simbol</h3>
+  <div class="card green">
+    1. Identifici cuvântul/imaginea simbol; 2. Precizezi sensul propriu (denotativ); 3. Explici sensul simbolic (conotativ); 4. Raportezi la tema și mesajul textului.
+  </div>
+  <div class="ex-text">Exemplu: „Luceafărul este simbolul central al poemului eminescian. La nivel denotativ, este o stea (planeta Venus). La nivel simbolic, reprezintă geniul uman — ființă superioară, nemuritoare, dar condamnată la singurătate din cauza incompatibilității cu lumea comună. Simbolul exprimă tema romantică a înstrăinării geniului."</div>
+</section>
+
+<!-- ===== 5. TEXT ARGUMENTATIV ===== -->
+<section id="argumentativ">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>Textul Argumentativ</h2>
+  </div>
+  <div class="card red">
+    <strong>Definiție:</strong> Textul argumentativ prezintă un punct de vedere (teză) susținut prin argumente și exemple, cu scopul de a convinge cititorul.
+  </div>
+
+  <h3>Structura obligatorie</h3>
+  <div class="card"><strong>1. Introducere / Ipoteză</strong> — Prezinți tema și formulezi teza (punctul tău de vedere clar). Exemplu: „Consider că lectura este esențială pentru formarea personalității unui tânăr, deoarece..."</div>
+  <div class="card"><strong>2. Cuprins — Argumente (minim 2)</strong><br>
+    — <em>Argument 1:</em> Enunți argumentul → Il explici → Dai exemplu concret<br>
+    — <em>Argument 2:</em> La fel, altă perspectivă<br>
+    Poți adăuga și un contraargument pe care îl combați = demonstrezi că știi să gândești critic.
+  </div>
+  <div class="card"><strong>3. Concluzie</strong> — Reiei teza cu alte cuvinte, tragi concluzia logică din argumente. NU adaugi informații noi!</div>
+
+  <h3>Conectori argumentativi (obligatorii!)</h3>
+  <table>
+    <tr><th>Rol</th><th>Cuvinte / expresii</th></tr>
+    <tr><td>Introducere teză</td><td>Consider că..., În opinia mea..., Din punctul meu de vedere...</td></tr>
+    <tr><td>Adăugare argument</td><td>În primul rând..., În al doilea rând..., De asemenea..., Mai mult decât atât...</td></tr>
+    <tr><td>Exemplificare</td><td>De exemplu..., Astfel..., Spre exemplu..., Un exemplu relevant este...</td></tr>
+    <tr><td>Contraargument</td><td>Deși unii susțin că..., Chiar dacă..., Cu toate că...</td></tr>
+    <tr><td>Concluzie</td><td>Prin urmare..., Astfel..., În concluzie..., Deci...</td></tr>
+  </table>
+
+  <h3>Model scurt complet</h3>
+  <div class="doc-template">Tema: „Lectura formează personalitatea"
+
+Introducere: Consider că lectura este una dintre cele mai importante activități 
+pentru formarea unui tânăr, deoarece dezvoltă gândirea critică și empatia.
+
+Argument 1: În primul rând, lectura îmbogățește vocabularul și capacitatea 
+de exprimare. Citind regulat, tinerii asimilează structuri lingvistice complexe 
+și nuanțe ale limbii, ceea ce le permite să se exprime clar și precis. De exemplu, 
+studiile arată că elevii care citesc zilnic obțin rezultate mai bune la comunicare.
+
+Argument 2: În al doilea rând, cărțile dezvoltă empatia. Intrând în lumea 
+personajelor, cititorul înțelege perspective diferite de ale sale și devine 
+mai deschis față de ceilalți. Spre exemplu, romanele realiste ne pun față 
+în față cu destine diverse, lărgindu-ne orizontul emoțional.
+
+Concluzie: Prin urmare, lectura este un instrument esențial de formare 
+personală, care îmbogățește atât mintea, cât și sufletul tânărului cititor.</div>
+</section>
+
+<!-- ===== 6. DOCUMENTE OFICIALE ===== -->
+<section id="documente">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <h2>Documente Oficiale</h2>
+  </div>
+
+  <h3>Invitația</h3>
+  <div class="card blue">Scop: A invita pe cineva la un eveniment. Ton: politicos, cald, clar. Elementele obligatorii: destinatar, eveniment, data/ora/locul, semnătură.</div>
+  <div class="doc-template">                        INVITAȚIE
+
+Stimate domnule/doamnă [Nume],
+   Avem plăcerea de a vă invita la [denumirea evenimentului],
+care va avea loc în data de [zi, lună, an], ora [HH:MM],
+la [adresa/locul].
+
+   Prezența dumneavoastră ne va onora.
+
+   Cu stimă,
+   [Numele organizatorului / instituției]
+   [Data]</div>
+
+  <h3>Anunțul</h3>
+  <div class="card blue">Scop: A informa publicul despre un eveniment sau o situație. Ton: neutru, concis, informativ. Structura: titlu ANUNȚ → informații esențiale (cine, ce, când, unde, cum).</div>
+  <div class="doc-template">                          ANUNȚ
+
+   Școala Gimnazială nr. [X] aduce la cunoștința elevilor și 
+părinților că în data de [zi, lună, an], ora [HH:MM], 
+va avea loc [descrierea evenimentului], în sala [nr./locul].
+
+   Participarea este [obligatorie / liberă].
+   
+   Direcțiunea</div>
+
+  <h3>Cererea</h3>
+  <div class="card blue">Scop: A solicita ceva oficial unei instituții/autorități. Ton: formal, respectuos. Structura: antet (emitent → destinatar) → formulă de adresare → conținut (motivul cererii) → ce se solicită → formula de încheiere → semnătură → dată.</div>
+  <div class="doc-template">Numele și prenumele: [.....................]         
+Adresa: [....................................]
+Telefon: [....................................]
+
+Către,
+Conducerea [Instituției / Școlii / Primăriei etc.]
+
+   Subsemnatul/a [Nume Prenume], domiciliat/ă în [localitatea], 
+str. [...], nr. [...], vă rog să binevoiți a-mi aproba 
+[formulezi concret cererea: ex. scutire de la ..., acordarea ..., 
+înscrierea la ...].
+
+   Motivez această cerere prin faptul că [explici motivul].
+
+   Anexez prezentei cereri următoarele documente: [lista, dacă e cazul].
+
+   În speranța unui răspuns favorabil, vă mulțumesc.
+
+   Cu respect,
+   [Semnătura]                         [Data: zi.lună.an]</div>
+
+  <h3>Procura</h3>
+  <div class="card blue">Scop: Împuternicirea unei alte persoane să acționeze în locul tău legal. Ton: strict formal, juridic. Elementele: mandant (cel care dă procura), mandatar (cel care primește), obiectul mandatului, semnături, data.</div>
+  <div class="doc-template">                          PROCURĂ
+
+   Eu, subsemnatul/a [Nume Prenume Mandant], posesor/posesoare 
+al/a CI seria [...] nr. [...], eliberat/ă de [...], 
+CNP [...], domiciliat/ă în [...],
+
+   împuternicesc prin prezenta pe [Nume Prenume Mandatar], 
+posesor/posesoare al/a CI seria [...] nr. [...], 
+domiciliat/ă în [...],
+
+   să mă reprezinte în fața [instituției / autorității] în 
+vederea [descrierea exactă a acțiunii: ridicarea unui colet, 
+semnarea unui act, etc.].
+
+   Prezenta procură este valabilă până la data de [...].
+
+   Mandant: [Semnătura]                  Data: [zi.lună.an]
+   Mandatar: [Semnătura]</div>
+</section>
+
+<!-- ===== 7. PUNCTUATIA ===== -->
+<section id="punctuatie">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <h2>Regulile de Punctuație</h2>
+  </div>
+
+  <div class="punct-box">
+    <div class="punct-simbol">.</div>
+    <div>
+      <div class="punct-name">Punctul</div>
+      Se pune la sfârșitul unei propoziții enunțiative (afirmative sau negative). Marchează o pauză completă, un gând încheiat. Exemplu: <em>Elevul a citit cartea.</em>
+    </div>
+  </div>
+
+  <div class="punct-box">
+    <div class="punct-simbol">,</div>
+    <div>
+      <div class="punct-name">Virgula</div>
+      <ul class="lista">
+        <li>Între termenii unei enumerații: <em>„Câmpuri, dealuri, munți..."</em></li>
+        <li>Înaintea conjuncțiilor coordonatoare adversative (dar, însă, ci): <em>„Vreau să vin, dar nu pot."</em></li>
+        <li>Izolarea apozițiilor și a elementelor incidente: <em>„Eminescu, poetul național, a trăit..."</em></li>
+        <li>Izolarea propozițiilor circumstanțiale aflate înaintea regentei: <em>„Când a venit, toți s-au bucurat."</em></li>
+        <li>NU se pune virgulă înainte de „că", „să", „dacă" atunci când introduc subordonate.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card blue" style="margin:10px 0">
+    <strong>Cum comentezi de ce s-a pus o virgulă:</strong><br>
+    Exemplu: <em>„Când a sosit trenul, oamenii s-au grăbit."</em><br>
+    Virgula se pune deoarece propoziția circumstanțială de timp (<em>„Când a sosit trenul"</em>) este plasată <strong>înaintea propoziției principale</strong>. Conform regulilor gramaticale, subordonata circumstanțială antepusă se desparte de regentă prin virgulă, pentru a marca limita dintre cele două propoziții și a ușura înțelegerea relației sintactice.
+  </div>
+
+  <div class="punct-box">
+    <div class="punct-simbol">;</div>
+    <div>
+      <div class="punct-name">Punctul și virgula</div>
+      Se pune între propoziții/fraze coordonate care au ele însele virgule înăuntru (pentru claritate), sau când enumerăm elemente complexe. Marchează o pauză mai lungă decât virgula, mai scurtă decât punctul. Exemplu: <em>„A citit mult; a scris puțin."</em>
+    </div>
+  </div>
+
+  <div class="punct-box">
+    <div class="punct-simbol">:</div>
+    <div>
+      <div class="punct-name">Două puncte</div>
+      <ul class="lista">
+        <li>Înaintea unei enumerații: <em>„Are trei pasiuni: lectura, muzica și sportul."</em></li>
+        <li>Înaintea vorbirii directe: <em>„El a spus: «Voi veni mâine.»"</em></li>
+        <li>Înaintea unei explicații sau concluzii: <em>„Totul era clar: trebuia să plece."</em></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="punct-box">
+    <div class="punct-simbol">?</div>
+    <div>
+      <div class="punct-name">Semnul întrebării</div>
+      Se pune la sfârșitul propozițiilor interogative directe: <em>„Unde mergi?"</em> NU se pune în interogativele indirecte: <em>„Nu știu unde mergi."</em> (propoziție enunțiativă → punct)
+    </div>
+  </div>
+
+  <div class="punct-box">
+    <div class="punct-simbol">!</div>
+    <div>
+      <div class="punct-name">Semnul exclamării</div>
+      Se pune la sfârșitul propozițiilor exclamative și imperative: <em>„Ce frumos!"</em> / <em>„Vino imediat!"</em> Marchează emoție puternică, ordin, admirație.
+    </div>
+  </div>
+
+  <div class="punct-box">
+    <div class="punct-simbol">—</div>
+    <div>
+      <div class="punct-name">Linia de dialog / Pauza</div>
+      <ul class="lista">
+        <li>Marchează începutul replicilor în dialog: <em>— Bună ziua! / — Bună!</em></li>
+        <li>Izolează o explicație sau apoziție (în loc de paranteze): <em>„Prietenul meu — cel mai bun — a plecat."</em></li>
+        <li>Marchează o pauză retorică sau o schimbare de idee bruscă.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 8. CRATIMA ===== -->
+<section id="cratima">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <h2>Cratima (—) și scrierea cu cratimă</h2>
+  </div>
+  <div class="card red">
+    <strong>Cratima</strong> este semnul ortografic (-) care leagă cuvinte sau indică elidarea unui sunet. Este mai scurtă decât linia de pauză (—).
+  </div>
+
+  <h3>Când se scrie cu cratimă</h3>
+  <table>
+    <tr><th>Situația</th><th>Exemple</th><th>Explicație</th></tr>
+    <tr><td>Fuziunea fonetică (cliticizare)</td><td>mi-a dat, i-am spus, s-a dus, l-a văzut</td><td>Pronume neaccentuate care se alipesc verbului</td></tr>
+    <tr><td>Elidarea vocalei finale</td><td>de-a lungul, într-un, dintr-o, c-am văzut</td><td>Vocala finală a prepoziției cade înainte de vocală</td></tr>
+    <tr><td>Numere compuse</td><td>douăzeci-și-trei (mai rar; azi se scrie separat)</td><td>Forme vechi sau poetice</td></tr>
+    <tr><td>Cuvinte compuse</td><td>floarea-soarelui, câine-lup, bună-voință</td><td>Substantive compuse cu legătură stabilizată</td></tr>
+    <tr><td>Repetiție expresivă</td><td>încet-încet, tare-tare, hai-hui</td><td>Formă expresivă, ritm</td></tr>
+    <tr><td>Vocativul (mai ales în poezie)</td><td>„Codrule-codruțule" (Eminescu)</td><td>Fuziune fonetică poetică, apocopă</td></tr>
+    <tr><td>Prefixe legate direct</td><td>anti-globalizare, ex-prieten (cu cratimă), non-stop</td><td>Unele prefixe cer cratimă (verifică DOOM)</td></tr>
+  </table>
+
+  <h3>Când NU se scrie cu cratimă (ci separat sau fără)</h3>
+  <table>
+    <tr><th>Situația</th><th>Exemplu corect</th><th>Greșeala frecventă</th></tr>
+    <tr><td>Pronume + verb fără fuziune</td><td>El a plecat.</td><td>El-a plecat ✗</td></tr>
+    <tr><td>Cuvinte compuse fără cratimă</td><td>fotbal, portavoce, binevenit</td><td>port-voce ✗</td></tr>
+    <tr><td>„nu" + verb</td><td>nu știu, nu vine</td><td>nu-știu ✗ (excepție: „n-am")</td></tr>
+  </table>
+  <div class="nota">Regula esențială: cratima apare când două cuvinte se pronunță împreună, fără pauză, cu contopire sonoră. Dacă le pronunți clar separat → fără cratimă.</div>
+</section>
+
+<!-- ===== 9. TIPURI DE TEXT ===== -->
+<section id="tipuri">
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <h2>Cum identifici tipul textului / poeziei</h2>
+  </div>
+
+  <h3>Tipuri de texte în proză</h3>
+  <div class="tip-text">
+    <div class="tip-name">1. Textul narativ</div>
+    <strong>Ce este:</strong> Prezintă o acțiune, un șir de întâmplări, cu personaje, într-un timp și spațiu date.<br>
+    <strong>Indicii:</strong> Verbe la trecut (perfectul simplu/compus), acțiune, personaje, narator, dialog, „a zis", „s-a întâmplat".<br>
+    <strong>Tipuri:</strong> basm, schiță, nuvelă, roman, povestire, legendă.<br>
+    <div class="ex-text">„Ion luă mâna Anei și o strânse..." → verbe de acțiune, personaje → text narativ</div>
+  </div>
+
+  <div class="tip-text">
+    <div class="tip-name">2. Textul descriptiv</div>
+    <strong>Ce este:</strong> Prezintă înfățișarea unui loc, a unei persoane sau a unui obiect (portret, tablou).<br>
+    <strong>Indicii:</strong> Adjective multe, verbe de stare (este, se vede, strălucește), enumerații, comparații, absența acțiunii.<br>
+    <strong>Tipuri:</strong> descriere de peisaj (tablou), portret fizic, portret moral.<br>
+    <div class="ex-text">„Soarele apunea leneș, câmpul era auriu și liniștit..." → adjective, imagini statice → text descriptiv</div>
+  </div>
+
+  <div class="tip-text">
+    <div class="tip-name">3. Textul argumentativ</div>
+    <strong>Ce este:</strong> Prezintă și susține un punct de vedere prin argumente și exemple.<br>
+    <strong>Indicii:</strong> „consider că", „în opinia mea", „deoarece", „astfel", „în concluzie", absența personajelor.<br>
+    <div class="ex-text">„Consider că sportul este esențial pentru sănătate, deoarece..." → teză + argumente</div>
+  </div>
+
+  <div class="tip-text">
+    <div class="tip-name">4. Textul informativ / explicativ</div>
+    <strong>Ce este:</strong> Transmite informații obiective, explică fenomene sau procese.<br>
+    <strong>Indicii:</strong> Limbaj obiectiv, termeni tehnici/științifici, structură clară, absența opiniei personale.<br>
+    <div class="ex-text">Enciclopedii, articole științifice, instrucțiuni, manuale.</div>
+  </div>
+
+  <div class="tip-text">
+    <div class="tip-name">5. Textul dialogat</div>
+    <strong>Ce este:</strong> Constă din schimb de replici între personaje.<br>
+    <strong>Indicii:</strong> Liniuțe de dialog (—), verbe de vorbire (a spus, a întrebat, a răspuns), persoana I și a II-a.<br>
+    <div class="ex-text">— Ce faci? / — Bine, mulțumesc. → liniuțe, replici = text dialogat</div>
+  </div>
+
+  <h3>Tipuri de texte poetice</h3>
+  <div class="tip-text">
+    <div class="tip-name">1. Poezia lirică</div>
+    <strong>Ce este:</strong> Exprimă direct sentimentele și trăirile eului liric.<br>
+    <strong>Indicii:</strong> Persoana I, verbe de sentiment, figuri de stil bogate, muzicalitate, rimă/ritm, absența acțiunii concrete.<br>
+    <strong>Tipuri:</strong> elegie (tristețe, doliu), odă (admirație, glorificare), idilă (iubire la natură), meditație (reflecție filozofică), pastel (natură).<br>
+    <div class="ex-text">„Mai am un singur dor..." → persoana I, sentiment, muzicalitate → lirică elegiată</div>
+  </div>
+
+  <div class="tip-text">
+    <div class="tip-name">2. Poezia epică</div>
+    <strong>Ce este:</strong> Are o acțiune, personaje, narator — dar în versuri.<br>
+    <strong>Indicii:</strong> Narare în versuri, personaje, dialog, acțiune, narator.<br>
+    <strong>Tipuri:</strong> baladă, poem epic, epopee, poemul eroic.<br>
+    <div class="ex-text"><em>Luceafărul</em> (Eminescu) = poem romantic cu elemente epice (narațiune) și lirice (meditație).</div>
+  </div>
+
+  <div class="tip-text">
+    <div class="tip-name">3. Poezia dramatică</div>
+    <strong>Ce este:</strong> Construită pe conflict, dialog, tensiune.<br>
+    <strong>Indicii:</strong> Dialog în versuri, conflicte, personaje opuse.
+  </div>
+
+  <h3>Pași pentru a identifica tipul textului</h3>
+  <div class="card green">
+    <strong>1.</strong> E în versuri sau proză?<br>
+    <strong>2.</strong> (Dacă versuri) Are narațiune cu personaje → epic; Exprimă sentimente la persoana I → liric; Are dialog și conflict → dramatic.<br>
+    <strong>3.</strong> (Dacă proză) Are acțiune și personaje → narativ; Descrie fără acțiune → descriptiv; Susține o teză → argumentativ; Informează obiectiv → informativ.<br>
+    <strong>4.</strong> Precizează subgenul: elegie, pastel, odă, baladă, schiță, nuvelă etc.<br>
+    <strong>5.</strong> Justifică prin cel puțin 2 indicii din text (citat scurt + explicație).
+  </div>
+
+  <div class="nota">La teză, nu e suficient să spui „este o poezie lirică". Trebuie să justifici: „Este o poezie lirică deoarece eul liric se exprimă la persoana I («Mai am un singur dor»), exprimând direct sentimentul de resemnare, și prin muzicalitatea versurilor create prin rimă și ritm."</div>
+</section>
+
+</main>
+
+<footer>
+  Ghid pregătit pentru teza la Limba și Literatura Română &nbsp;·&nbsp; Mult succes! 📖
+</footer>
+
+</body>
+</html>
