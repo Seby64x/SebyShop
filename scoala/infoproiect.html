@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E Minunat Să Fii Sănătos</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #1a3a2a;
+    --green-mid: #2d6a4f;
+    --green-light: #52b788;
+    --green-pale: #b7e4c7;
+    --cream: #f8f4ec;
+    --warm-white: #fdfaf5;
+    --accent-gold: #c9a84c;
+    --text-dark: #1c2b22;
+    --text-mid: #3d5a47;
+    --text-light: #6b8f71;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--warm-white);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--green-deep);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 60px 20px;
+  }
+
+  .hero-bg-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(82,183,136,.18) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(45,106,79,.25) 0%, transparent 50%);
+  }
+
+  .hero-leaf {
+    position: absolute;
+    opacity: .07;
+    font-size: 260px;
+    line-height: 1;
+    user-select: none;
+    pointer-events: none;
+  }
+  .hero-leaf:nth-child(2) { top: -40px; left: -40px; transform: rotate(-20deg); }
+  .hero-leaf:nth-child(3) { bottom: -60px; right: -30px; transform: rotate(160deg); }
+
+  .hero-content {
+    position: relative;
+    text-align: center;
+    max-width: 760px;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    background: rgba(82,183,136,.22);
+    color: var(--green-pale);
+    font-size: .78rem;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    border: 1px solid rgba(82,183,136,.35);
+    animation: fadeDown .8s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.05;
+    animation: fadeDown .9s .1s ease both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--green-light);
+  }
+
+  .hero-sub {
+    margin-top: 28px;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: rgba(255,255,255,.65);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeDown 1s .2s ease both;
+  }
+
+  .hero-scroll {
+    margin-top: 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeDown 1s .4s ease both;
+  }
+
+  .hero-scroll span {
+    font-size: .75rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.4);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, rgba(82,183,136,.7), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: .4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.15); }
+  }
+
+  /* ── NAV DOTS ── */
+  .nav-dots {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(45,106,79,.3);
+    border: none;
+    cursor: pointer;
+    transition: all .3s;
+    padding: 0;
+  }
+
+  .nav-dot.active, .nav-dot:hover {
+    background: var(--green-mid);
+    transform: scale(1.4);
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 100px 20px;
+    position: relative;
+  }
+
+  .section:nth-child(odd) { background: var(--warm-white); }
+  .section:nth-child(even) { background: var(--cream); }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+  }
+
+  .section-inner.reverse { direction: rtl; }
+  .section-inner.reverse > * { direction: ltr; }
+
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 7rem;
+    font-weight: 900;
+    color: var(--green-pale);
+    line-height: 1;
+    margin-bottom: -20px;
+    display: block;
+  }
+
+  .section-label {
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    color: var(--green-deep);
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  .section-body {
+    font-size: 1.02rem;
+    color: var(--text-mid);
+    line-height: 1.8;
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  .points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: .97rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  .points li::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    min-width: 7px;
+    border-radius: 50%;
+    background: var(--green-light);
+    margin-top: 7px;
+  }
+
+  /* ── IMAGE BLOCK ── */
+  .img-block {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .img-block img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    display: block;
+    border-radius: 24px;
+    transition: transform .6s ease;
+  }
+
+  .img-block:hover img { transform: scale(1.03); }
+
+  .img-block::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(26,58,42,.12) 0%, transparent 60%);
+    border-radius: 24px;
+    pointer-events: none;
+  }
+
+  .img-accent {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--green-pale);
+    z-index: -1;
+  }
+
+  .img-accent.tl { top: -20px; left: -20px; }
+  .img-accent.br { bottom: -20px; right: -20px; }
+
+  /* ── DIVIDER ── */
+  .leaf-divider {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--green-pale);
+    padding: 10px 0;
+    letter-spacing: .3em;
+  }
+
+  /* ── INTRO STRIP ── */
+  .intro-strip {
+    background: var(--green-mid);
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  .intro-strip p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1.2rem, 3vw, 1.9rem);
+    color: rgba(255,255,255,.88);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  .intro-strip p strong {
+    color: var(--green-pale);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--green-deep);
+    color: rgba(255,255,255,.5);
+    text-align: center;
+    padding: 40px 20px;
+    font-size: .88rem;
+    letter-spacing: .04em;
+  }
+
+  footer span { color: var(--green-light); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .section-inner { grid-template-columns: 1fr; gap: 40px; }
+    .section-inner.reverse { direction: ltr; }
+    .nav-dots { display: none; }
+    .img-block img { height: 260px; }
+    .section-num { font-size: 4.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV DOTS -->
+<nav class="nav-dots" id="navDots">
+  <button class="nav-dot active" data-target="hero" title="Intro"></button>
+  <button class="nav-dot" data-target="s1" title="Respirația"></button>
+  <button class="nav-dot" data-target="s2" title="Somnul"></button>
+  <button class="nav-dot" data-target="s3" title="Părul"></button>
+  <button class="nav-dot" data-target="s4" title="A doua barbă"></button>
+  <button class="nav-dot" data-target="s5" title="Sport"></button>
+  <button class="nav-dot" data-target="s6" title="Coșuri"></button>
+  <button class="nav-dot" data-target="s7" title="Postura"></button>
+  <button class="nav-dot" data-target="s8" title="Vânătăi"></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-leaf">🌿</div>
+  <div class="hero-leaf">🌿</div>
+  <div class="hero-content">
+    <div class="hero-tag">Ghid de sănătate</div>
+    <h1>E minunat să fii <em>sănătos</em></h1>
+    <p class="hero-sub">
+      Sănătatea este una dintre cele mai prețioase comori ale vieții. Când avem grijă de corpul nostru, ne simțim mai bine, avem mai multă energie și ne bucurăm din plin de fiecare zi.
+    </p>
+    <div class="hero-scroll">
+      <span>Descoperă</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO STRIP -->
+<div class="intro-strip">
+  <p>„Un corp sănătos este <strong>casa sufletului</strong>. Investiția cea mai importantă pe care o poți face este în propria ta sănătate."</p>
+</div>
+
+<!-- 1. RESPIRAȚIA -->
+<section class="section" id="s1">
+  <div class="container">
+    <div class="section-inner reveal">
+      <div class="text-col">
+        <span class="section-num">01</span>
+        <span class="section-label">Respirație</span>
+        <h2 class="section-title">Respirația pe nas vs. respirația pe gură</h2>
+        <p class="section-body">
+          Respirația este actul vital pe care îl facem de mii de ori pe zi, dar puțini știm că <em>modul</em> în care respirăm face o diferență enormă. Nasul este un filtru natural sofisticat: încălzește, umidifică și purifică aerul înainte ca acesta să ajungă la plămâni. Respirația pe gură, în schimb, elimină toate aceste protecții naturale și poate cauza o serie de probleme de sănătate pe termen lung.
+        </p>
+        <ul class="points">
+          <li>Respirația pe nas filtrează bacteriile și particulele fine din aer</li>
+          <li>Nasul produce oxid nitric, care dilată vasele de sânge și crește absorbția oxigenului cu până la 18%</li>
+          <li>Respirația pe gură usucă mucoasele și favorizează cariile dentare</li>
+          <li>Cauze frecvente: nas înfundat, alergii sezoniere, obiceiuri formate în copilărie</li>
+          <li>Soluții: lavaj nazal cu apă sărată, exerciții de respirație, tratarea alergiilor</li>
+        </ul>
+      </div>
+      <div class="img-col">
+        <div class="img-block">
+          <div class="img-accent tl"></div>
+          <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80" alt="Respirație sănătoasă" loading="lazy">
+          <div class="img-accent br"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. SOMNUL -->
+<section class="section" id="s2">
+  <div class="container">
+    <div class="section-inner reverse reveal">
+      <div class="text-col">
+        <span class="section-num">02</span>
+        <span class="section-label">Somn</span>
+        <h2 class="section-title">Pozițiile de somn și impactul lor</h2>
+        <p class="section-body">
+          Petrecem aproximativ o treime din viață dormind, iar poziția în care dormim influențează direct sănătatea coloanei vertebrale, a organelor interne și calitatea odihnei. Nu există o poziție universală perfectă, dar există câteva recomandări esențiale care pot face diferența dintre un somn restaurator și dureri de dimineață.
+        </p>
+        <ul class="points">
+          <li>Pe spate: poziția ideală pentru coloana vertebrală, previne ridurile faciale</li>
+          <li>Pe partea stângă: stimulează digestia, reduce refluxul gastric și ajută circulația limfatică</li>
+          <li>Pe partea dreaptă: bună pentru inimă, dar poate accentua refluxul acid</li>
+          <li>Pe burtă: cea mai dăunătoare – suprasolicită coloana cervicală și lombară</li>
+          <li>Perna potrivită este la fel de importantă ca poziția de somn</li>
+        </ul>
+      </div>
+      <div class="img-col">
+        <div class="img-block">
+          <div class="img-accent tl"></div>
+          <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800&q=80" alt="Poziții de somn" loading="lazy">
+          <div class="img-accent br"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. PĂRUL -->
+<section class="section" id="s3">
+  <div class="container">
+    <div class="section-inner reveal">
+      <div class="text-col">
+        <span class="section-num">03</span>
+        <span class="section-label">Semnale ale corpului</span>
+        <h2 class="section-title">Părul — oglinda sănătății tale interioare</h2>
+        <p class="section-body">
+          Părul este mult mai mult decât un element estetic — el funcționează ca un adevărat indicator al stării interne a organismului. Medicii pot detecta deficiențe nutriționale, dezechilibre hormonale sau boli sistemice doar analizând structura și comportamentul firului de păr. Acordă atenție semnalelor pe care ți le transmite!
+        </p>
+        <ul class="points">
+          <li>Păr lucios și elastic = organism bine hidratat și nutriit corespunzător</li>
+          <li>Căderea excesivă (peste 100 fire/zi) indică frecvent deficit de fier, zinc sau vitamina D</li>
+          <li>Părul uscat și fragil poate semnala hipotiroidism sau deshidratare cronică</li>
+          <li>Stresul cronic declanșează telogen effluvium – o cădere bruscă a părului la 2–3 luni după un șoc</li>
+          <li>Soluții: dietă bogată în proteine, biotină, omega-3 și consultație medicală la nevoie</li>
+        </ul>
+      </div>
+      <div class="img-col">
+        <div class="img-block">
+          <div class="img-accent tl"></div>
+          <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80" alt="Păr sănătos" loading="lazy">
+          <div class="img-accent br"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. A DOUA BARBĂ -->
+<section class="section" id="s4">
+  <div class="container">
+    <div class="section-inner reverse reveal">
+      <div class="text-col">
+        <span class="section-num">04</span>
+        <span class="section-label">Metabolism</span>
+        <h2 class="section-title">A doua bărbie și rezistența la insulină</h2>
+        <p class="section-body">
+          A doua bărbie nu este doar o problemă estetică — poate fi un semnal metabolic important. Acumularea de grăsime în zona submandibulară este adesea asociată cu rezistența la insulină, o condiție în care celulele corpului nu mai răspund eficient la insulină. Aceasta precede diabetul de tip 2 și afectează milioane de oameni fără ca ei să știe.
+        </p>
+        <ul class="points">
+          <li>Consumul excesiv de zahăr rafinat și carbohidrați simpli crește nivelul de insulină</li>
+          <li>Sedentarismul reduce sensibilitatea celulelor la insulină</li>
+          <li>Simptome asociate: oboseală după mese, poftă de dulce, dificultăți de concentrare</li>
+          <li>Soluții: alimentație cu indice glicemic scăzut, exerciții fizice regulate (minim 30 min/zi)</li>
+          <li>Postul intermitent și reducerea zahărului pot inversa rezistența la insulină</li>
+        </ul>
+      </div>
+      <div class="img-col">
+        <div class="img-block">
+          <div class="img-accent tl"></div>
+          <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80" alt="Alimentație sănătoasă" loading="lazy">
+          <div class="img-accent br"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. SPORT -->
+<section class="section" id="s5">
+  <div class="container">
+    <div class="section-inner reveal">
+      <div class="text-col">
+        <span class="section-num">05</span>
+        <span class="section-label">Mișcare</span>
+        <h2 class="section-title">Beneficiile sportului asupra corpului și minții</h2>
+        <p class="section-body">
+          Mișcarea regulată este probabil cel mai puternic medicament gratuit de care dispui. Studiile arată că 150 de minute de activitate moderată pe săptămână reduc riscul de boli cardiovasculare cu 35%, de diabet cu 50% și prelungesc speranța de viață cu până la 7 ani. Nu trebuie să fii atlet — orice mișcare contează!
+        </p>
+        <ul class="points">
+          <li>Întărește mușchii, oasele și articulațiile — reduce osteoporoza cu vârsta</li>
+          <li>Îmbunătățește circulația și scade tensiunea arterială în mod natural</li>
+          <li>Eliberează endorfine, serotonină și dopamină — combate depresia și anxietatea</li>
+          <li>Crește capacitatea cognitivă și memoria prin neuroplasticitate</li>
+          <li>Reglează somnul și crește calitatea odihnei nocturne</li>
+          <li>30 de minute de mers pe jos pe zi au efecte măsurabile în câteva săptămâni</li>
+        </ul>
+      </div>
+      <div class="img-col">
+        <div class="img-block">
+          <div class="img-accent tl"></div>
+          <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80" alt="Sport și exerciții" loading="lazy">
+          <div class="img-accent br"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. COȘURI -->
+<section class="section" id="s6">
+  <div class="container">
+    <div class="section-inner reverse reveal">
+      <div class="text-col">
+        <span class="section-num">06</span>
+        <span class="section-label">Îngrijirea pielii</span>
+        <h2 class="section-title">Îngrijirea corectă a tenului și prevenirea coșurilor</h2>
+        <p class="section-body">
+          Acneea afectează aproximativ 85% dintre tineri și mulți adulți. Deși este adesea considerată superficială, ea poate afecta semnificativ stima de sine. Vestea bună: cu o rutină corectă și câteva ajustări ale stilului de viață, tenul poate fi îmbunătățit considerabil fără produse agresive sau tratamente costisitoare.
+        </p>
+        <ul class="points">
+          <li>Spală fața de două ori pe zi cu un produs blând, adaptat tipului de ten</li>
+          <li>Evită să atingi fața cu mâinile nespălate — transferi bacterii și sebum</li>
+          <li>Alimentele cu indice glicemic ridicat (zahăr, fast-food) agravează acneea</li>
+          <li>Hidratarea insuficientă face pielea să producă mai mult sebum compensatoriu</li>
+          <li>Schimbă față de pernă la fiecare 2–3 zile și curăță ecranul telefonului regulat</li>
+          <li>Consultă un dermatolog dacă acneea este persistentă sau inflamată</li>
+        </ul>
+      </div>
+      <div class="img-col">
+        <div class="img-block">
+          <div class="img-accent tl"></div>
+          <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&q=80" alt="Îngrijirea pielii" loading="lazy">
+          <div class="img-accent br"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. POSTURA -->
+<section class="section" id="s7">
+  <div class="container">
+    <div class="section-inner reveal">
+      <div class="text-col">
+        <span class="section-num">07</span>
+        <span class="section-label">Postura</span>
+        <h2 class="section-title">Spatele drept — fundația unui corp sănătos</h2>
+        <p class="section-body">
+          Postura corectă este mult mai mult decât aspect fizic. Coloana vertebrală dreaptă protejează nervii, permite organelor interne să funcționeze optim și transmite un mesaj puternic prin limbajul corpului. Odată cu creșterea timpului petrecut la birou și pe telefon, problemele de postură au atins niveluri epidemice.
+        </p>
+        <ul class="points">
+          <li>O postură corectă reduce presiunea pe discurile intervertebrale cu până la 50%</li>
+          <li>Spatele rotunjit comprimă plămânii și reduce capacitatea respiratorie</li>
+          <li>La birou: monitorul la nivelul ochilor, picioarele plate pe podea, spatele sprijinit</li>
+          <li>Exercițiile de întărire a musculaturii core sunt esențiale pentru menținerea posturii</li>
+          <li>Stretching-ul zilnic pentru piept și umeri contracarează efectele statului la birou</li>
+          <li>„Text neck": fiecare 15° de aplecare a capului adaugă ~12 kg presiune pe coloana cervicală</li>
+        </ul>
+      </div>
+      <div class="img-col">
+        <div class="img-block">
+          <div class="img-accent tl"></div>
+          <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80" alt="Postură corectă" loading="lazy">
+          <div class="img-accent br"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. VÂNĂTĂI -->
+<section class="section" id="s8">
+  <div class="container">
+    <div class="section-inner reverse reveal">
+      <div class="text-col">
+        <span class="section-num">08</span>
+        <span class="section-label">Semnale de alarmă</span>
+        <h2 class="section-title">Vânătăile fără motiv aparent</h2>
+        <p class="section-body">
+          Dacă observi că faci vânătăi ușor, fără să-ți amintești vreo lovitură semnificativă, corpul tău ar putea să îți transmită un mesaj important. Vânătăile apar când capilarele (vasele mici de sânge) se sparg și sângele se infiltrează în țesuturi. Când se întâmplă fără traumă evidentă, investigația este necesară.
+        </p>
+        <ul class="points">
+          <li>Deficitul de vitamina C slăbește pereții vasculari și favorizează vânătăile ușoare</li>
+          <li>Vitamina K este esențială pentru coagulare — lipsa ei prelungește vindecarea</li>
+          <li>Deficitul de trombocite (plachete) reduce capacitatea sângelui de a coagula</li>
+          <li>Unele medicamente (aspirină, ibuprofen, anticoagulante) subțiază sângele</li>
+          <li>Vânătăile pe abdomen, spate sau față fără traumă necesită consultație medicală urgentă</li>
+          <li>Soluție preventivă: dietă bogată în fructe, legume și vitamina C (citrice, ardei roșu, broccoli)</li>
+        </ul>
+      </div>
+      <div class="img-col">
+        <div class="img-block">
+          <div class="img-accent tl"></div>
+          <img src="https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=800&q=80" alt="Nutriție și sănătate" loading="lazy">
+          <div class="img-accent br"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Fă din sănătate <span>prioritatea ta numărul unu</span> — corpul tău îți va mulțumi.</p>
+  <p style="margin-top:10px; font-size:.78rem; opacity:.5;">© 2025 · E Minunat Să Fii Sănătos</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Nav dots
+  const sections = ['hero','s1','s2','s3','s4','s5','s6','s7','s8'];
+  const dots = document.querySelectorAll('.nav-dot');
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      document.getElementById(sections[i]).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = sections.indexOf(e.target.id);
+        dots.forEach(d => d.classList.remove('active'));
+        if (idx >= 0) dots[idx].classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sectionObserver.observe(el);
+  });
+</script>
+</body>
+</html>
