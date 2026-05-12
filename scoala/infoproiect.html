@@ -738,40 +738,6 @@
   <p style="margin-top:10px; font-size:.78rem; opacity:.5;">© 2025 · E Minunat Să Fii Sănătos</p>
 </footer>
 
-<script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); }
-    });
-  }, { threshold: 0.12 });
-  reveals.forEach(r => observer.observe(r));
 
-  // Nav dots
-  const sections = ['hero','s1','s2','s3','s4','s5','s6','s7','s8'];
-  const dots = document.querySelectorAll('.nav-dot');
-
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      document.getElementById(sections[i]).scrollIntoView({ behavior: 'smooth' });
-    });
-  });
-
-  const sectionObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const idx = sections.indexOf(e.target.id);
-        dots.forEach(d => d.classList.remove('active'));
-        if (idx >= 0) dots[idx].classList.add('active');
-      }
-    });
-  }, { threshold: 0.4 });
-
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) sectionObserver.observe(el);
-  });
-</script>
 </body>
 </html>
