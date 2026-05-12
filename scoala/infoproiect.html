@@ -137,32 +137,113 @@
     50% { opacity: 1; transform: scaleY(1.15); }
   }
 
-  /* ── NAV DOTS ── */
-  .nav-dots {
+  /* ── NAVBAR ── */
+  .navbar {
     position: fixed;
-    right: 24px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 100;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    background: transparent;
+    transition: background .4s ease, backdrop-filter .4s ease, box-shadow .4s ease;
+  }
+
+  .navbar.scrolled {
+    background: rgba(26,58,42,0.96);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 24px rgba(0,0,0,.25);
+  }
+
+  .navbar-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: .01em;
+  }
+
+  .navbar-logo span { color: var(--green-light); }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+  }
+
+  .navbar-links a {
+    color: rgba(255,255,255,.75);
+    text-decoration: none;
+    font-size: .8rem;
+    font-weight: 500;
+    letter-spacing: .04em;
+    padding: 6px 11px;
+    border-radius: 8px;
+    transition: color .25s, background .25s;
+  }
+
+  .navbar-links a:hover,
+  .navbar-links a.active {
+    color: #fff;
+    background: rgba(82,183,136,.2);
+  }
+
+  .hamburger {
+    display: none;
     flex-direction: column;
-    gap: 12px;
-  }
-
-  .nav-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(45,106,79,.3);
-    border: none;
+    gap: 5px;
     cursor: pointer;
-    transition: all .3s;
-    padding: 0;
+    background: none;
+    border: none;
+    padding: 4px;
   }
 
-  .nav-dot.active, .nav-dot:hover {
-    background: var(--green-mid);
-    transform: scale(1.4);
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform .3s, opacity .3s;
+  }
+
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: rgba(26,58,42,.97);
+    backdrop-filter: blur(12px);
+    padding: 16px 20px 24px;
+    z-index: 199;
+    flex-direction: column;
+    gap: 4px;
+    border-top: 1px solid rgba(82,183,136,.2);
+  }
+
+  .mobile-menu.open { display: flex; }
+
+  .mobile-menu a {
+    color: rgba(255,255,255,.8);
+    text-decoration: none;
+    font-size: .95rem;
+    padding: 12px 16px;
+    border-radius: 10px;
+    transition: background .2s, color .2s;
+  }
+
+  .mobile-menu a:hover { background: rgba(82,183,136,.15); color: #fff; }
+
+  @media (max-width: 860px) {
+    .navbar-links { display: none; }
+    .hamburger { display: flex; }
   }
 
   /* ── SECTIONS ── */
@@ -364,18 +445,35 @@
 </head>
 <body>
 
-<!-- NAV DOTS -->
-<nav class="nav-dots" id="navDots">
-  <button class="nav-dot active" data-target="hero" title="Intro"></button>
-  <button class="nav-dot" data-target="s1" title="Respirația"></button>
-  <button class="nav-dot" data-target="s2" title="Somnul"></button>
-  <button class="nav-dot" data-target="s3" title="Părul"></button>
-  <button class="nav-dot" data-target="s4" title="A doua barbă"></button>
-  <button class="nav-dot" data-target="s5" title="Sport"></button>
-  <button class="nav-dot" data-target="s6" title="Coșuri"></button>
-  <button class="nav-dot" data-target="s7" title="Postura"></button>
-  <button class="nav-dot" data-target="s8" title="Vânătăi"></button>
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="#hero" class="navbar-logo">🌿 <span>Sănătate</span></a>
+  <ul class="navbar-links">
+    <li><a href="#s1">Respirație</a></li>
+    <li><a href="#s2">Somn</a></li>
+    <li><a href="#s3">Păr</a></li>
+    <li><a href="#s4">Metabolism</a></li>
+    <li><a href="#s5">Sport</a></li>
+    <li><a href="#s6">Ten</a></li>
+    <li><a href="#s7">Postură</a></li>
+    <li><a href="#s8">Vânătăi</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Meniu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#s1">01 · Respirație</a>
+  <a href="#s2">02 · Somn</a>
+  <a href="#s3">03 · Păr</a>
+  <a href="#s4">04 · Metabolism</a>
+  <a href="#s5">05 · Sport</a>
+  <a href="#s6">06 · Ten</a>
+  <a href="#s7">07 · Postură</a>
+  <a href="#s8">08 · Vânătăi</a>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="hero">
