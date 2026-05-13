@@ -1,0 +1,622 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: transparent; }
+
+#game {
+  font-family: 'Courier New', monospace;
+  background: #0d1117;
+  color: #e6edf3;
+  min-height: 600px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  border: 1px solid #30363d;
+}
+
+.topbar {
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+}
+.topbar .logo { color: #f0883e; font-weight: bold; font-size: 14px; letter-spacing: 2px; }
+.topbar .zone { color: #8b949e; }
+.topbar .zone span { color: #58a6ff; }
+.topbar .time { margin-left: auto; color: #3fb950; }
+
+.main {
+  display: grid;
+  grid-template-columns: 200px 1fr 200px;
+  gap: 0;
+  min-height: 500px;
+}
+
+.panel {
+  background: #0d1117;
+  border-right: 1px solid #30363d;
+  padding: 12px;
+  overflow-y: auto;
+}
+.panel.right { border-right: none; border-left: 1px solid #30363d; }
+
+.panel-title {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #8b949e;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #21262d;
+  padding-bottom: 6px;
+}
+
+.char-portrait {
+  width: 60px; height: 60px;
+  background: #161b22;
+  border: 2px solid #f0883e;
+  border-radius: 8px;
+  margin: 0 auto 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  position: relative;
+}
+
+.char-name { text-align: center; font-size: 13px; font-weight: bold; color: #f0883e; }
+.char-class { text-align: center; font-size: 10px; color: #8b949e; margin-bottom: 10px; }
+
+.stat-row {
+  display: flex; justify-content: space-between;
+  font-size: 11px; margin-bottom: 5px;
+}
+.stat-label { color: #8b949e; }
+.stat-val { color: #e6edf3; font-weight: bold; }
+.stat-val.gold { color: #e3b341; }
+.stat-val.green { color: #3fb950; }
+.stat-val.blue { color: #58a6ff; }
+
+.bar-wrap { margin-bottom: 8px; }
+.bar-label { display: flex; justify-content: space-between; font-size: 10px; color: #8b949e; margin-bottom: 3px; }
+.bar {
+  height: 8px; background: #21262d; border-radius: 4px; overflow: hidden;
+}
+.bar-fill {
+  height: 100%; border-radius: 4px; transition: width 0.5s ease;
+}
+.bar-fill.hp { background: #3fb950; }
+.bar-fill.mp { background: #58a6ff; }
+.bar-fill.xp { background: #f0883e; }
+
+.center-zone { background: #0d1117; padding: 12px; position: relative; }
+
+.combat-area {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 240px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.combat-bg {
+  position: absolute; inset: 0;
+  opacity: 0.05;
+  font-size: 80px;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+
+.fighter { position: relative; z-index: 1; }
+.fighter-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
+
+.fighter-box { text-align: center; }
+.fighter-sprite {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+.fighter-name { font-size: 11px; color: #8b949e; }
+.fighter-hp { font-size: 10px; }
+
+.vs { color: #f0883e; font-size: 18px; font-weight: bold; align-self: center; }
+
+.combat-log {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  padding: 8px;
+  height: 80px;
+  overflow-y: auto;
+  font-size: 10px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.log-line { color: #8b949e; }
+.log-line .dmg { color: #ff7b72; }
+.log-line .heal { color: #3fb950; }
+.log-line .drop { color: #e3b341; }
+.log-line .info { color: #58a6ff; }
+
+.skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+
+.skill-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.skill-card:hover { border-color: #58a6ff; }
+.skill-card.active { border-color: #3fb950; }
+.skill-icon { font-size: 20px; margin-bottom: 4px; }
+.skill-name { font-size: 11px; font-weight: bold; color: #e6edf3; }
+.skill-lvl { font-size: 10px; color: #8b949e; }
+.skill-xp-bar { height: 4px; background: #21262d; border-radius: 2px; margin-top: 5px; overflow: hidden; }
+.skill-xp-fill { height: 100%; background: #58a6ff; border-radius: 2px; transition: width 0.5s; }
+
+.quests-list { display: flex; flex-direction: column; gap: 8px; }
+.quest-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 8px;
+}
+.quest-name { font-size: 11px; font-weight: bold; color: #e3b341; margin-bottom: 4px; }
+.quest-desc { font-size: 10px; color: #8b949e; margin-bottom: 6px; }
+.quest-progress { font-size: 10px; color: #3fb950; }
+.quest-prog-bar { height: 4px; background: #21262d; border-radius: 2px; margin-top: 4px; overflow: hidden; }
+.quest-prog-fill { height: 100%; background: #e3b341; border-radius: 2px; transition: width 0.5s; }
+
+.inv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 8px; }
+.inv-slot {
+  aspect-ratio: 1;
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  position: relative;
+  cursor: default;
+}
+.inv-slot.has-item { border-color: #30363d; }
+.inv-slot .qty {
+  position: absolute; bottom: 1px; right: 3px;
+  font-size: 8px; color: #e3b341;
+}
+
+.bottombar {
+  background: #161b22;
+  border-top: 1px solid #30363d;
+  padding: 8px 16px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 11px; color: #8b949e;
+}
+.btn {
+  background: #21262d; border: 1px solid #30363d; border-radius: 4px;
+  color: #e6edf3; padding: 4px 10px; font-size: 11px; cursor: pointer;
+  font-family: inherit; transition: background 0.15s;
+}
+.btn:hover { background: #30363d; }
+.btn.primary { background: #1f6feb; border-color: #388bfd; }
+.btn.primary:hover { background: #388bfd; }
+.gold-display { color: #e3b341; font-weight: bold; margin-left: auto; }
+
+.dmg-float {
+  position: absolute;
+  font-size: 14px;
+  font-weight: bold;
+  pointer-events: none;
+  animation: floatUp 1.2s ease-out forwards;
+  z-index: 10;
+}
+@keyframes floatUp {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-50px); }
+}
+
+.section-sep { height: 1px; background: #21262d; margin: 10px 0; }
+
+.map-dots { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.zone-dot {
+  background: #21262d; border: 1px solid #30363d; border-radius: 4px;
+  padding: 4px 8px; font-size: 10px; cursor: pointer; color: #8b949e;
+  transition: all 0.15s;
+}
+.zone-dot.active { background: #1f6feb22; border-color: #58a6ff; color: #58a6ff; }
+.zone-dot:hover:not(.active) { border-color: #8b949e; color: #e6edf3; }
+</style>
+
+<div id="game">
+  <div class="topbar">
+    <span class="logo">⚔ IDLEQUEST</span>
+    <span class="zone">Zone: <span id="zone-name">Green Forest</span></span>
+    <span style="color:#8b949e;">Mob: <span id="mob-name" style="color:#ff7b72;">Forest Goblin</span></span>
+    <span class="time" id="clock">00:00</span>
+  </div>
+
+  <div class="main">
+    <div class="panel">
+      <div class="panel-title">Character</div>
+      <div class="char-portrait">🧙</div>
+      <div class="char-name">Adventurer</div>
+      <div class="char-class">⚡ Mage • Lv.<span id="char-lv">1</span></div>
+      <div class="section-sep"></div>
+      <div class="bar-wrap">
+        <div class="bar-label"><span>HP</span><span id="hp-txt">100/100</span></div>
+        <div class="bar"><div class="bar-fill hp" id="hp-bar" style="width:100%"></div></div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-label"><span>MP</span><span id="mp-txt">50/50</span></div>
+        <div class="bar"><div class="bar-fill mp" id="mp-bar" style="width:100%"></div></div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-label"><span>XP</span><span id="xp-txt">0/100</span></div>
+        <div class="bar"><div class="bar-fill xp" id="xp-bar" style="width:0%"></div></div>
+      </div>
+      <div class="section-sep"></div>
+      <div class="stat-row"><span class="stat-label">⚔ ATK</span><span class="stat-val" id="s-atk">12</span></div>
+      <div class="stat-row"><span class="stat-label">🛡 DEF</span><span class="stat-val" id="s-def">5</span></div>
+      <div class="stat-row"><span class="stat-label">💨 SPD</span><span class="stat-val" id="s-spd">8</span></div>
+      <div class="stat-row"><span class="stat-label">✨ MGK</span><span class="stat-val blue" id="s-mgk">15</span></div>
+      <div class="stat-row"><span class="stat-label">🟡 Gold</span><span class="stat-val gold" id="s-gold">0</span></div>
+      <div class="section-sep"></div>
+      <div class="panel-title" style="margin-top:4px">World Map</div>
+      <div class="map-dots">
+        <div class="zone-dot active" data-z="0">Forest</div>
+        <div class="zone-dot" data-z="1">Cave</div>
+        <div class="zone-dot" data-z="2">Desert</div>
+        <div class="zone-dot" data-z="3">Castle</div>
+      </div>
+    </div>
+
+    <div class="center-zone">
+      <div class="combat-area" id="combat-area">
+        <div class="combat-bg" id="combat-bg">🌲</div>
+        <div class="fighter">
+          <div class="fighter-row">
+            <div class="fighter-box">
+              <span class="fighter-sprite">🧙</span>
+              <div class="fighter-name">You</div>
+              <div class="fighter-hp green" id="phero-hp">100 HP</div>
+            </div>
+            <div class="vs">VS</div>
+            <div class="fighter-box">
+              <span class="fighter-sprite" id="mob-sprite">👺</span>
+              <div class="fighter-name" id="mob-lbl">Forest Goblin</div>
+              <div class="fighter-hp" id="mob-hp-txt" style="color:#ff7b72">50 HP</div>
+            </div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar-label"><span id="mob-hp-lbl">Goblin HP</span><span id="mob-hp-num">50/50</span></div>
+            <div class="bar"><div class="bar-fill hp" id="mob-hp-bar" style="width:100%; background:#ff7b72"></div></div>
+          </div>
+        </div>
+        <div class="combat-log" id="combat-log">
+          <div class="log-line"><span class="info">[Start]</span> You enter the Green Forest...</div>
+        </div>
+      </div>
+
+      <div class="panel-title">Active Skills</div>
+      <div class="skills-grid" id="skills-grid"></div>
+    </div>
+
+    <div class="panel right">
+      <div class="panel-title">Quests</div>
+      <div class="quests-list" id="quest-list"></div>
+      <div class="section-sep"></div>
+      <div class="panel-title">Inventory</div>
+      <div class="inv-grid" id="inv-grid"></div>
+      <div class="section-sep"></div>
+      <div class="panel-title">Recent Drops</div>
+      <div id="drop-log" style="font-size:10px; color:#8b949e; display:flex; flex-direction:column; gap:3px;"></div>
+    </div>
+  </div>
+
+  <div class="bottombar">
+    <button class="btn primary" onclick="toggleAuto()">⚡ <span id="auto-lbl">Pause</span></button>
+    <button class="btn" onclick="heal()">❤ Heal (10g)</button>
+    <button class="btn" onclick="buyPot()">🧪 Potion (5g)</button>
+    <span style="color:#3fb950; font-size:10px;" id="status-msg">Idle combat active</span>
+    <span class="gold-display">🟡 <span id="gold-disp">0</span> gold</span>
+  </div>
+</div>
+
+<script>
+const ZONES = [
+  { name: "Green Forest", bg: "🌲", mobs: [
+    { name: "Forest Goblin", sprite: "👺", hp: 50, xp: 15, gold: [1,4], drops: ["🍄 Mushroom","🌿 Herb","🦴 Bone"] },
+    { name: "Wolf", sprite: "🐺", hp: 70, xp: 22, gold: [2,6], drops: ["🪶 Fur","🦷 Fang"] }
+  ]},
+  { name: "Dark Cave", bg: "🦇", mobs: [
+    { name: "Cave Bat", sprite: "🦇", hp: 90, xp: 30, gold: [3,8], drops: ["🧪 Venom","💎 Crystal"] },
+    { name: "Rock Golem", sprite: "🪨", hp: 140, xp: 45, gold: [5,12], drops: ["⚙ Gear","🪨 Stone"] }
+  ]},
+  { name: "Desert Ruins", bg: "🏜", mobs: [
+    { name: "Sand Scorpion", sprite: "🦂", hp: 120, xp: 40, gold: [6,15], drops: ["🦂 Sting","🪶 Scale"] },
+    { name: "Mummy", sprite: "🤕", hp: 200, xp: 65, gold: [8,20], drops: ["📜 Scroll","💍 Ring"] }
+  ]},
+  { name: "Dark Castle", bg: "🏰", mobs: [
+    { name: "Knight", sprite: "⚔", hp: 300, xp: 100, gold: [15,35], drops: ["🗡 Sword","🛡 Shield"] },
+    { name: "Dark Lord", sprite: "💀", hp: 500, xp: 180, gold: [30,60], drops: ["👑 Crown","🔮 Orb"] }
+  ]}
+];
+
+const SKILLS = [
+  { name: "Fireball", icon: "🔥", xp: 0, lvl: 1, maxXp: 80, bonus: "atk" },
+  { name: "Shield", icon: "🛡", xp: 0, lvl: 1, maxXp: 80, bonus: "def" },
+  { name: "Dash", icon: "💨", xp: 0, lvl: 1, maxXp: 80, bonus: "spd" },
+  { name: "Arcane", icon: "✨", xp: 0, lvl: 1, maxXp: 80, bonus: "mgk" }
+];
+
+const QUESTS = [
+  { name: "Monster Hunter", desc: "Kill 10 monsters", target: 10, prog: 0, reward: "50 gold", done: false },
+  { name: "Gold Rush", desc: "Collect 100 gold", target: 100, prog: 0, reward: "+2 ATK", done: false },
+  { name: "Skill Master", desc: "Level any skill to 5", target: 5, prog: 0, reward: "200 XP", done: false }
+];
+
+const INV = new Array(12).fill(null);
+const ITEMS = {};
+
+let state = {
+  charLv: 1, charXp: 0, charMaxXp: 100,
+  hp: 100, maxHp: 100, mp: 50, maxMp: 50,
+  atk: 12, def: 5, spd: 8, mgk: 15,
+  gold: 0, kills: 0,
+  zone: 0, auto: true,
+  mobHp: 0, mobMaxHp: 0, mob: null,
+  potions: 0,
+  seconds: 0
+};
+
+function pickMob() {
+  const z = ZONES[state.zone];
+  state.mob = z.mobs[Math.floor(Math.random() * z.mobs.length)];
+  state.mobMaxHp = state.mob.hp + state.charLv * 5;
+  state.mobHp = state.mobMaxHp;
+  document.getElementById('mob-sprite').textContent = state.mob.sprite;
+  document.getElementById('mob-name').textContent = state.mob.name;
+  document.getElementById('mob-lbl').textContent = state.mob.name;
+  document.getElementById('mob-hp-lbl').textContent = state.mob.name + ' HP';
+  updateMobBar();
+}
+
+function updateMobBar() {
+  const pct = Math.max(0, (state.mobHp / state.mobMaxHp) * 100);
+  document.getElementById('mob-hp-bar').style.width = pct + '%';
+  document.getElementById('mob-hp-txt').textContent = Math.max(0, state.mobHp) + ' HP';
+  document.getElementById('mob-hp-num').textContent = Math.max(0,state.mobHp) + '/' + state.mobMaxHp;
+}
+
+function addLog(html) {
+  const log = document.getElementById('combat-log');
+  const d = document.createElement('div');
+  d.className = 'log-line';
+  d.innerHTML = html;
+  log.appendChild(d);
+  if (log.children.length > 30) log.removeChild(log.firstChild);
+  log.scrollTop = log.scrollHeight;
+}
+
+function floatDmg(txt, color, x, y) {
+  const el = document.createElement('div');
+  el.className = 'dmg-float';
+  el.style.color = color;
+  el.style.left = x + 'px';
+  el.style.top = y + 'px';
+  el.textContent = txt;
+  document.getElementById('combat-area').appendChild(el);
+  setTimeout(() => el.remove(), 1200);
+}
+
+function combatTick() {
+  if (!state.auto || !state.mob) return;
+  const skillBonus = SKILLS.reduce((s,sk) => { s[sk.bonus] = (s[sk.bonus]||0) + (sk.lvl-1)*2; return s; }, {});
+  const myAtk = state.atk + (skillBonus.atk||0) + Math.floor(state.mgk/2);
+  const dmgToMob = Math.max(1, myAtk - 2 + Math.floor(Math.random()*5));
+  const mobAtk = Math.max(1, Math.floor(state.mob.hp / 10) + 2);
+  const dmgToPlayer = Math.max(1, mobAtk - state.def + (skillBonus.def||0) + Math.floor(Math.random()*4));
+
+  state.mobHp -= dmgToMob;
+  state.hp -= dmgToPlayer;
+
+  floatDmg('-' + dmgToMob, '#ff7b72', 160 + Math.random()*40, 80 + Math.random()*20);
+  floatDmg('-' + dmgToPlayer, '#e3b341', 40 + Math.random()*30, 80 + Math.random()*20);
+
+  addLog(`You hit <span class="dmg">${dmgToMob}</span> dmg. ${state.mob.name} hits <span class="dmg">${dmgToPlayer}</span>`);
+
+  if (state.hp <= 0) {
+    state.hp = Math.floor(state.maxHp * 0.3);
+    addLog(`<span class="info">[Defeat]</span> You respawn with 30% HP...`);
+    updateUI();
+    return;
+  }
+
+  if (state.mobHp <= 0) {
+    const xpGain = state.mob.xp + state.charLv * 2;
+    const goldGain = state.mob.gold[0] + Math.floor(Math.random() * (state.mob.gold[1] - state.mob.gold[0]));
+    state.charXp += xpGain;
+    state.gold += goldGain;
+    state.kills++;
+
+    SKILLS.forEach(sk => { sk.xp += 8 + Math.floor(Math.random()*5); if (sk.xp >= sk.maxXp) { sk.lvl++; sk.xp = 0; sk.maxXp = Math.floor(sk.maxXp * 1.4); addLog(`<span class="heal">✨ ${sk.name} leveled up to ${sk.lvl}!</span>`); } });
+
+    const dropChance = Math.random();
+    if (dropChance < 0.35) {
+      const drop = state.mob.drops[Math.floor(Math.random()*state.mob.drops.length)];
+      addDrop(drop);
+      addLog(`<span class="drop">🎁 Dropped: ${drop}</span>`);
+    }
+
+    addLog(`<span class="heal">☠ ${state.mob.name} defeated! +${xpGain} XP, +${goldGain}🟡</span>`);
+
+    QUESTS[0].prog = Math.min(QUESTS[0].target, state.kills);
+    QUESTS[1].prog = Math.min(QUESTS[1].target, state.gold);
+    QUESTS[2].prog = Math.max(QUESTS[2].prog, Math.max(...SKILLS.map(s=>s.lvl)));
+    checkQuests();
+
+    while (state.charXp >= state.charMaxXp) {
+      state.charXp -= state.charMaxXp;
+      state.charLv++;
+      state.charMaxXp = Math.floor(state.charMaxXp * 1.5);
+      state.maxHp += 20; state.hp = state.maxHp;
+      state.atk += 2; state.def += 1; state.mgk += 3;
+      addLog(`<span class="heal">🌟 LEVEL UP! You are now level ${state.charLv}!</span>`);
+    }
+
+    pickMob();
+    const healAmt = Math.floor(state.maxHp * 0.15);
+    state.hp = Math.min(state.maxHp, state.hp + healAmt);
+  }
+  updateUI();
+}
+
+function addDrop(item) {
+  if (ITEMS[item]) { ITEMS[item]++; } else { ITEMS[item] = 1; }
+  const log = document.getElementById('drop-log');
+  const d = document.createElement('div');
+  d.textContent = item + ' x' + ITEMS[item];
+  if (log.children.length >= 5) log.removeChild(log.firstChild);
+  log.appendChild(d);
+  renderInv();
+}
+
+function renderInv() {
+  const grid = document.getElementById('inv-grid');
+  grid.innerHTML = '';
+  const entries = Object.entries(ITEMS).slice(0, 12);
+  for (let i = 0; i < 12; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'inv-slot';
+    if (entries[i]) {
+      slot.classList.add('has-item');
+      const [item, qty] = entries[i];
+      slot.textContent = item.split(' ')[0];
+      if (qty > 1) { const q = document.createElement('span'); q.className='qty'; q.textContent=qty; slot.appendChild(q); }
+    }
+    grid.appendChild(slot);
+  }
+}
+
+function checkQuests() {
+  QUESTS.forEach(q => {
+    if (!q.done && q.prog >= q.target) {
+      q.done = true;
+      addLog(`<span class="heal">🏆 Quest Complete: ${q.name}! Reward: ${q.reward}</span>`);
+      if (q.name === "Gold Rush") { state.atk += 2; }
+      if (q.name === "Skill Master") { state.charXp += 200; }
+      if (q.name === "Monster Hunter") { state.gold += 50; }
+    }
+  });
+  renderQuests();
+}
+
+function renderQuests() {
+  const el = document.getElementById('quest-list');
+  el.innerHTML = '';
+  QUESTS.forEach(q => {
+    const pct = Math.min(100, Math.round((q.prog / q.target) * 100));
+    el.innerHTML += `<div class="quest-card" style="${q.done?'opacity:0.5':''}">
+      <div class="quest-name">${q.done?'✅ ':''}${q.name}</div>
+      <div class="quest-desc">${q.desc}</div>
+      <div class="quest-progress">${q.prog}/${q.target} — ${q.reward}</div>
+      <div class="quest-prog-bar"><div class="quest-prog-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  });
+}
+
+function renderSkills() {
+  const el = document.getElementById('skills-grid');
+  el.innerHTML = '';
+  SKILLS.forEach(sk => {
+    const pct = Math.round((sk.xp / sk.maxXp) * 100);
+    el.innerHTML += `<div class="skill-card active">
+      <div class="skill-icon">${sk.icon}</div>
+      <div class="skill-name">${sk.name}</div>
+      <div class="skill-lvl">Lv.${sk.lvl} • ${pct}% XP</div>
+      <div class="skill-xp-bar"><div class="skill-xp-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  });
+}
+
+function updateUI() {
+  document.getElementById('char-lv').textContent = state.charLv;
+  document.getElementById('hp-txt').textContent = Math.max(0,state.hp) + '/' + state.maxHp;
+  document.getElementById('hp-bar').style.width = Math.max(0,(state.hp/state.maxHp)*100) + '%';
+  document.getElementById('mp-txt').textContent = state.mp + '/' + state.maxMp;
+  document.getElementById('xp-txt').textContent = state.charXp + '/' + state.charMaxXp;
+  document.getElementById('xp-bar').style.width = ((state.charXp/state.charMaxXp)*100) + '%';
+  document.getElementById('s-atk').textContent = state.atk;
+  document.getElementById('s-def').textContent = state.def;
+  document.getElementById('s-spd').textContent = state.spd;
+  document.getElementById('s-mgk').textContent = state.mgk;
+  document.getElementById('s-gold').textContent = state.gold;
+  document.getElementById('gold-disp').textContent = state.gold;
+  document.getElementById('phero-hp').textContent = Math.max(0,state.hp) + ' HP';
+  document.getElementById('zone-name').textContent = ZONES[state.zone].name;
+  updateMobBar();
+  renderSkills();
+}
+
+function toggleAuto() {
+  state.auto = !state.auto;
+  document.getElementById('auto-lbl').textContent = state.auto ? 'Pause' : 'Resume';
+  document.getElementById('status-msg').textContent = state.auto ? 'Idle combat active' : 'Paused';
+}
+
+function heal() {
+  if (state.gold < 10) { document.getElementById('status-msg').textContent = 'Not enough gold!'; return; }
+  state.gold -= 10;
+  state.hp = state.maxHp;
+  addLog('<span class="heal">❤ Fully healed!</span>');
+  updateUI();
+}
+
+function buyPot() {
+  if (state.gold < 5) { document.getElementById('status-msg').textContent = 'Not enough gold!'; return; }
+  state.gold -= 5;
+  state.potions++;
+  addDrop('🧪 Potion');
+  updateUI();
+}
+
+document.querySelectorAll('.zone-dot').forEach(dot => {
+  dot.addEventListener('click', () => {
+    const z = parseInt(dot.dataset.z);
+    if (z === state.zone) return;
+    state.zone = z;
+    document.querySelectorAll('.zone-dot').forEach(d => d.classList.remove('active'));
+    dot.classList.add('active');
+    document.getElementById('combat-bg').textContent = ZONES[z].bg;
+    addLog(`<span class="info">[Travel]</span> Moved to ${ZONES[z].name}`);
+    pickMob();
+    updateUI();
+  });
+});
+
+setInterval(() => {
+  state.seconds++;
+  const m = String(Math.floor(state.seconds/60)).padStart(2,'0');
+  const s = String(state.seconds%60).padStart(2,'0');
+  document.getElementById('clock').textContent = m+':'+s;
+  state.mp = Math.min(state.maxMp, state.mp + 1);
+}, 1000);
+
+const combatSpeed = () => Math.max(400, 1200 - state.spd * 30);
+let combatTimer;
+function scheduleCombat() {
+  clearTimeout(combatTimer);
+  combatTimer = setTimeout(() => { combatTick(); scheduleCombat(); }, combatSpeed());
+}
+
+pickMob();
+renderQuests();
+renderInv();
+updateUI();
+scheduleCombat();
+</script>
