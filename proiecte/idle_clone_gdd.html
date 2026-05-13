@@ -1,0 +1,848 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --w1: #4ade80; --w2: #f59e0b; --w3: #60a5fa; --w4: #c084fc;
+    --w1d: #166534; --w2d: #78350f; --w3d: #1e3a5f; --w4d: #4c1d95;
+    --bg: #0f0f14; --surface: #16161e; --surface2: #1e1e2a; --border: #2a2a3a;
+    --text: #e2e0f0; --muted: #8882a8; --accent: #7c6bff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+
+  /* Pixel scanline overlay */
+  body::before { content:''; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px); pointer-events:none; z-index:9999; }
+
+  .shell { display:flex; min-height:100vh; }
+
+  /* Sidebar */
+  .sidebar { width:220px; background:var(--surface); border-right:1px solid var(--border); padding:20px 0; flex-shrink:0; position:sticky; top:0; height:100vh; overflow-y:auto; display:flex; flex-direction:column; }
+  .logo { padding:0 16px 20px; border-bottom:1px solid var(--border); margin-bottom:12px; }
+  .logo-title { font-family:'Press Start 2P', monospace; font-size:9px; color:var(--accent); line-height:1.6; letter-spacing:-.5px; }
+  .logo-sub { font-size:10px; color:var(--muted); margin-top:4px; font-family:'JetBrains Mono', monospace; }
+
+  .nav-section { padding:6px 16px 2px; font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:2px; font-family:'JetBrains Mono',monospace; }
+  .nav-item { display:flex; align-items:center; gap:8px; padding:7px 16px; cursor:pointer; font-size:12px; color:var(--muted); transition:all .15s; border-left:2px solid transparent; }
+  .nav-item:hover { color:var(--text); background:rgba(124,107,255,.08); }
+  .nav-item.active { color:var(--text); border-left-color:var(--accent); background:rgba(124,107,255,.12); }
+  .nav-item .dot { width:8px; height:8px; border-radius:1px; flex-shrink:0; }
+  .d-w1 { background:var(--w1); } .d-w2 { background:var(--w2); } .d-w3 { background:var(--w3); } .d-w4 { background:var(--w4); }
+  .d-core { background:var(--accent); } .d-class { background:#f472b6; } .d-econ { background:#34d399; }
+
+  /* Main */
+  .main { flex:1; overflow-y:auto; padding:32px; max-width:900px; }
+
+  /* Sections */
+  .section { display:none; animation: fadeIn .2s ease; }
+  .section.active { display:block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+  /* Headers */
+  .world-header { display:flex; align-items:center; gap:16px; margin-bottom:28px; padding:20px 24px; border-radius:12px; border:1px solid; }
+  .wh-w1 { background:linear-gradient(135deg,rgba(74,222,128,.1),rgba(74,222,128,.03)); border-color:rgba(74,222,128,.3); }
+  .wh-w2 { background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(245,158,11,.03)); border-color:rgba(245,158,11,.3); }
+  .wh-w3 { background:linear-gradient(135deg,rgba(96,165,250,.1),rgba(96,165,250,.03)); border-color:rgba(96,165,250,.3); }
+  .wh-w4 { background:linear-gradient(135deg,rgba(192,132,252,.1),rgba(192,132,252,.03)); border-color:rgba(192,132,252,.3); }
+  .wh-core { background:linear-gradient(135deg,rgba(124,107,255,.1),rgba(124,107,255,.03)); border-color:rgba(124,107,255,.3); }
+  .world-badge { font-family:'Press Start 2P',monospace; font-size:10px; padding:6px 10px; border-radius:6px; }
+  .wb-w1 { background:var(--w1); color:var(--w1d); } .wb-w2 { background:var(--w2); color:var(--w2d); }
+  .wb-w3 { background:var(--w3); color:var(--w3d); } .wb-w4 { background:var(--w4); color:var(--w4d); }
+  .wb-core { background:var(--accent); color:#fff; }
+  .wh-info h2 { font-size:22px; font-weight:800; }
+  .wh-info p { font-size:13px; color:var(--muted); margin-top:4px; }
+
+  /* Cards */
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:16px; }
+  .card-title { font-size:14px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .ct-icon { font-size:16px; }
+
+  /* Tags */
+  .tag { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:10px; padding:2px 8px; border-radius:4px; margin:2px; }
+  .tag-green { background:rgba(74,222,128,.15); color:#4ade80; border:1px solid rgba(74,222,128,.25); }
+  .tag-amber { background:rgba(245,158,11,.15); color:#f59e0b; border:1px solid rgba(245,158,11,.25); }
+  .tag-blue { background:rgba(96,165,250,.15); color:#60a5fa; border:1px solid rgba(96,165,250,.25); }
+  .tag-purple { background:rgba(192,132,252,.15); color:#c084fc; border:1px solid rgba(192,132,252,.25); }
+  .tag-pink { background:rgba(244,114,182,.15); color:#f472b6; border:1px solid rgba(244,114,182,.25); }
+  .tag-teal { background:rgba(52,211,153,.15); color:#34d399; border:1px solid rgba(52,211,153,.25); }
+
+  /* Formula block */
+  .formula { background:#0a0a10; border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:8px; padding:14px 18px; font-family:'JetBrains Mono',monospace; font-size:13px; margin:12px 0; color:#a78bfa; line-height:1.8; }
+  .formula .comment { color:var(--muted); font-size:11px; }
+
+  /* JSON block */
+  .json-block { background:#080810; border:1px solid var(--border); border-radius:8px; padding:14px; font-family:'JetBrains Mono',monospace; font-size:11px; overflow-x:auto; line-height:1.7; max-height:280px; overflow-y:auto; }
+  .j-key { color:#60a5fa; } .j-str { color:#4ade80; } .j-num { color:#f59e0b; } .j-bool { color:#f472b6; } .j-null { color:#94a3b8; } .j-punct { color:var(--muted); }
+
+  /* Stat grid */
+  .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin:12px 0; }
+  .stat-cell { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px; text-align:center; }
+  .stat-val { font-family:'Press Start 2P',monospace; font-size:11px; color:var(--accent); margin-bottom:4px; }
+  .stat-lbl { font-size:10px; color:var(--muted); }
+
+  /* Class tree */
+  .class-tree { display:flex; flex-direction:column; gap:12px; }
+  .class-tier { display:flex; gap:10px; align-items:flex-start; }
+  .tier-label { font-size:10px; color:var(--muted); writing-mode:vertical-rl; text-orientation:mixed; padding:8px 0; min-width:32px; text-align:center; font-family:'JetBrains Mono',monospace; }
+  .tier-cards { display:flex; flex-wrap:wrap; gap:8px; flex:1; }
+  .class-card { border-radius:8px; padding:10px 14px; font-size:12px; font-weight:600; border:1px solid; cursor:pointer; transition:transform .1s; }
+  .class-card:hover { transform:scale(1.03); }
+  .cc-base { background:rgba(124,107,255,.12); border-color:rgba(124,107,255,.3); color:#a78bfa; }
+  .cc-sub { background:rgba(96,165,250,.12); border-color:rgba(96,165,250,.3); color:#60a5fa; }
+  .cc-elite { background:rgba(244,114,182,.12); border-color:rgba(244,114,182,.3); color:#f472b6; }
+  .cc-sub-desc { font-size:10px; color:var(--muted); margin-top:2px; font-weight:400; }
+
+  /* Progress bars */
+  .prog-wrap { margin:8px 0; }
+  .prog-label { display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-bottom:4px; }
+  .prog-bar { height:6px; background:var(--surface2); border-radius:3px; overflow:hidden; }
+  .prog-fill { height:100%; border-radius:3px; }
+
+  /* Mechanic rows */
+  .mech-row { display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+  .mech-row:last-child { border-bottom:none; }
+  .mech-icon { font-size:22px; flex-shrink:0; width:32px; text-align:center; }
+  .mech-body { flex:1; }
+  .mech-name { font-size:13px; font-weight:700; margin-bottom:3px; }
+  .mech-desc { font-size:12px; color:var(--muted); line-height:1.6; }
+
+  /* Currency chain */
+  .currency-chain { display:flex; align-items:center; flex-wrap:wrap; gap:6px; padding:14px; background:var(--surface2); border-radius:8px; }
+  .coin { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:6px; font-size:12px; font-weight:600; }
+  .coin-copper { background:rgba(180,83,9,.2); color:#cd7c2b; border:1px solid rgba(180,83,9,.4); }
+  .coin-silver { background:rgba(148,163,184,.15); color:#cbd5e1; border:1px solid rgba(148,163,184,.35); }
+  .coin-gold { background:rgba(234,179,8,.15); color:#eab308; border:1px solid rgba(234,179,8,.35); }
+  .coin-plat { background:rgba(186,230,253,.12); color:#bae6fd; border:1px solid rgba(186,230,253,.3); }
+  .coin-dem { background:rgba(192,132,252,.15); color:#c084fc; border:1px solid rgba(192,132,252,.35); }
+  .chain-arrow { color:var(--muted); font-size:16px; }
+
+  /* Bubble grid */
+  .bubble-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .bubble { border-radius:10px; padding:12px; text-align:center; font-size:11px; border:1px solid; }
+  .b-str { background:rgba(239,68,68,.1); border-color:rgba(239,68,68,.3); color:#f87171; }
+  .b-agi { background:rgba(74,222,128,.1); border-color:rgba(74,222,128,.3); color:#4ade80; }
+  .b-wis { background:rgba(96,165,250,.1); border-color:rgba(96,165,250,.3); color:#60a5fa; }
+  .b-luk { background:rgba(234,179,8,.1); border-color:rgba(234,179,8,.3); color:#eab308; }
+  .bubble-name { font-weight:700; font-size:12px; margin-bottom:4px; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width:5px; height:5px; }
+  ::-webkit-scrollbar-track { background:var(--surface); }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+
+  hr.sec { border:none; border-top:1px solid var(--border); margin:20px 0; }
+  .sub-heading { font-size:13px; font-weight:700; color:var(--muted); margin:16px 0 8px; text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
+
+  .inline-tag { font-family:'JetBrains Mono',monospace; font-size:11px; background:rgba(124,107,255,.15); color:#a78bfa; padding:1px 6px; border-radius:3px; }
+  p.body-text { font-size:13px; color:var(--muted); line-height:1.7; margin-bottom:8px; }
+
+  .world-pill { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; }
+  .wp-w1 { background:rgba(74,222,128,.15); color:#4ade80; } .wp-w2 { background:rgba(245,158,11,.15); color:#f59e0b; }
+  .wp-w3 { background:rgba(96,165,250,.15); color:#60a5fa; } .wp-w4 { background:rgba(192,132,252,.15); color:#c084fc; }
+
+  .ui-bar { display:flex; gap:4px; background:#0a0a14; border:1px solid var(--border); border-radius:8px; padding:6px 8px; margin:12px 0; }
+  .ui-btn { flex:1; text-align:center; padding:7px 4px; border-radius:5px; font-size:9px; font-family:'Press Start 2P',monospace; cursor:pointer; transition:background .15s; color:var(--muted); }
+  .ui-btn:hover, .ui-btn.ui-active { background:rgba(124,107,255,.2); color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="logo">
+    <div class="logo-title">IDLE<br>CLONE</div>
+    <div class="logo-sub">// GDD v1.0</div>
+  </div>
+
+  <div class="nav-section">System</div>
+  <div class="nav-item active" onclick="show('core')"><span class="dot d-core"></span>Core Engine</div>
+  <div class="nav-item" onclick="show('classes')"><span class="dot d-class"></span>Classes & Talents</div>
+  <div class="nav-item" onclick="show('econ')"><span class="dot d-econ"></span>Economy</div>
+
+  <div class="nav-section" style="margin-top:8px">Worlds</div>
+  <div class="nav-item" onclick="show('w1')"><span class="dot d-w1"></span>World 1 — Forest</div>
+  <div class="nav-item" onclick="show('w2')"><span class="dot d-w2"></span>World 2 — Desert</div>
+  <div class="nav-item" onclick="show('w3')"><span class="dot d-w3"></span>World 3 — Ice</div>
+  <div class="nav-item" onclick="show('w4')"><span class="dot d-w4"></span>World 4 — Space</div>
+
+  <div class="nav-section" style="margin-top:8px">Reference</div>
+  <div class="nav-item" onclick="show('uiux')"><span class="dot d-core"></span>UI / UX Spec</div>
+  <div class="nav-item" onclick="show('data')"><span class="dot d-class"></span>Data Schemas</div>
+</nav>
+
+<!-- Main -->
+<main class="main">
+
+<!-- ===== CORE ===== -->
+<div class="section active" id="sec-core">
+  <div class="world-header wh-core">
+    <span class="world-badge wb-core">SYS</span>
+    <div class="wh-info">
+      <h2>Core Engine & Multi-Character System</h2>
+      <p>Family account, AFK calculation, and slot progression</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">👨‍👩‍👧‍👦</span> Family Account System</div>
+    <p class="body-text">All characters on an account share a unified <span class="inline-tag">Family</span> object. The three pillars of account-wide data are:</p>
+    <div class="mech-row">
+      <div class="mech-icon">🏦</div>
+      <div class="mech-body">
+        <div class="mech-name">Shared Bank</div>
+        <div class="mech-desc">A communal storage accessible by all characters. Items deposited are visible to every slot. Coins, materials, and equipment are transferable with zero cost. Capacity scales with the <span class="inline-tag">Bank Expansion</span> stamp upgrade.</div>
+      </div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">🏆</div>
+      <div class="mech-body">
+        <div class="mech-name">Account Achievements</div>
+        <div class="mech-desc">Milestones tracked per-account (not per-character). Earning an achievement unlocks a permanent <span class="inline-tag">Account Bonus</span> — typically a flat or % buff applied to all characters simultaneously.</div>
+      </div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">📊</div>
+      <div class="mech-body">
+        <div class="mech-name">Account Bonuses</div>
+        <div class="mech-desc">A stack of passive multipliers derived from achievements, the Codex, and W4 Laboratory nodes. Applied before individual character calculations. Examples: +5% all EXP, +10% AFK Gains, +2 base inventory slots.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🪑</span> Character Slot Progression</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-val">2</div><div class="stat-lbl">Starting slots</div></div>
+      <div class="stat-cell"><div class="stat-val">Lv 10</div><div class="stat-lbl">Slot 3 unlock</div></div>
+      <div class="stat-cell"><div class="stat-val">Lv 30</div><div class="stat-lbl">Slot 4 unlock</div></div>
+      <div class="stat-cell"><div class="stat-val">Lv 75</div><div class="stat-lbl">Slot 5 unlock</div></div>
+      <div class="stat-cell"><div class="stat-val">Lv 150</div><div class="stat-lbl">Slots 6–8</div></div>
+      <div class="stat-cell"><div class="stat-val">W3+</div><div class="stat-lbl">Slots 9–10</div></div>
+    </div>
+    <p class="body-text" style="margin-top:8px">Threshold is <span class="inline-tag">Total Account Level</span> — the sum of all character levels across all skills. Slots 9 and 10 require Construction milestones in World 3.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">⏱</span> AFK Gains Formula</div>
+    <div class="formula">
+      Gains = Time_Offline × Kills_per_Hour × Drop_Rate × AFK_Efficiency
+      <br><br>
+      <span class="comment">// Where:</span><br>
+      Time_Offline  = seconds AFK (capped at 10 hours base, extended by stamps)<br>
+      Kills_per_Hour = floor(char_damage / monster_HP) × 3600<br>
+      Drop_Rate     = item_base_rate × (1 + DR_bonus / 100)<br>
+      AFK_Efficiency = (AFK_talent_pts × 0.5) + stamp_bonus + lab_node_bonus
+    </div>
+    <p class="body-text">Drop Rate bonuses stack additively from Stamps, Alchemy bubbles, Cards, and the W4 Laboratory. AFK Efficiency caps at 500% but individual sources are uncapped.</p>
+    <div class="sub-heading">EXP Formula</div>
+    <div class="formula">
+      EXP_gained = Kills_per_Hour × monster_base_xp × EXP_mult × Time_Offline<br>
+      <span class="comment">// EXP_mult = (1 + stamp%) × (1 + bubble%) × (1 + alchemy_vial%)</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== W1 ===== -->
+<div class="section" id="sec-w1">
+  <div class="world-header wh-w1">
+    <span class="world-badge wb-w1">W1</span>
+    <div class="wh-info">
+      <h2>World 1 — The Foundation</h2>
+      <p>Forest / Mining biome · Smithing · Stamps · Statues</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">⚒</span> Smithing System</div>
+    <p class="body-text">Smithing is the core crafting engine. Characters use <span class="inline-tag">Anvils</span> to produce gear and intermediate materials. Two operational modes exist:</p>
+    <div class="mech-row">
+      <div class="mech-icon">🔨</div>
+      <div class="mech-body">
+        <div class="mech-name">Crafting Tab</div>
+        <div class="mech-desc">Player selects a recipe and manually crafts items. Requires materials in inventory. Produces finished equipment (weapons, armor, tools). Each craft consumes Anvil <span class="inline-tag">Production Points</span>.</div>
+      </div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">🏭</div>
+      <div class="mech-body">
+        <div class="mech-name">Production Tab (Passive)</div>
+        <div class="mech-desc">Set an Anvil to passively generate intermediate materials: Thread, Nails, Leather Strips. Generates at a rate of <span class="inline-tag">PP/hr × Efficiency_mult</span>. Collected on login, no cap during AFK beyond the 10hr window.</div>
+      </div>
+    </div>
+    <hr class="sec">
+    <div class="sub-heading">Anvil Upgrade Path</div>
+    <div class="prog-wrap"><div class="prog-label"><span>Anvil I (Wood)</span><span>+0 PP</span></div><div class="prog-bar"><div class="prog-fill" style="width:20%;background:#4ade80"></div></div></div>
+    <div class="prog-wrap"><div class="prog-label"><span>Anvil II (Bronze)</span><span>+50 PP/hr</span></div><div class="prog-bar"><div class="prog-fill" style="width:40%;background:#4ade80"></div></div></div>
+    <div class="prog-wrap"><div class="prog-label"><span>Anvil III (Iron)</span><span>+200 PP/hr</span></div><div class="prog-bar"><div class="prog-fill" style="width:60%;background:#4ade80"></div></div></div>
+    <div class="prog-wrap"><div class="prog-label"><span>Anvil IV (Gold)</span><span>+1000 PP/hr</span></div><div class="prog-bar"><div class="prog-fill" style="width:80%;background:#4ade80"></div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">📮</span> Stamps Collection</div>
+    <p class="body-text">Stamps are one-time collectible items turned in at the Stamp Lady NPC. Each stamp occupies a permanent slot and provides a flat or % bonus that is upgraded using coins + materials.</p>
+    <div class="sub-heading">Stamp Categories</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0">
+      <span class="tag tag-green">Combat</span>
+      <span class="tag tag-blue">Skills</span>
+      <span class="tag tag-amber">Misc</span>
+      <span class="tag tag-purple">Fishing</span>
+      <span class="tag tag-pink">Alchemy</span>
+      <span class="tag tag-teal">Lab</span>
+    </div>
+    <div class="sub-heading">Upgrade Cost Formula</div>
+    <div class="formula">
+      Cost(lv) = base_coin × (1.35 ^ lv) × (1 + material_req(lv) × mat_cost)<br>
+      <span class="comment">// Exponential scaling — early levels cheap, later levels extreme</span>
+    </div>
+    <p class="body-text" style="margin-top:8px">Example stamp bonuses: <span class="inline-tag">Sword Stamp</span> +1% damage/lv, <span class="inline-tag">HP Stamp</span> +20 HP/lv, <span class="inline-tag">Speed Stamp</span> +1% skill speed/lv</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🗿</span> Stat Statues</div>
+    <p class="body-text">Stone Statues are dropped by monsters or mined. Turning them in at the <span class="inline-tag">Sculptor NPC</span> grants a permanent buff. Each statue type corresponds to one stat. Statues stack — handing in 100 Strength Statues gives more than 1×100.</p>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-val">⚔</div><div class="stat-lbl">Power Statue<br>+DMG</div></div>
+      <div class="stat-cell"><div class="stat-val">🛡</div><div class="stat-lbl">Kachow Statue<br>+DEF</div></div>
+      <div class="stat-cell"><div class="stat-val">⚡</div><div class="stat-lbl">Speed Statue<br>+Move Spd</div></div>
+      <div class="stat-cell"><div class="stat-val">💎</div><div class="stat-lbl">Thicc Skin<br>+Max HP</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== W2 ===== -->
+<div class="section" id="sec-w2">
+  <div class="world-header wh-w2">
+    <span class="world-badge wb-w2">W2</span>
+    <div class="wh-info">
+      <h2>World 2 — Complexity & Scaling</h2>
+      <p>Desert biome · Alchemy · Post Office · Obols</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🧪</span> Alchemy System — The Core Multiplier Engine</div>
+    <p class="body-text">Alchemy is the single most impactful progression system in the game. It has two sub-systems: Bubbles and Vials.</p>
+
+    <div class="sub-heading">Bubbles — 4 Cauldrons</div>
+    <div class="bubble-grid">
+      <div class="bubble b-str">
+        <div class="bubble-name">🔴 STR</div>
+        Warriors · Physical bonuses · DMG multipliers
+      </div>
+      <div class="bubble b-agi">
+        <div class="bubble-name">🟢 AGI</div>
+        Archers · Speed · Critical chance
+      </div>
+      <div class="bubble b-wis">
+        <div class="bubble-name">🔵 WIS</div>
+        Mages · Skill XP · Talent points
+      </div>
+      <div class="bubble b-luk">
+        <div class="bubble-name">🟡 LUK</div>
+        Journeyman · Drop Rate · Gold find
+      </div>
+    </div>
+    <p class="body-text" style="margin-top:10px">Players spend liquids to "brew" new bubbles (gacha unlock from a pool of ~25 per cauldron). Each bubble has its own upgrade cost scaling using the relevant material + liquid type.</p>
+
+    <div class="sub-heading">Bubble Upgrade Formula</div>
+    <div class="formula">
+      effect(lv) = base_value × (1 + (lv × power_coefficient))<br>
+      cost(lv)   = mat_base × (1.37 ^ lv)<br>
+      <span class="comment">// Most bubbles provide multiplicative bonuses to account-wide stats</span>
+    </div>
+
+    <hr class="sec">
+    <div class="sub-heading">Vials</div>
+    <p class="body-text">Players deposit specific materials into vial slots. Each material type unlocks one bonus (e.g., Copper Ore → +Smithing Speed). Vials are upgraded by depositing more of the same material. Effect scales linearly with vial level, capped at level 13.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+      <span class="tag tag-amber">Copper Ore → Smithing Speed</span>
+      <span class="tag tag-amber">Jungle Logs → AFK Gains</span>
+      <span class="tag tag-amber">Sand Giants Gut → Drop Rate</span>
+      <span class="tag tag-amber">Mushroom Cap → Skill EXP</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">📦</span> Post Office System</div>
+    <p class="body-text">A daily delivery system. Each day, the Post Office generates a list of resource requests (Deliver X amount of Y material). Completing deliveries earns <span class="inline-tag">Box Points</span> per box type.</p>
+    <div class="mech-row">
+      <div class="mech-icon">📬</div>
+      <div class="mech-body">
+        <div class="mech-name">Box Upgrade Trees</div>
+        <div class="mech-desc">Each box type has an upgrade tree (3 rows × 5 levels). Points spent unlock stat increases: DMG%, DEF, Carry Cap, AFK Gains, etc. Points are per-character — not shared.</div>
+      </div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">📅</div>
+      <div class="mech-body">
+        <div class="mech-name">Daily Reset & Streak</div>
+        <div class="mech-desc">Deliveries reset every 24h. Completing all daily deliveries for 7 consecutive days grants a <span class="inline-tag">Streak Bonus</span> of 2× Box Points for that day.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">⭕</span> Obol Grid System</div>
+    <p class="body-text">Obols are circular/square/sparkle-shaped items that slot into a character's Obol grid (a 4×4 matrix). Matching adjacent Obols of the same type grants bonus multipliers via a family bonus system.</p>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-val">⬤</div><div class="stat-lbl">Circle Obol<br>Combat stat</div></div>
+      <div class="stat-cell"><div class="stat-val">■</div><div class="stat-lbl">Square Obol<br>Skill bonus</div></div>
+      <div class="stat-cell"><div class="stat-val">✦</div><div class="stat-lbl">Sparkle Obol<br>Rare effect</div></div>
+      <div class="stat-cell"><div class="stat-val">4×4</div><div class="stat-lbl">Grid size<br>16 slots</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== W3 ===== -->
+<div class="section" id="sec-w3">
+  <div class="world-header wh-w3">
+    <span class="world-badge wb-w3">W3</span>
+    <div class="wh-info">
+      <h2>World 3 — Automation & Construction</h2>
+      <p>Ice biome · Construction · Library · Worship · Trapping</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🏗</span> Construction System</div>
+    <p class="body-text">Construction is the automation backbone of the late game. Players build structures on a board, each consuming <span class="inline-tag">Build Points</span> generated passively by Construction-leveled characters.</p>
+
+    <div class="sub-heading">Building Types</div>
+    <div class="mech-row">
+      <div class="mech-icon">⛩</div>
+      <div class="mech-body">
+        <div class="mech-name">Shrines</div>
+        <div class="mech-desc">Placed on the world map, they buff all characters fighting in that specific map zone. Example: <span class="inline-tag">EXP Shrine</span> → +% combat XP in placed zone. Shrine strength scales with Construction level and time active on the map.</div>
+      </div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">🧂</div>
+      <div class="mech-body">
+        <div class="mech-name">Salt Refinery</div>
+        <div class="mech-desc">Converts raw materials into Salt types (Red, Orange, Blue, Purple, Nullo). Salt is the primary fuel for W3 and W4 crafting. Refinery upgrades increase output rate and unlock higher-tier salts.</div>
+      </div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">🖨</div>
+      <div class="mech-body">
+        <div class="mech-name">3D Printer</div>
+        <div class="mech-desc">A character "samples" a resource (e.g., Copper Ore at 2,000/hr collection rate). The Printer passively generates that resource without the character being present. Sample slots scale with Printer upgrade level (base 2 slots → max 6).</div>
+      </div>
+    </div>
+
+    <hr class="sec">
+    <div class="sub-heading">3D Printer Formula</div>
+    <div class="formula">
+      Print_rate = sampled_rate × (printer_efficiency / 100) × salt_cost_mult<br>
+      <span class="comment">// sampled_rate = actual collection rate at time of sampling</span><br>
+      <span class="comment">// printer_efficiency upgrades via Construction board build</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">📚</span> Library System</div>
+    <p class="body-text">The Library allows players to expand the talent cap for individual skills beyond their natural ceiling. By spending <span class="inline-tag">Book Stacks</span> (obtained via Book Bundles drop or purchase), players push a talent from its base cap to an extended cap.</p>
+    <div class="formula">
+      Extended_cap = base_cap + floor(book_stacks_spent / threshold)<br>
+      <span class="comment">// Example: Talent "Sharpened Axe" base cap = 100, extended cap up to 145</span><br>
+      <span class="comment">// Each +5 cap costs an increasing number of Book Stacks</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🗼</span> Worship Skill</div>
+    <p class="body-text">Worship is a semi-active skill. Players plant a <span class="inline-tag">Totem</span> on a map and engage in a tower-defense minigame where enemies approach the totem in waves. Surviving waves charges the Totem's <span class="inline-tag">Charge bar</span>. Full Charge is redeemed at the Worship altar for bonus Souls (currency for W3 upgrades).</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🦝</span> Trapping Skill</div>
+    <p class="body-text">Characters set physical traps on maps and return after a time period to collect trapped critters. Each critter type yields a unique material used in W3/W4 crafting recipes. Trap efficiency scales with Trapping level and trap quality crafted via Smithing.</p>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-val">Froge</div><div class="stat-lbl">Swamp — Webbing</div></div>
+      <div class="stat-cell"><div class="stat-val">Mousey</div><div class="stat-lbl">Forest — Critter Fur</div></div>
+      <div class="stat-cell"><div class="stat-val">Scorpie</div><div class="stat-lbl">Desert — Stinger</div></div>
+      <div class="stat-cell"><div class="stat-val">Snail</div><div class="stat-lbl">Ice — Shell Dust</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== W4 ===== -->
+<div class="section" id="sec-w4">
+  <div class="world-header wh-w4">
+    <span class="world-badge wb-w4">W4</span>
+    <div class="wh-info">
+      <h2>World 4 — The Meta-Game</h2>
+      <p>Space biome · Cooking · Pet Breeding · Laboratory</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🍳</span> Cooking System</div>
+    <p class="body-text">Cooking uses <span class="inline-tag">Kitchens</span> (purchased with Spice, earned via Breeding) to discover recipes and produce Plates. Plates grant global account-wide bonuses and are the primary scaling mechanism of W4.</p>
+    <div class="mech-row">
+      <div class="mech-icon">🔬</div>
+      <div class="mech-body">
+        <div class="mech-name">Recipe Discovery</div>
+        <div class="mech-desc">Players spend Kitchen fire speed to attempt recipe combinations. Discovery is RNG-gated but the recipe pool is pre-determined. A <span class="inline-tag">Spice Contribution</span> mechanic speeds up fire without burning kitchens.</div>
+      </div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">🍽</div>
+      <div class="mech-body">
+        <div class="mech-name">Plate Bonuses</div>
+        <div class="mech-desc">Each discovered recipe, when cooked to completion, permanently activates a Plate Bonus: +% Damage, +% Skill EXP, +% AFK Gains, etc. Plates are tiered (Silver → Gold → Diamond). Higher tiers give multiplicative upgrades to the same bonus.</div>
+      </div>
+    </div>
+    <div class="formula">
+      plate_bonus(tier) = base_bonus × (1.25 ^ tier_level)<br>
+      <span class="comment">// tier 0=Silver, 1=Gold, 2=Diamond, 3=Onyx (endgame)</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🐾</span> Pet Breeding System</div>
+    <p class="body-text">A gacha-style system where captured pets (found via W4 maps) are bred in the <span class="inline-tag">Fenceyard</span>. Breeding produces new pets with inherited or mutated genes. Pets serve two purposes: Arena combat (for Spice drops) and passive Spice income.</p>
+    <div class="mech-row">
+      <div class="mech-icon">🧬</div>
+      <div class="mech-body">
+        <div class="mech-name">Gene System</div>
+        <div class="mech-desc">Each pet has 1–3 Genes determining combat ability: <span class="inline-tag">Rattler</span> (AoE burst), <span class="inline-tag">Refiller</span> (ability cooldown reset), <span class="inline-tag">Defender</span> (damage reduction). Genes mutate at a low % per breeding attempt.</div>
+      </div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">🌶</div>
+      <div class="mech-body">
+        <div class="mech-name">Spice Economy</div>
+        <div class="mech-desc">Arena battles drop Spice types (Red, Green, Yellow, Purple, Void). Spice fuels Kitchen fire and is used to purchase additional Kitchens. Spice income rate is the chief bottleneck for Cooking progression.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🔬</span> The Laboratory</div>
+    <p class="body-text">The Laboratory is the account-wide force-multiplier. Characters must be placed "inside a tube" (effectively set to Lab AFK instead of combat or skilling). While in the Lab, a character powers <span class="inline-tag">Nodes</span> and <span class="inline-tag">Jewels</span>.</p>
+    <div class="mech-row">
+      <div class="mech-icon">🔵</div>
+      <div class="mech-body">
+        <div class="mech-name">Nodes</div>
+        <div class="mech-desc">Nodes connect along a circuit path. Each powered Node doubles or triples a specific account bonus. Examples: <span class="inline-tag">Node A</span> → ×2 Alchemy bubble effect, <span class="inline-tag">Node B</span> → ×1.5 Cooking plate bonus. A Node activates when its "power requirement" is met by connected characters.</div>
+      </div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">💎</div>
+      <div class="mech-body">
+        <div class="mech-name">Jewels</div>
+        <div class="mech-desc">Special nodes requiring a crafted Jewel item to activate. Jewels provide the strongest single bonuses in the game. Jewel crafting requires W3 Salts + rare W4 drops. Once socketed, a Jewel is permanent and cannot be removed.</div>
+      </div>
+    </div>
+    <div class="formula">
+      lab_power(char) = base_power + (lab_level × 10) + (chip_bonus)<br>
+      node_active = (total_connected_power ≥ node.requirement)<br>
+      <span class="comment">// Characters with higher Lab level contribute more power to the circuit</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CLASSES ===== -->
+<div class="section" id="sec-classes">
+  <div class="world-header wh-core" style="background:linear-gradient(135deg,rgba(244,114,182,.1),rgba(244,114,182,.03));border-color:rgba(244,114,182,.3)">
+    <span class="world-badge" style="background:#f472b6;color:#4a1528">CLASS</span>
+    <div class="wh-info">
+      <h2>Class & Talent System</h2>
+      <p>Four base classes · Sub-classes · Elite classes · Talent trees</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">⚔</span> Class Progression Tree</div>
+    <div class="class-tree">
+      <div class="class-tier">
+        <div class="tier-label">BASE</div>
+        <div class="tier-cards">
+          <div class="class-card cc-base">⚔ Warrior<div class="cc-sub-desc">High HP · Melee</div></div>
+          <div class="class-card cc-base">🏹 Archer<div class="cc-sub-desc">Fast attack · Range</div></div>
+          <div class="class-card cc-base">🔮 Mage<div class="cc-sub-desc">Skill XP · Magic DMG</div></div>
+          <div class="class-card cc-base">🎪 Journeyman<div class="cc-sub-desc">Drop Rate · Luck</div></div>
+        </div>
+      </div>
+      <div class="class-tier">
+        <div class="tier-label" style="color:var(--w2)">W2 SUB</div>
+        <div class="tier-cards">
+          <div class="class-card cc-sub">🪓 Barbarian<div class="cc-sub-desc">AFK gains · Max HP</div></div>
+          <div class="class-card cc-sub">🛡 Squire<div class="cc-sub-desc">Construction · DEF</div></div>
+          <div class="class-card cc-sub">💨 Bowman<div class="cc-sub-desc">Bugs skill · Speed</div></div>
+          <div class="class-card cc-sub">🦌 Hunter<div class="cc-sub-desc">Trapping · Crit</div></div>
+          <div class="class-card cc-sub">🌿 Shaman<div class="cc-sub-desc">Alchemy · XP</div></div>
+          <div class="class-card cc-sub">🌩 Wizard<div class="cc-sub-desc">Lab power · Worship</div></div>
+        </div>
+      </div>
+      <div class="class-tier">
+        <div class="tier-label" style="color:var(--w4)">W4 ELITE</div>
+        <div class="tier-cards">
+          <div class="class-card cc-elite">🩸 Blood Berserker</div>
+          <div class="class-card cc-elite">⚜ Divine Knight</div>
+          <div class="class-card cc-elite">🏰 Siege Breaker</div>
+          <div class="class-card cc-elite">🦁 Beast Master</div>
+          <div class="class-card cc-elite">☄ Elemental Sorcerer</div>
+          <div class="class-card cc-elite">🌪 Bubonic Conjuror</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">📋</span> Talent Tab Structure</div>
+    <div class="mech-row">
+      <div class="mech-icon">①</div>
+      <div class="mech-body">
+        <div class="mech-name">Tab 1 — Base Class Talents</div>
+        <div class="mech-desc">Shared across all characters of the same base class. Contains foundational combat and survival talents. Max level 100 base, extendable via Library.</div>
+      </div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">②</div>
+      <div class="mech-body">
+        <div class="mech-name">Tab 2 — Sub-Class Talents</div>
+        <div class="mech-desc">Unlocked after W2 class promotion. Contains role-defining skills unique to the sub-class. Affects playstyle: Barbarian gains AFK-focused talents, Squire gains Construction synergies.</div>
+      </div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">③</div>
+      <div class="mech-body">
+        <div class="mech-name">Tab 3 — Elite / Skill-Specific</div>
+        <div class="mech-desc">Unlocked after W4 Elite promotion. Contains the most powerful multipliers in the game. Also includes skill-specific talent pages (Mining, Fishing, etc.) unlocked by skill level thresholds.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ECONOMY ===== -->
+<div class="section" id="sec-econ">
+  <div class="world-header wh-core" style="background:linear-gradient(135deg,rgba(52,211,153,.1),rgba(52,211,153,.03));border-color:rgba(52,211,153,.3)">
+    <span class="world-badge" style="background:#34d399;color:#064e3b">ECON</span>
+    <div class="wh-info">
+      <h2>Economy & Currency Systems</h2>
+      <p>Coinage · Boss Keys · Daily systems</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">💰</span> Coinage Denomination Chain</div>
+    <div class="currency-chain">
+      <div class="coin coin-copper">🟤 100 Copper</div>
+      <div class="chain-arrow">→</div>
+      <div class="coin coin-silver">⚪ 1 Silver</div>
+      <div class="chain-arrow">→</div>
+      <div class="coin coin-gold">🟡 100 Silver = 1 Gold</div>
+      <div class="chain-arrow">→</div>
+      <div class="coin coin-plat">🔵 100 Gold = 1 Platinum</div>
+      <div class="chain-arrow">→</div>
+      <div class="coin coin-dem">🟣 100 Plat = 1 Dementia</div>
+    </div>
+    <p class="body-text" style="margin-top:12px">Coins drop from all monsters and are automatically picked up. The UI displays the condensed form (e.g., "3G 45S 12C"). All shop prices, stamp costs, and alchemy upgrades reference this chain.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🗝</span> Boss Key System</div>
+    <p class="body-text">Each boss room requires a Key to enter. Keys are generated daily per character. Entry beyond the daily cap consumes keys from the account bank.</p>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-val">Amarok</div><div class="stat-lbl">W1 Boss<br>3 keys/day</div></div>
+      <div class="stat-cell"><div class="stat-val">Efaunt</div><div class="stat-lbl">W2 Boss<br>2 keys/day</div></div>
+      <div class="stat-cell"><div class="stat-val">Chizoar</div><div class="stat-lbl">W3 Boss<br>1 key/day</div></div>
+      <div class="stat-cell"><div class="stat-val">Omni</div><div class="stat-lbl">W4 Boss<br>1 key/day</div></div>
+    </div>
+    <div class="formula">
+      daily_keys(char) = base_keys + floor(boss_stamp_lv / 10)<br>
+      <span class="comment">// Keys do not carry over — unclaimed keys vanish at reset</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UI/UX ===== -->
+<div class="section" id="sec-uiux">
+  <div class="world-header wh-core">
+    <span class="world-badge wb-core">UI</span>
+    <div class="wh-info">
+      <h2>UI / UX Specification</h2>
+      <p>Menu bar · Visual style · Quick-Ref panel</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">📱</span> Main Menu Bar (Bottom HUD)</div>
+    <div class="ui-bar">
+      <div class="ui-btn ui-active">🎒<br>INV</div>
+      <div class="ui-btn">✨<br>TALENTS</div>
+      <div class="ui-btn">📖<br>CODEX</div>
+      <div class="ui-btn">🗺<br>MAP</div>
+      <div class="ui-btn">⚡<br>Q-REF</div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">🎒</div>
+      <div class="mech-body"><div class="mech-name">Inventory</div><div class="mech-desc">Character-local storage grid (14×7 default). Bag upgrades purchasable via NPC. Shared Bank access button in corner. Item tooltip on hover/tap.</div></div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">✨</div>
+      <div class="mech-body"><div class="mech-name">Talents</div><div class="mech-desc">Three tabbed trees. Point allocation UI. Preset save slots (3 presets). "Optimize" button auto-distributes unspent points.</div></div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">📖</div>
+      <div class="mech-body"><div class="mech-name">Codex</div><div class="mech-desc">Tabbed: Quests / Cards / Achievements / Monster Log. Cards are collectible enemy-drop items slottable in a 2×3 grid per category for passive bonuses.</div></div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">🗺</div>
+      <div class="mech-body"><div class="mech-name">Map</div><div class="mech-desc">Full world map view. Shows all characters' current locations. Tap to teleport (costs Gold). Shrines visible as glow auras on placed maps.</div></div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">⚡</div>
+      <div class="mech-body"><div class="mech-name">Quick-Ref Panel</div><div class="mech-desc">Context-aware overlay: check Alchemy cauldrons, Construction queue, and Cooking kitchens from any screen without switching character or opening full menus.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🎨</span> Visual Style Guide</div>
+    <div class="mech-row">
+      <div class="mech-icon">🖼</div>
+      <div class="mech-body"><div class="mech-name">Perspective: 2.5D Side-Scrolling</div><div class="mech-desc">Characters and monsters rendered as pixel sprites on a layered parallax background. Foreground layer (ground/obstacles), mid layer (characters/enemies), far layer (sky/backdrop). Each world has a distinct color palette.</div></div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">🎮</div>
+      <div class="mech-body"><div class="mech-name">Pixel Art Aesthetic</div><div class="mech-desc">16×16 to 32×32 character sprites. 64×64 boss sprites. Chunky, vibrant outlines. Animations: idle (4f), walk (6f), attack (8f), death (10f). UI elements follow pixel grid with 2x scaling on HD displays.</div></div>
+    </div>
+    <div class="mech-row">
+      <div class="mech-icon">🌈</div>
+      <div class="mech-body"><div class="mech-name">World Color Palettes</div><div class="mech-desc">W1 Forest: greens + warm browns. W2 Desert: amber + sandy tans + orange sunset. W3 Ice: cool blues + white + cyan sparkles. W4 Space: deep purples + starfield blacks + neon accent pops.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DATA SCHEMAS ===== -->
+<div class="section" id="sec-data">
+  <div class="world-header wh-core" style="background:linear-gradient(135deg,rgba(96,165,250,.1),rgba(96,165,250,.03));border-color:rgba(96,165,250,.3)">
+    <span class="world-badge" style="background:#60a5fa;color:#1e3a5f">JSON</span>
+    <div class="wh-info">
+      <h2>Data Schemas</h2>
+      <p>Item DB · Monster stats · Quest log structure</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">🗃</span> Item Database Schema</div>
+    <div class="json-block">
+<span class="j-punct">{</span>
+  <span class="j-key">"items"</span><span class="j-punct">: {</span>
+    <span class="j-key">"copper_ore"</span><span class="j-punct">: {</span>
+      <span class="j-key">"id"</span><span class="j-punct">:</span> <span class="j-str">"copper_ore"</span><span class="j-punct">,</span>
+      <span class="j-key">"name"</span><span class="j-punct">:</span> <span class="j-str">"Copper Ore"</span><span class="j-punct">,</span>
+      <span class="j-key">"type"</span><span class="j-punct">:</span> <span class="j-str">"material"</span><span class="j-punct">,</span>
+      <span class="j-key">"subtype"</span><span class="j-punct">:</span> <span class="j-str">"ore"</span><span class="j-punct">,</span>
+      <span class="j-key">"world"</span><span class="j-punct">:</span> <span class="j-num">1</span><span class="j-punct">,</span>
+      <span class="j-key">"sell_price"</span><span class="j-punct">:</span> <span class="j-num">2</span><span class="j-punct">,</span>
+      <span class="j-key">"stack_max"</span><span class="j-punct">:</span> <span class="j-num">999999</span><span class="j-punct">,</span>
+      <span class="j-key">"sprite"</span><span class="j-punct">:</span> <span class="j-str">"copper_ore_16x16"</span><span class="j-punct">,</span>
+      <span class="j-key">"usages"</span><span class="j-punct">: [</span><span class="j-str">"smithing"</span><span class="j-punct">,</span> <span class="j-str">"alchemy_vial"</span><span class="j-punct">,</span> <span class="j-str">"post_office"</span><span class="j-punct">],</span>
+      <span class="j-key">"obtainable_from"</span><span class="j-punct">: {</span>
+        <span class="j-key">"mining"</span><span class="j-punct">:</span> <span class="j-bool">true</span><span class="j-punct">,</span>
+        <span class="j-key">"drop_monsters"</span><span class="j-punct">: [</span><span class="j-str">"slime"</span><span class="j-punct">,</span> <span class="j-str">"goblin"</span><span class="j-punct">],</span>
+        <span class="j-key">"3d_printer"</span><span class="j-punct">:</span> <span class="j-bool">true</span>
+      <span class="j-punct">}</span>
+    <span class="j-punct">},</span>
+    <span class="j-key">"iron_sword"</span><span class="j-punct">: {</span>
+      <span class="j-key">"id"</span><span class="j-punct">:</span> <span class="j-str">"iron_sword"</span><span class="j-punct">,</span>
+      <span class="j-key">"name"</span><span class="j-punct">:</span> <span class="j-str">"Iron Sword"</span><span class="j-punct">,</span>
+      <span class="j-key">"type"</span><span class="j-punct">:</span> <span class="j-str">"equipment"</span><span class="j-punct">,</span>
+      <span class="j-key">"slot"</span><span class="j-punct">:</span> <span class="j-str">"weapon"</span><span class="j-punct">,</span>
+      <span class="j-key">"class_req"</span><span class="j-punct">: [</span><span class="j-str">"warrior"</span><span class="j-punct">],</span>
+      <span class="j-key">"level_req"</span><span class="j-punct">:</span> <span class="j-num">15</span><span class="j-punct">,</span>
+      <span class="j-key">"stats"</span><span class="j-punct">: {</span>
+        <span class="j-key">"damage"</span><span class="j-punct">:</span> <span class="j-num">42</span><span class="j-punct">,</span>
+        <span class="j-key">"str_bonus"</span><span class="j-punct">:</span> <span class="j-num">3</span>
+      <span class="j-punct">},</span>
+      <span class="j-key">"recipe"</span><span class="j-punct">: {</span>
+        <span class="j-key">"iron_bar"</span><span class="j-punct">:</span> <span class="j-num">8</span><span class="j-punct">,</span>
+        <span class="j-key">"thread"</span><span class="j-punct">:</span> <span class="j-num">20</span>
+      <span class="j-punct">},</span>
+      <span class="j-key">"craft_time_sec"</span><span class="j-punct">:</span> <span class="j-num">120</span>
+    <span class="j-punct">}</span>
+  <span class="j-punct">}</span>
+<span class="j-punct">}</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">👾</span> Monster Stats Schema</div>
+    <div class="json-block">
+<span class="j-punct">{</span>
+  <span class="j-key">"monsters"</span><span class="j-punct">: {</span>
+    <span class="j-key">"amarok"</span><span class="j-punct">: {</span>
+      <span class="j-key">"id"</span><span class="j-punct">:</span> <span class="j-str">"amarok"</span><span class="j-punct">,</span>
+      <span class="j-key">"name"</span><span class="j-punct">:</span> <span class="j-str">"Amarok"</span><span class="j-punct">,</span>
+      <span class="j-key">"world"</span><span class="j-punct">:</span> <span class="j-num">1</span><span class="j-punct">,</span>
+      <span class="j-key">"type"</span><span class="j-punct">:</span> <span class="j-str">"boss"</span><span class="j-punct">,</span>
+      <span class="j-key">"hp"</span><span class="j-punct">:</span> <span class="j-num">350000</span><span class="j-punct">,</span>
+      <span class="j-key">"damage"</span><span class="j-punct">:</span> <span class="j-num">1200</span><span class="j-punct">,</span>
+      <span class="j-key">"defence"</span><span class="j-punct">:</span> <span class="j-num">45</span><span class="j-punct">,</span>
+      <span class="j-key">"exp"</span><span class="j-punct">:</span> <span class="j-num">12000</span><span class="j-punct">,</span>
+      <span class="j-key">"drop_table"</span><span class="j-punct">: [</span>
+        <span class="j-punct">{</span><span class="j-key">"item"</span><span class="j-punct">:</span> <span class="j-str">"amarok_slab"</span><span class="j-punct">,</span> <span class="j-key">"rate"</span><span class="j-punct">:</span> <span class="j-num">1.0</span><span class="j-punct">,</span> <span class="j-key">"qty"</span><span class="j-punct">: [</span><span class="j-num">1</span><span class="j-punct">,</span><span class="j-num">1</span><span class="j-punct">]},</span>
+        <span class="j-punct">{</span><span class="j-key">"item"</span><span class="j-punct">:</span> <span class="j-str">"gold_coin"</span><span class="j-punct">,</span> <span class="j-key">"rate"</span><span class="j-punct">:</span> <span class="j-num">1.0</span><span class="j-punct">,</span> <span class="j-key">"qty"</span><span class="j-punct">: [</span><span class="j-num">50</span><span class="j-punct">,</span><span class="j-num">150</span><span class="j-punct">]},</span>
+        <span class="j-punct">{</span><span class="j-key">"item"</span><span class="j-punct">:</span> <span class="j-str">"amarok_soul"</span><span class="j-punct">,</span> <span class="j-key">"rate"</span><span class="j-punct">:</span> <span class="j-num">0.05</span><span class="j-punct">,</span> <span class="j-key">"qty"</span><span class="j-punct">: [</span><span class="j-num">1</span><span class="j-punct">,</span><span class="j-num">1</span><span class="j-punct">]}
+      <span class="j-punct">],</span>
+      <span class="j-key">"key_required"</span><span class="j-punct">:</span> <span class="j-str">"amarok_key"</span><span class="j-punct">,</span>
+      <span class="j-key">"respawn_sec"</span><span class="j-punct">:</span> <span class="j-null">null</span><span class="j-punct">,</span>
+      <span class="j-key">"phases"</span><span class="j-punct">: [</span>
+        <span class="j-punct">{</span><span class="j-key">"hp_threshold"</span><span class="j-punct">:</span> <span class="j-num">0.5</span><span class="j-punct">,</span> <span class="j-key">"enrage"</span><span class="j-punct">:</span> <span class="j-bool">true</span><span class="j-punct">,</span> <span class="j-key">"dmg_mult"</span><span class="j-punct">:</span> <span class="j-num">1.5</span><span class="j-punct">}</span>
+      <span class="j-punct">]</span>
+    <span class="j-punct">}</span>
+  <span class="j-punct">}</span>
+<span class="j-punct">}</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="ct-icon">📜</span> Quest Log Schema</div>
+    <div class="json-block">
+<span class="j-punct">{</span>
+  <span class="j-key">"quests"</span><span class="j-punct">: {</span>
+    <span class="j-key">"q_w1_001"</span><span class="j-punct">: {</span>
+      <span class="j-key">"id"</span><span class="j-punct">:</span> <span class="j-str">"q_w1_001"</span><span class="j-punct">,</span>
+      <span class="j-key">"name"</span><span class="j-punct">:</span> <span class="j-str">"A Choppin Tutorial"</span><span class="j-punct">,</span>
+      <span class="j-key">"npc"</span><span class="j-punct">:</span> <span class="j-str">"Woodsman Wode"</span><span class="j-punct">,</span>
+      <span class="j-key">"world"</span><span class="j-punct">:</span> <span class="j-num">1</span><span class="j-punct">,</span>
+      <span class="j-key">"repeatable"</span><span class="j-punct">:</span> <span class="j-bool">false</span><span class="j-punct">,</span>
+      <span class="j-key">"objectives"</span><span class="j-punct">: [</span>
+        <span class="j-punct">{</span><span class="j-key">"type"</span><span class="j-punct">:</span> <span class="j-str">"collect"</span><span class="j-punct">,</span> <span class="j-key">"item"</span><span class="j-punct">:</span> <span class="j-str">"wood_log"</span><span class="j-punct">,</span> <span class="j-key">"qty"</span><span class="j-punct">:</span> <span class="j-num">25</span><span class="j-punct">}</span>
+      <span class="j-punct">],</span>
+      <span class="j-key">"rewards"</span><span class="j-punct">: {</span>
+        <span class="j-key">"exp"</span><span class="j-punct">:</span> <span class="j-num">500</span><span class="j-punct">,</span>
+        <span class="j-key">"coins"</span><span class="j-punct">: [</span><span class="j-num">0</span><span class="j-punct">,</span><span class="j-num">0</span><span class="j-punct">,</span><span class="j-num">3</span><span class="j-punct">,</span><span class="j-num">0</span><span class="j-punct">],</span>
+        <span class="j-key">"items"</span><span class="j-punct">: [{</span><span class="j-key">"id"</span><span class="j-punct">:</span> <span class="j-str">"axe_t1"</span><span class="j-punct">,</span> <span class="j-key">"qty"</span><span class="j-punct">:</span> <span class="j-num">1</span><span class="j-punct">}],</span>
+        <span class="j-key">"account_bonus"</span><span class="j-punct">:</span> <span class="j-null">null</span>
+      <span class="j-punct">},</span>
+      <span class="j-key">"prereq_quests"</span><span class="j-punct">: [],</span>
+      <span class="j-key">"unlock_next"</span><span class="j-punct">: [</span><span class="j-str">"q_w1_002"</span><span class="j-punct">]</span>
+    <span class="j-punct">}</span>
+  <span class="j-punct">}</span>
+<span class="j-punct">}</span>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const sec = document.getElementById('sec-' + id);
+  if (sec) sec.classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
