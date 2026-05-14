@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghid de Sănătate - E minunat să fii sănătos</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Fonturi pentru aspect premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<style>
+  :root {
+    --dark-green: #1a4332;
+    --light-green: #e9f5db;
+    --accent-green: #4dab7c;
+    --text-color: #333;
+    --bg-white: #fdfcf8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth; /* Aceasta face scroll-ul lin la navigare */
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-white);
+}
+
+/* Navigație */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(26, 67, 50, 0.95);
+    padding: 15px 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    color: var(--accent-green);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    color: var(--accent-green);
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: linear-gradient(rgba(26, 67, 50, 0.8), rgba(26, 67, 50, 0.8)), url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=1500');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+}
+
+.hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    margin: 20px 0;
+}
+
+.hero-content h1 span {
+    font-style: italic;
+    color: var(--accent-green);
+}
+
+.badge {
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+}
+
+/* Secțiuni de conținut */
+.content-section {
+    padding: 100px 20px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.reversed .container {
+    direction: rtl; /* Inversează ordinea text/imagine */
+}
+
+.reversed .text-content {
+    direction: ltr;
+}
+
+.section-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: rgba(77, 171, 124, 0.2);
+    margin-bottom: -30px;
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: var(--dark-green);
+}
+
+.image-content img {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.quote-section {
+    background: var(--dark-green);
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+    font-style: italic;
+    font-size: 1.5rem;
+}
+
+footer {
+    background: var(--dark-green);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+</style>  
+<body>
+
+    <!-- Navigație fixă -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🌿 Sănătate</div>
+            <ul>
+                <li><a href="#respiratie">Respirație</a></li>
+                <li><a href="#somn">Somn</a></li>
+                <li><a href="#par">Păr</a></li>
+                <li><a href="#metabolism">Metabolism</a></li>
+                <li><a href="#sport">Sport</a></li>
+                <li><a href="#ten">Ten</a></li>
+                <li><a href="#postura">Postură</a></li>
+                <li><a href="#vanatai">Vânătăi</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <span class="badge">GHID DE SĂNĂTATE</span>
+            <h1>E minunat să fii <span>sănătos</span></h1>
+            <p>Sănătatea este una dintre cele mai prețioase comori ale vieții. Când avem grijă de corpul nostru, ne simțim mai bine, avem mai multă energie și ne bucurăm din plin de fiecare zi.</p>
+            <a href="#respiratie" class="scroll-link">DESCOPERĂ</a>
+        </div>
+    </header>
+
+    <!-- Citat -->
+    <section class="quote-section">
+        <p>„Un corp sănătos este casa sufletului. Investiția cea mai importantă pe care o poți face este în propria ta sănătate.”</p>
+    </section>
+
+    <!-- Secțiunea 01: Respirație -->
+    <section id="respiratie" class="content-section">
+        <div class="container">
+            <div class="text-content">
+                <div class="section-number">01</div>
+                <h2>Respirația pe nas vs. respirația pe gură</h2>
+                <p>Respirația este actul vital pe care îl facem de mii de ori pe zi...</p>
+                <ul>
+                    <li>Respirația pe nas filtrează bacteriile...</li>
+                    <li>Nasul produce oxid nitric...</li>
+                    <li>Respirația pe gură usucă mucoasele...</li>
+                </ul>
+            </div>
+            <div class="image-content">
+                <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=600" alt="Yoga">
+            </div>
+        </div>
+    </section>
+
+    <!-- Secțiunea 02: Somn (Inversat) -->
+    <section id="somn" class="content-section reversed">
+        <div class="container">
+            <div class="text-content">
+                <div class="section-number">02</div>
+                <h2>Pozițiile de somn și impactul lor</h2>
+                <p>Petrecem aproximativ o treime din viață dormind...</p>
+                <ul>
+                    <li>Pe spate: poziția ideală pentru coloană...</li>
+                    <li>Pe partea stângă: stimulează digestia...</li>
+                </ul>
+            </div>
+            <div class="image-content">
+                <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&q=80&w=600" alt="Somn">
+            </div>
+        </div>
+    </section>
+
+    <!-- Adaugă restul secțiunilor (03-08) urmând același model de ID-uri -->
+
+    <footer>
+        <p>Fă din sănătate prioritatea ta numărul unu — corpul tău îți va mulțumi.</p>
+        <p>© 2026 - E Minunat Să Fii Sănătos</p>
+    </footer>
+
+</body>
+</html>
+
