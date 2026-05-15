@@ -7,6 +7,138 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
+<style>
+    :root {
+    --dark-green: #1a4332;
+    --light-green: #e9f5db;
+    --accent-mint: #4dab7c;
+    --soft-beige: #fdfcf8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--soft-beige);
+    color: #333;
+}
+
+/* NAV */
+nav {
+    position: fixed;
+    top: 0; width: 100%;
+    background: rgba(26, 67, 50, 0.98);
+    padding: 15px 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.logo { color: var(--accent-mint); font-weight: bold; }
+
+nav ul { display: flex; list-style: none; }
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* SECTION STRUCTURE */
+.content-section {
+    padding: 120px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.reversed .container { direction: rtl; }
+.reversed .text-content { direction: ltr; }
+
+/* TYPOGRAPHY */
+.section-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    color: rgba(77, 171, 124, 0.15);
+    line-height: 1;
+    margin-bottom: -40px;
+}
+
+.category {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--accent-mint);
+    font-weight: 600;
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--dark-green);
+    margin: 10px 0 20px;
+}
+
+p { margin-bottom: 20px; color: #666; }
+
+ul { list-style: none; }
+ul li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+ul li::before {
+    content: "•";
+    color: var(--accent-mint);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+/* IMAGES */
+.image-content img {
+    width: 100%;
+    border-radius: 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+}
+
+footer {
+    background: var(--dark-green);
+    color: white;
+    text-align: center;
+    padding: 50px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container { grid-template-columns: 1fr; gap: 40px; }
+    .reversed .container { direction: ltr; }
+    h2 { font-size: 1.8rem; }
+    nav ul { display: none; } /* De obicei se face meniu hamburger aici */
+}
+
+</style>
 <body>
 
     <nav>
