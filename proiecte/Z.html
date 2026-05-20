@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magazine Hîrbovăț</title>
+    <style>
+        :root {
+            --bg-color: #fafafa;
+            --card-bg: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --accent: #2b6cb0;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        header {
+            max-width: 900px;
+            margin: 40px auto 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            color: #1a202c;
+        }
+
+        header p {
+            color: var(--text-muted);
+            margin-top: 0;
+        }
+
+        .GidMagazine {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .magazin-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .magazin-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .magazin-card h2 {
+            font-size: 1.3rem;
+            margin: 0 0 10px 0;
+            color: var(--accent);
+        }
+
+        .tag {
+            display: inline-block;
+            background: #ebf8ff;
+            color: #2b6cb0;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .info-linie {
+            font-size: 0.9rem;
+            margin: 6px 0;
+            color: #4a5568;
+        }
+
+        .info-linie strong {
+            color: var(--text-main);
+        }
+
+        footer {
+            max-width: 900px;
+            margin: 60px auto 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Ghidul Magazinelor din Hîrbovăț</h1>
+        <p>Programul, locațiile și specificul magazinelor locale</p>
+    </header>
+
+    <main class="GidMagazine">
+        
+        <div class="magazin-card">
+            <span class="tag">Alimentară</span>
+            <h2>La Doina</h2>
+            <p class="info-linie"><strong>Specific:</strong> Produse alimentare, mezeluri, pâine proaspătă</p>
+            <p class="info-linie"><strong>Program:</strong> 08:00 - 21:00</p>
+            <p class="info-linie"><strong>Locație:</strong> Centru, lângă Primărie</p>
+        </div>
+
+        <div class="magazin-card">
+            <span class="tag">Constructii</span>
+            <h2>Meșterul (La Ion)</h2>
+            <p class="info-linie"><strong>Specific:</strong> Materiale de construcție, unelte, uz casnic</p>
+            <p class="info-linie"><strong>Program:</strong> 08:00 - 17:00 (Duminică închis)</p>
+            <p class="info-linie"><strong>Locație:</strong> Str. Principală, la intrare în sat</p>
+        </div>
+
+        <div class="magazin-card">
+            <span class="tag">Mixt</span>
+            <h2>Magazinul Central</h2>
+            <p class="info-linie"><strong>Specific:</strong> De toate pentru toți (haine, uz casnic, alimente)</p>
+            <p class="info-linie"><strong>Program:</strong> 07:00 - 22:00</p>
+            <p class="info-linie"><strong>Locație:</strong> Str. Ștefan cel Mare</p>
+        </div>
+
+        <div class="magazin-card">
+            <span class="tag">Farmacie</span>
+            <h2>Farmacia Elixir</h2>
+            <p class="info-linie"><strong>Specific:</strong> Medicamente, produse de igienă</p>
+            <p class="info-linie"><strong>Program:</strong> 08:00 - 18:00</p>
+            <p class="info-linie"><strong>Locație:</strong> Vis-a-vis de Oficiul Poștal</p>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Ghid Local Hîrbovăț. Toate drepturile rezervate.</p>
+    </footer>
+
+</body>
+</html>
+
